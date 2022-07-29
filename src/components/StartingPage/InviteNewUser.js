@@ -13,11 +13,6 @@ const InviteNewUser = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  var templateParams = {
-    name: "James",
-    notes: "Check this out!",
-  };
-
   function sendEmail(e) {
     e.preventDefault();
 

@@ -1,4 +1,4 @@
-import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Tooltip } from "recharts";
 import { data } from "../../data";
 
 const PieChartContent = (props) => {

@@ -6,7 +6,6 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer,
 } from "recharts";
 import { data } from "../../data";
 

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid";
-import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { DataGrid } from "@mui/x-data-grid";
 import DeleteClient from "./DeleteClient";
 import UpdateClient from "./UpdateClient";
 import { ClientService } from "./../../services/ClientService";
 
 const ClientTable = (props) => {
   const [row, setRow] = useState([]);
+
+  const [clientUpdate, setClientUpdate] = useState(false);
 
   const newArray = row.map((u) => {
     return {
@@ -18,30 +18,18 @@ const ClientTable = (props) => {
   });
 
   const [clientId, setClientId] = useState("");
-  const [clientFname, setClientFname] = useState("");
 
   const ClientDetails = async () => {
     try {
       const result = await ClientService.clientDetails();
 
       setRow(result);
-    } catch (err) {
-      //toast
-      // if (err.response.data.message !== undefined) {
-      //   notifyWarning(err.response.data.message);
-      // } else {
-      //   notifyWarning("Somthing Wrong");
-      // }
-    }
+    } catch (err) {}
   };
-
-  // if (props.newClient == true) {
-  //   ClientDetails();
-  // }
 
   useEffect(() => {
     ClientDetails();
-  }, [props.newClient]);
+  }, [props.newClient, clientUpdate]);
 
   const onClick = () => {
     ClientDetails();
@@ -64,9 +52,11 @@ const ClientTable = (props) => {
               setClientId(params.row.id);
             }}
           >
-            {/* <FontAwesomeIcon icon={faPen} /> */}
-            <UpdateClient clientId={clientId} />
-            {/* onClick={onClick} */}
+            <UpdateClient
+              clientId={clientId}
+              onUpdateClientData={setClientUpdate}
+              onClick={onClick}
+            />
           </div>
         );
       },

@@ -8,50 +8,38 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ClientService } from "./../../services/ClientService";
 import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
+import { Formik } from "formik";
 
 const UpdateClient = (props) => {
+  const [clientUpdate, setClientUpdate] = useState(false);
+
+  props.onUpdateClientData(clientUpdate);
+
   const [open, setOpen] = React.useState(false);
-  // const handleOpen = () => setOpen(true);
+  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-    // ClientDetailSearchID();
-  };
-
-  const [email, setEmail] = useState("");
 
   const [clientInfo, setClientInfo] = useState({
     email: "",
     fname: "",
+    lname: "",
+    phone_number: "",
   });
 
-  const emailInputRef = useRef();
-  const fnameInputRef = useRef();
-  const lnameInputRef = useRef();
-  const phoneNumberInputRef = useRef();
-
-  const submitHandler = (event) => {
-    event.preventDefault();
-
-    const enteredEmail = emailInputRef.current.value;
-    const enteredFname = fnameInputRef.current.value;
-    const enteredLname = lnameInputRef.current.value;
-    const enteredPhonenumber = phoneNumberInputRef.current.value;
-
+  const onSubmitForm = (values) => {
     try {
       ClientService.clientUpdate(
         props.clientId,
-        enteredEmail,
-        enteredFname,
-        enteredLname,
-        enteredPhonenumber
+        values.fname,
+        values.lname,
+        values.phone_number,
+        values.email
       );
-      // props.onClick();
+      props.onClick();
+      setClientUpdate(true);
       NotificationManager.success("Client Success Update", "Success");
 
       handleClose();
-      // formRef.current.resetForm();
     } catch (err) {
       console.log(err);
     }
@@ -61,14 +49,14 @@ const UpdateClient = (props) => {
     try {
       const result = await ClientService.clientDetailsID(props.clientId);
 
-      console.log(result);
-
       const info = {};
 
       const cliInfo = result;
 
       info.email = cliInfo.email;
       info.fname = cliInfo.fname;
+      info.lname = cliInfo.lname;
+      info.phone_number = cliInfo.phone_number;
 
       setClientInfo(info);
       // setEmail(result.email);
@@ -78,7 +66,7 @@ const UpdateClient = (props) => {
   };
 
   useEffect(() => {
-    if (props.clientId == "") {
+    if (props.clientId === "") {
     } else {
       ClientDetailSearchID();
     }
@@ -109,54 +97,86 @@ const UpdateClient = (props) => {
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <section>
-              <form onSubmit={submitHandler}>
-                <div className={classes.control}>
-                  <label htmlFor="email">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    required
-                    // defaultValue={email}
-                    // ref={emailInputRef}
-                    value={clientInfo.email}
-                  />
-                </div>
-                <div className={classes.control}>
-                  <label htmlFor="fname">First Name</label>
-                  <input
-                    type="text"
-                    id="fname"
-                    required
-                    // defaultValue={props.fname}
-                    ref={fnameInputRef}
-                    value={clientInfo.fname}
-                  />
-                </div>
-                <div className={classes.control}>
-                  <label htmlFor="password">Last Name</label>
-                  <input
-                    type="text"
-                    id="text"
-                    required
-                    // defaultValue={clientInfo.lname}
-                    ref={lnameInputRef}
-                  />
-                </div>
-                <div className={classes.control}>
-                  <label htmlFor="phonenumber">Phone Number</label>
-                  <input
-                    type="phonenumber"
-                    id="phonenumber"
-                    required
-                    // defaultValue={clientInfo.phone_number}
-                    ref={phoneNumberInputRef}
-                  />
-                </div>
+              <Formik
+                enableReinitialize={true}
+                initialValues={{
+                  email: clientInfo.email,
+                  fname: clientInfo.fname,
+                  lname: clientInfo.lname,
+                  phone_number: clientInfo.phone_number,
+                }}
+                onSubmit={onSubmitForm}
+                // innerRef={formRef}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  isSubmitting,
+                  /* and other goodies */
+                }) => (
+                  <form onSubmit={handleSubmit}>
+                    <div className={classes.control}>
+                      <label htmlFor="email">Email</label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.email}
+                      />
+                    </div>
+                    {/* {errors.email && touched.email && errors.email} */}
+                    <div className={classes.control}>
+                      <label htmlFor="fname">First Name</label>
+                      <input
+                        type="text"
+                        id="fname"
+                        name="fname"
+                        required
+                        value={values.fname}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                    <div className={classes.control}>
+                      <label htmlFor="password">Last Name</label>
+                      <input
+                        type="text"
+                        id="text"
+                        name="lname"
+                        required
+                        value={values.lname}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                    <div className={classes.control}>
+                      <label htmlFor="phonenumber">Phone Number</label>
+                      <input
+                        type="text"
+                        id="phone_number"
+                        name="phone_number"
+                        required
+                        value={values.phone_number}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
 
-                <div className={classes.actions}>
-                  <button>Update</button>
-                </div>
-              </form>
+                    <div className={classes.actions}>
+                      <button disabled={isSubmitting} type="submit">
+                        Update
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </Formik>
             </section>
           </Typography>
         </Box>

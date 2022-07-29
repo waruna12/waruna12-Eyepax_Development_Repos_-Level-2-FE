@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import classes from "./UpdateReservation.module.css";
-import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { service_type, timeArray, status } from "./../../data";
 

@@ -24,12 +24,7 @@ const DeleteClient = (props) => {
       NotificationManager.success("Client Deleted Success", "Success");
 
       handleClose();
-      // customerSearch();
-    } catch (err) {
-      // notifyWarning(err.response.data.message);
-      // setSubmitLoading(true);
-      //show error toast
-    }
+    } catch (err) {}
   };
 
   return (

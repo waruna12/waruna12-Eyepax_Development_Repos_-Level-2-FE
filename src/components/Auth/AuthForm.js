@@ -34,8 +34,6 @@ const AuthForm = () => {
 
     setIsLoading(true);
 
-    let url;
-
     if (isLogin) {
       const enteredEmail = emailInputRef.current.value;
       const enteredPassword = passwordInputRef.current.value;
@@ -51,7 +49,7 @@ const AuthForm = () => {
         setIsLoading(false);
         history.replace("/");
 
-        // console.log(response.token);waruna
+        // console.log(response.token);
         // document.getElementById("create_client").reset();
         // handleClose();
         // formRef.current.resetForm();

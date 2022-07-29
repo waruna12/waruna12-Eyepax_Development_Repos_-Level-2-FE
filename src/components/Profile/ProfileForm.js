@@ -7,7 +7,7 @@ const ProfileForm = () => {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    const enterNewPassword = newPasswordInputRef.current.value;
+    // const enterNewPassword = newPasswordInputRef.current.value;
   };
 
   return (

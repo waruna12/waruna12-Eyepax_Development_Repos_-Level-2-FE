@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import DeleteReservation from "./DeleteReservation";
 import UpdateReservation from "./UpdateReservation";
 import { status } from "./../../data";

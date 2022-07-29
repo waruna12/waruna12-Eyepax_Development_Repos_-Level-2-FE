@@ -115,20 +115,3 @@ export const user_type = [
   { id: 1, user: "Super Admin" },
   { id: 2, user: "Admin" },
 ];
-
-const rows = [
-  {
-    id: "62e1f2661a1e7b7e30a77380",
-    fname: "Waruna",
-    lname: "Kulathuga",
-    phone_number: "0779044891",
-    email: "waruna532@gmail.com",
-  },
-  {
-    id: "72e107ce84956113e84fbb8e",
-    fname: "kamak",
-    lname: "Kulathuga",
-    phone_number: "0779044891",
-    email: "waruna532@gmail.com",
-  },
-];

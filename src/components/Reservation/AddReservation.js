@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import classes from "./AddReservation.module.css";
-import { service_type, timeArray, status, event } from "./../../data";
+import { service_type, timeArray } from "./../../data";
 import { ReservationService } from "./../../services/ReservationService";
 import { ClientService } from "./../../services/ClientService";
 import { NotificationManager } from "react-notifications";
@@ -11,11 +11,6 @@ import "react-notifications/lib/notifications.css";
 
 const AddReservationModel = () => {
   const [clients, setClients] = useState([]);
-
-  // const clients = [
-  //   { id: "1", name: "Waruna Kulathunga" },
-  //   { id: "2", name: "Chamila Hearth" },
-  // ];
 
   const stylist = [
     { id: "1", name: "Ron Jesen" },
@@ -51,6 +46,7 @@ const AddReservationModel = () => {
       );
 
       NotificationManager.success("Reservation Success Added", "Success");
+      console.log(response);
     } catch (err) {
       console.log(err);
     }

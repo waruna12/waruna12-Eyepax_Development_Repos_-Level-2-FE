@@ -93,10 +93,10 @@ export class ClientService {
 
   static clientUpdate = async (
     clientID,
-    enteredEmail,
     enteredFname,
     enteredLname,
-    enteredPhonenumber
+    enteredPhonenumber,
+    enteredEmail
   ) => {
     try {
       let response = await axios({
@@ -112,9 +112,14 @@ export class ClientService {
           "Content-Type": "application/json",
         },
       });
-      let responseData = response.data.data;
 
-      return responseData;
+      if (response.data.success !== false) {
+        let responseData = response.data.data;
+
+        return responseData;
+      } else {
+        throw Error("client validation failed");
+      }
     } catch (err) {
       throw err;
     }
