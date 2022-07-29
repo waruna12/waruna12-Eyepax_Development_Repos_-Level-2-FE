@@ -1,6 +1,7 @@
 import classes from "./ReservationPageContent.module.css";
 import ReservationTable from "./ReservationTable";
 import AddReservationModel from "./AddReservation";
+import { NotificationContainer } from "react-notifications";
 
 const ReservationPageContent = () => {
   return (
@@ -12,6 +13,7 @@ const ReservationPageContent = () => {
       <div className={classes.maincontent}>
         <ReservationTable />
       </div>
+      <NotificationContainer />
     </section>
   );
 };

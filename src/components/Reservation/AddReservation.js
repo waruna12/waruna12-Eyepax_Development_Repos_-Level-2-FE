@@ -1,16 +1,21 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import classes from "./AddReservation.module.css";
 import { service_type, timeArray, status, event } from "./../../data";
 import { ReservationService } from "./../../services/ReservationService";
+import { ClientService } from "./../../services/ClientService";
+import { NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 const AddReservationModel = () => {
-  const clients = [
-    { id: "1", name: "Waruna Kulathunga" },
-    { id: "2", name: "Chamila Hearth" },
-  ];
+  const [clients, setClients] = useState([]);
+
+  // const clients = [
+  //   { id: "1", name: "Waruna Kulathunga" },
+  //   { id: "2", name: "Chamila Hearth" },
+  // ];
 
   const stylist = [
     { id: "1", name: "Ron Jesen" },
@@ -27,7 +32,7 @@ const AddReservationModel = () => {
   const reservationDateInputRef = useRef();
   const reservationTimeInputRef = useRef();
 
-  const onSubmitForm = (event) => {
+  const onSubmitForm = async (event) => {
     event.preventDefault();
 
     const enteredClient = clientInputRef.current.value;
@@ -37,17 +42,31 @@ const AddReservationModel = () => {
     const enteredTime = reservationTimeInputRef.current.value;
 
     try {
-      ReservationService.reservationCreate(
+      const response = await ReservationService.reservationCreate(
         enteredClient,
         enteredService,
         enteredStylist,
         enteredDate,
         enteredTime
       );
+
+      NotificationManager.success("Reservation Success Added", "Success");
     } catch (err) {
       console.log(err);
     }
   };
+
+  const ClientDetails = async () => {
+    try {
+      const result = await ClientService.clientDetails();
+
+      setClients(result);
+    } catch (err) {}
+  };
+
+  useEffect(() => {
+    ClientDetails();
+  }, []);
 
   // const onSubmitForm = async (
   //   event,
@@ -109,9 +128,10 @@ const AddReservationModel = () => {
                   <select name="client" required ref={clientInputRef}>
                     <option value="">Select Client </option>
                     {clients.map((cli, index) => {
+                      console.log(cli.id);
                       return (
-                        <option key={cli.id} value={cli.id}>
-                          {cli.name}
+                        <option key={cli.id} value={cli.fname}>
+                          {cli.fname} {cli.lname}
                         </option>
                       );
                     })}

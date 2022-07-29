@@ -23,12 +23,16 @@ export class ClientService {
         },
       });
 
-      console.log(response.data.data);
+      console.log(response);
+      if (response.data.success !== false) {
+        let responseData = response.data.data;
 
-      let responseData = response.data.data;
-
-      return responseData;
+        return responseData;
+      } else {
+        throw Error("client validation failed");
+      }
     } catch (err) {
+      console.log(err);
       throw err;
     }
   };
@@ -78,9 +82,39 @@ export class ClientService {
         },
       });
 
+      console.log(response);
       let clientDetailID = response.data.data;
 
       return clientDetailID;
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  static clientUpdate = async (
+    clientID,
+    enteredEmail,
+    enteredFname,
+    enteredLname,
+    enteredPhonenumber
+  ) => {
+    try {
+      let response = await axios({
+        method: "put",
+        baseURL: API_ORIGIN + "/client/" + clientID,
+        data: {
+          fname: enteredFname,
+          lname: enteredLname,
+          phone_number: enteredPhonenumber,
+          email: enteredEmail,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      let responseData = response.data.data;
+
+      return responseData;
     } catch (err) {
       throw err;
     }

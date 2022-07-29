@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -6,46 +6,86 @@ import classes from "./UpdateClient.module.css";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ClientService } from "./../../services/ClientService";
+import { NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
-const UpdateClient = () => {
+const UpdateClient = (props) => {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  // const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [customerinfo, setCustomerInfo] = useState({
-    name: "",
+  const handleOpen = () => {
+    setOpen(true);
+    // ClientDetailSearchID();
+  };
+
+  const [email, setEmail] = useState("");
+
+  const [clientInfo, setClientInfo] = useState({
     email: "",
-    image: "",
-    phone: "",
-    status: "",
+    fname: "",
   });
+
+  const emailInputRef = useRef();
+  const fnameInputRef = useRef();
+  const lnameInputRef = useRef();
+  const phoneNumberInputRef = useRef();
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+
+    const enteredEmail = emailInputRef.current.value;
+    const enteredFname = fnameInputRef.current.value;
+    const enteredLname = lnameInputRef.current.value;
+    const enteredPhonenumber = phoneNumberInputRef.current.value;
+
+    try {
+      ClientService.clientUpdate(
+        props.clientId,
+        enteredEmail,
+        enteredFname,
+        enteredLname,
+        enteredPhonenumber
+      );
+      // props.onClick();
+      NotificationManager.success("Client Success Update", "Success");
+
+      handleClose();
+      // formRef.current.resetForm();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const ClientDetailSearchID = async () => {
     try {
+      const result = await ClientService.clientDetailsID(props.clientId);
+
+      console.log(result);
+
+      const info = {};
+
+      const cliInfo = result;
+
+      info.email = cliInfo.email;
+      info.fname = cliInfo.fname;
+
+      setClientInfo(info);
+      // setEmail(result.email);
     } catch (err) {
-      //toast
-      console.error(err);
+      // console.log(err);
     }
-    const result = await ClientService.clientDetailsID("customerID");
-
-    const info = {};
-
-    const customerdata = result;
-
-    // info.name = customerdata.name;
-    // info.phone = customerdata.phone;
-    // info.email = customerdata.email;
-    // info.image = customerdata.profile_image;
-    // info.status = customerdata.status;
-
-    // setCustomerInfo(info);
   };
+
+  useEffect(() => {
+    if (props.clientId == "") {
+    } else {
+      ClientDetailSearchID();
+    }
+  }, [props.clientId]);
 
   return (
     <div>
-      {/* <button onClick={handleOpen} className={classes.button}>
-        Add New
-      </button> */}
       <FontAwesomeIcon
         icon={faPen}
         style={{ cursor: "pointer" }}
@@ -69,22 +109,48 @@ const UpdateClient = () => {
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <section>
-              <form onSubmit={""}>
+              <form onSubmit={submitHandler}>
                 <div className={classes.control}>
                   <label htmlFor="email">Email</label>
-                  <input type="email" id="email" required />
+                  <input
+                    type="email"
+                    id="email"
+                    required
+                    // defaultValue={email}
+                    // ref={emailInputRef}
+                    value={clientInfo.email}
+                  />
                 </div>
                 <div className={classes.control}>
-                  <label htmlFor="password">First Name</label>
-                  <input type="password" id="password" required />
+                  <label htmlFor="fname">First Name</label>
+                  <input
+                    type="text"
+                    id="fname"
+                    required
+                    // defaultValue={props.fname}
+                    ref={fnameInputRef}
+                    value={clientInfo.fname}
+                  />
                 </div>
                 <div className={classes.control}>
                   <label htmlFor="password">Last Name</label>
-                  <input type="password" id="password" required />
+                  <input
+                    type="text"
+                    id="text"
+                    required
+                    // defaultValue={clientInfo.lname}
+                    ref={lnameInputRef}
+                  />
                 </div>
                 <div className={classes.control}>
-                  <label htmlFor="password">Phone Number</label>
-                  <input type="password" id="password" required />
+                  <label htmlFor="phonenumber">Phone Number</label>
+                  <input
+                    type="phonenumber"
+                    id="phonenumber"
+                    required
+                    // defaultValue={clientInfo.phone_number}
+                    ref={phoneNumberInputRef}
+                  />
                 </div>
 
                 <div className={classes.actions}>

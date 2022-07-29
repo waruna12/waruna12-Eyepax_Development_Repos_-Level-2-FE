@@ -19,18 +19,22 @@ export class ReservationService {
           stylist: enteredStylist,
           reservation_date: enteredDate,
           reservation_time: enteredTime,
-          reservation_status: "",
+          reservation_status: "Todo",
         },
         headers: {
           "Content-Type": "application/json",
         },
       });
 
-      // console.log(response.data.data);
+      if (response.data.success !== false) {
+        let responseData = response.data.data;
 
-      let responseData = response.data.data;
+        console.log(responseData);
 
-      return responseData;
+        return responseData;
+      } else {
+        throw Error("reservation validation failed");
+      }
     } catch (err) {
       throw err;
     }

@@ -30,12 +30,6 @@ const AuthForm = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
 
-    // const enteredEmail = emailInputRef.current.value;
-    // const enteredPassword = passwordInputRef.current.value;
-    // const enteredFname = fnameInputRef.current.value;
-    // const enteredLname = lnameInputRef.current.value;
-    // const enteredUserType = userTypeInputRef.current.value;
-
     //add validaion
 
     setIsLoading(true);
@@ -52,18 +46,19 @@ const AuthForm = () => {
           enteredPassword
         );
 
-        NotificationManager.success("User Login Success", "Success");
+        // NotificationManager.success("User Login Success", "Success");
         authCtx.login(response.token);
         setIsLoading(false);
         history.replace("/");
 
-        // console.log(response.token);
+        // console.log(response.token);waruna
         // document.getElementById("create_client").reset();
         // handleClose();
         // formRef.current.resetForm();
-        console.log(response.token);
       } catch (err) {
         // console.log(err);
+        setIsLoading(false);
+        NotificationManager.error("User Login Faield", "error");
       }
     } else {
       const enteredEmail = emailInputRef.current.value;
@@ -80,63 +75,19 @@ const AuthForm = () => {
           enteredPassword
         );
 
-        NotificationManager.success("User Register Success", "Success");
+        // NotificationManager.success("User Register Success", "Success");
         authCtx.login(response.token);
         history.replace("/");
-        console.log(response.token);
+
         // document.getElementById("create_client").reset();
         // handleClose();
         // formRef.current.resetForm();
-        console.log(response);
+
         setIsLoading(false);
       } catch (err) {
         console.log(err);
       }
     }
-
-    // if (isLogin) {
-    //   url = "http:/............";
-    // } else {
-    //   url = "http ..................";
-    // }
-    // fetch(url, {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     email: enteredEmail,
-    //     password: enteredPassword,
-    //   }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then((res) => {
-    //     setIsLoading(false);
-
-    //     if (res.ok) {
-    //       //...
-    //       return res.json();
-    //     } else {
-    //       res.json().then((data) => {
-    //         //show and error modal
-    //         let errorMessage = "Authentication Faild";
-    //         console.log(data);
-    //         // if (data && data.error && data.error.message) {
-    //         //   errorMessage = data.error.message;
-    //         // }
-    //         alert(errorMessage);
-    //         throw new Error(errorMessage);
-    //       });
-    //     }
-    //   })
-    //   .then((data) => {
-    //     console.log(data);
-    //     //sign in or signup sucess
-    //     // authCtx.login(data.idToken);
-    //     // history.replace("/");
-    //   })
-    //   .catch((err) => {
-    //     alert(err.message);
-    //   });
   };
 
   return (

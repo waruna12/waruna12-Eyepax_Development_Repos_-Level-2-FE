@@ -6,8 +6,10 @@ import classes from "./DeleteClient.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ClientService } from "./../../services/ClientService";
+import { NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
-const DeleteClient = () => {
+const DeleteClient = (props) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -16,11 +18,12 @@ const DeleteClient = () => {
     //todo extra validations
 
     try {
-      await ClientService.clientDelete("clientID");
+      await ClientService.clientDelete(props.clientId);
+      props.onClick();
 
-      // setSubmitLoading(true);
-      // notify("Sucess Delete Customer");
-      // handleClose();
+      NotificationManager.success("Client Deleted Success", "Success");
+
+      handleClose();
       // customerSearch();
     } catch (err) {
       // notifyWarning(err.response.data.message);
@@ -60,7 +63,9 @@ const DeleteClient = () => {
                 <button className={classes.button} onClick={handleClose}>
                   Cancel
                 </button>
-                <button className={classes.button_red}>Delete</button>
+                <button className={classes.button_red} onClick={onDelete}>
+                  Delete
+                </button>
               </div>
             </section>
           </Typography>

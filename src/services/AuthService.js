@@ -26,8 +26,6 @@ export class UserService {
       });
       let responseData = response.data.data;
 
-      console.log(responseData);
-
       return responseData;
     } catch (err) {
       throw err;
@@ -48,11 +46,14 @@ export class UserService {
         },
       });
 
-      let responseData = response.data.data;
+      console.log(response);
+      if (response.data.success !== false) {
+        let responseData = response.data.data;
 
-      console.log(responseData);
-
-      return responseData;
+        return responseData;
+      } else {
+        throw Error("Login Fail");
+      }
     } catch (err) {
       console.log(err);
       throw err;

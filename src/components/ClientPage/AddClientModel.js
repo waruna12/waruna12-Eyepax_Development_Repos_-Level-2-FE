@@ -4,14 +4,13 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import classes from "./AddClient.module.css";
 import { ClientService } from "./../../services/ClientService";
-import {
-  NotificationContainer,
-  NotificationManager,
-} from "react-notifications";
+import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 
-const AddClientModel = () => {
-  var bodyFormData = new FormData();
+const AddClientModel = (props) => {
+  const [newclientadd, setNewClientAdded] = useState(false);
+
+  props.onSaveClientData(newclientadd);
 
   const emailInputRef = useRef();
   const fnameInputRef = useRef();
@@ -22,7 +21,7 @@ const AddClientModel = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
     const enteredEmail = emailInputRef.current.value;
@@ -31,19 +30,20 @@ const AddClientModel = () => {
     const enteredPhonenumber = phoneNumberInputRef.current.value;
 
     try {
-      ClientService.clientCreate(
+      const response = await ClientService.clientCreate(
         enteredEmail,
         enteredFname,
         enteredLname,
         enteredPhonenumber
       );
 
+      setNewClientAdded(true);
       NotificationManager.success("Client Success Added", "Success");
       document.getElementById("create_client").reset();
       handleClose();
-      // formRef.current.resetForm();
     } catch (err) {
       console.log(err);
+      NotificationManager.error("Client Added Faield", "error");
     }
   };
 
@@ -120,8 +120,6 @@ const AddClientModel = () => {
           </Typography>
         </Box>
       </Modal>
-
-      <NotificationContainer />
     </div>
   );
 };
