@@ -14,6 +14,8 @@ const ReservationTable = (props) => {
 
   const [reservation_state, setReservation] = useState("");
 
+  const [reservationUpdate, setReservationUpdate] = useState(false);
+
   const newArray = row.map((u) => {
     return {
       ...u,
@@ -33,7 +35,8 @@ const ReservationTable = (props) => {
   useEffect(() => {
     ReservationDetails();
     props.addClientStateChange(false);
-  }, [props.onAddReservation]);
+    setReservationUpdate(false);
+  }, [props.onAddReservation, reservationUpdate]);
 
   const onClick = () => {
     ReservationDetails();
@@ -93,7 +96,10 @@ const ReservationTable = (props) => {
               setReservationId(params.row.id);
             }}
           >
-            <UpdateReservation reservationId={reservationId} />
+            <UpdateReservation
+              reservationId={reservationId}
+              onUpdateReservationData={setReservationUpdate}
+            />
           </div>
         );
       },

@@ -92,6 +92,8 @@ const UpdateReservation = (props) => {
         values.reservation_status
       );
 
+      // props.onClick();
+      props.onUpdateReservationData();
       NotificationManager.success("Client Success Update", "Success");
       handleClose();
     } catch (err) {
