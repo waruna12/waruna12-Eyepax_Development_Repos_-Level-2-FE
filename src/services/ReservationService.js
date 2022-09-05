@@ -92,4 +92,42 @@ export class ReservationService {
       throw err;
     }
   };
+
+  static reservationUpdate = async (
+    reservationID,
+    enteredClient,
+    enteredServiceType,
+    enteredStylist,
+    enteredReservationDate,
+    enteredReservationTime,
+    enteredReservationStatus
+  ) => {
+    try {
+      let response = await axios({
+        method: "put",
+        baseURL: API_ORIGIN + "/reservation/" + reservationID,
+        data: {
+          client: enteredClient,
+          service_type: enteredServiceType,
+          stylist: enteredStylist,
+          reservation_date: enteredReservationDate,
+          reservation_time: enteredReservationTime,
+          reservation_status: enteredReservationStatus,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.data.success !== false) {
+        let responseData = response.data.data;
+
+        return responseData;
+      } else {
+        throw Error("reservation validation failed");
+      }
+    } catch (err) {
+      throw err;
+    }
+  };
 }

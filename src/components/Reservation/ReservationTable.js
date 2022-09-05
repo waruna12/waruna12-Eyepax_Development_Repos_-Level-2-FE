@@ -4,9 +4,15 @@ import DeleteReservation from "./DeleteReservation";
 import UpdateReservation from "./UpdateReservation";
 import { status } from "./../../data";
 import { ReservationService } from "./../../services/ReservationService";
+import { NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
-const ReservationTable = () => {
+const ReservationTable = (props) => {
   const [row, setRow] = useState([]);
+
+  const [reservationId, setReservationId] = useState("");
+
+  const [reservation_state, setReservation] = useState("");
 
   const newArray = row.map((u) => {
     return {
@@ -20,23 +26,23 @@ const ReservationTable = () => {
     try {
       const result = await ReservationService.reservationDetails();
 
-      console.log(result);
       setRow(result);
-
-      setRow(result);
-    } catch (err) {
-      //toast
-      // if (err.response.data.message !== undefined) {
-      //   notifyWarning(err.response.data.message);
-      // } else {
-      //   notifyWarning("Somthing Wrong");
-      // }
-    }
+    } catch (err) {}
   };
+
+  if (props.onAddReservation == true) {
+    ReservationDetails();
+  } else {
+    ReservationDetails();
+  }
 
   useEffect(() => {
     ReservationDetails();
-  }, []);
+  }, [props.onAddReservation]);
+
+  const onClick = () => {
+    ReservationDetails();
+  };
 
   const columns = [
     { field: "client", headerName: "Client", width: 120 },
@@ -45,18 +51,32 @@ const ReservationTable = () => {
     { field: "reservation_date", headerName: "Date", width: 150 },
     { field: "reservation_time", headerName: "Time", width: 100 },
     {
-      field: "Status",
+      field: "reservation_status",
       headerName: "Status",
       width: 150,
       sortable: false,
       renderCell: (params) => {
         return (
-          <div>
-            <select name="" required>
-              <option value="">Select Status </option>
+          <div
+            onClick={() => {
+              setReservationId(params.row.id);
+            }}
+          >
+            <select
+              name=""
+              required
+              value={params.row.reservation_status}
+              onChange={(e) => {
+                // console.log(e.target.value);
+                setReservation(e.target.value);
+                // onSubmitForm();
+              }}
+            >
+              <option value={""}>select</option>
+
               {status.map((sta, index) => {
                 return (
-                  <option key={sta.id} value={sta.id}>
+                  <option key={sta.id} value={sta.title}>
                     {sta.title}
                   </option>
                 );
@@ -73,8 +93,12 @@ const ReservationTable = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <div>
-            <UpdateReservation />
+          <div
+            onClick={() => {
+              setReservationId(params.row.id);
+            }}
+          >
+            <UpdateReservation reservationId={reservationId} />
           </div>
         );
       },
@@ -86,8 +110,15 @@ const ReservationTable = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <div>
-            <DeleteReservation />
+          <div
+            onClick={() => {
+              setReservationId(params.row.id);
+            }}
+          >
+            <DeleteReservation
+              reservationId={reservationId}
+              onClick={onClick}
+            />
           </div>
         );
       },

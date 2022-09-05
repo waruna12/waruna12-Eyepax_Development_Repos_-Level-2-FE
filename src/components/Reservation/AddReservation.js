@@ -8,9 +8,12 @@ import { ReservationService } from "./../../services/ReservationService";
 import { ClientService } from "./../../services/ClientService";
 import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
+import { UserService } from "./../../services/UserService";
 
-const AddReservationModel = () => {
+const AddReservationModel = (props) => {
   const [clients, setClients] = useState([]);
+
+  const [users, setUser] = useState([]);
 
   const stylist = [
     { id: "1", name: "Ron Jesen" },
@@ -45,8 +48,9 @@ const AddReservationModel = () => {
         enteredTime
       );
 
+      props.onSaveAddReservation(true);
       NotificationManager.success("Reservation Success Added", "Success");
-      console.log(response);
+      handleClose();
     } catch (err) {
       console.log(err);
     }
@@ -60,40 +64,18 @@ const AddReservationModel = () => {
     } catch (err) {}
   };
 
+  const UserDetails = async () => {
+    try {
+      const result = await UserService.userDetails();
+
+      setUser(result);
+    } catch (err) {}
+  };
+
   useEffect(() => {
     ClientDetails();
+    UserDetails();
   }, []);
-
-  // const onSubmitForm = async (
-  //   event,
-  //   clientInputRef,
-  //   serviceTypeInputRef,
-  //   stylistInputRef,
-  //   reservationDateInputRef,
-  //   reservationTimeInputRef
-  // ) => {
-  //   //todo extra validations
-  //   event.preventDefault();
-
-  //   try {
-  //     console.log(clientInputRef.current.value);
-  //     await ReservationService.reservationCreate(
-  //       clientInputRef.current.value,
-  //       serviceTypeInputRef.current.value,
-  //       stylistInputRef.current.value,
-  //       reservationDateInputRef.current.value,
-  //       reservationTimeInputRef.current.value
-  //     );
-  //      formRef.current.resetForm();
-
-  //     setSubmitLoading(true);
-  //     notify("Sucess Add Delivery Area");
-  //     deliverySearch();
-  //     handleClose();
-  //   } catch (err) {
-
-  //   }
-  // };
 
   return (
     <div>
@@ -139,7 +121,7 @@ const AddReservationModel = () => {
                     <option value="">Select Service Type</option>
                     {service_type.map((service, index) => {
                       return (
-                        <option key={service.id} value={service.id}>
+                        <option key={service.id} value={service.title}>
                           {service.title}
                         </option>
                       );
@@ -150,10 +132,10 @@ const AddReservationModel = () => {
                   <label htmlFor="password">Stylist</label>
                   <select name="stylist" required ref={stylistInputRef}>
                     <option value="">Select Stylist</option>
-                    {stylist.map((sty, index) => {
+                    {users.map((sty, index) => {
                       return (
-                        <option key={sty.id} value={sty.id}>
-                          {sty.name}
+                        <option key={sty._id} value={sty.fname}>
+                          {sty.fname} {sty.lname}
                         </option>
                       );
                     })}
@@ -174,7 +156,7 @@ const AddReservationModel = () => {
                     <option value="">Select Time</option>
                     {timeArray.map((time, index) => {
                       return (
-                        <option key={time.id} value={time.id}>
+                        <option key={time.id} value={time.time}>
                           {time.time}
                         </option>
                       );

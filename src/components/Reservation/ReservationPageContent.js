@@ -2,16 +2,19 @@ import classes from "./ReservationPageContent.module.css";
 import ReservationTable from "./ReservationTable";
 import AddReservationModel from "./AddReservation";
 import { NotificationContainer } from "react-notifications";
+import { useState } from "react";
 
-const ReservationPageContent = () => {
+const ReservationPageContent = (props) => {
+  const [addreservation, setAddReservation] = useState(false);
+
   return (
     <section className={classes.starting}>
       <h4>Welcome Reservation page</h4>
       <div className={classes.header}>
-        <AddReservationModel />
+        <AddReservationModel onSaveAddReservation={setAddReservation} />
       </div>
       <div className={classes.maincontent}>
-        <ReservationTable />
+        <ReservationTable onAddReservation={addreservation} />
       </div>
       <NotificationContainer />
     </section>

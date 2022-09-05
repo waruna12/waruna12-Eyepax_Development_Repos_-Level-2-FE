@@ -4,15 +4,15 @@ import calender from "./images/calander.jpg";
 
 export const data = [
   {
-    name: "FaceBook",
+    name: "Makeup",
     value: 10000,
   },
   {
-    name: "Instagrame",
+    name: "Facial",
     value: 25000,
   },
   {
-    name: "LinkedIn",
+    name: "HairCut",
     value: 15000,
   },
 ];
@@ -86,22 +86,22 @@ export const timeArray = [
 export const event = [
   {
     title: "Big Meeting",
-    allDay: true,
-    start: new Date(2022, 10, 0),
-    end: new Date(2022, 10, 0),
+    // allDay: true,
+    // start: new Date(2022, 8, 8),
+    end: new Date(2022, 8, 8),
   },
-  {
-    title: "Vacation",
-    allDay: true,
-    start: new Date(2022, 10, 10),
-    end: new Date(2022, 10, 10),
-  },
-  {
-    title: "Conference",
-    allDay: true,
-    start: new Date(2022, 11, 10),
-    end: new Date(2022, 11, 10),
-  },
+  // {
+  //   title: "Vacation",
+  //   allDay: true,
+  //   start: new Date(2022, 8, 10),
+  //   end: new Date(2022, 8, 10),
+  // },
+  // {
+  //   title: "Conference",
+  //   allDay: true,
+  //   start: new Date(2022, 11, 10),
+  //   end: new Date(2022, 11, 10),
+  // },
 ];
 
 export const status = [

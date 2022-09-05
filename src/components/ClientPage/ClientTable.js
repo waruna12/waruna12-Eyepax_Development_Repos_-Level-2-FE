@@ -27,13 +27,23 @@ const ClientTable = (props) => {
     } catch (err) {}
   };
 
+  if (props.newClient == true) {
+    ClientDetails();
+  } else {
+    ClientDetails();
+  }
+
   useEffect(() => {
     ClientDetails();
-  }, [props.newClient, clientUpdate]);
+  }, [clientUpdate]);
 
   const onClick = () => {
     ClientDetails();
   };
+
+  useEffect(() => {
+    ClientDetails();
+  }, []);
 
   const columns = [
     { field: "fname", headerName: "First Name", width: 150 },

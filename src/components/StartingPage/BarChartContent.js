@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -8,13 +9,36 @@ import {
   Legend,
 } from "recharts";
 import { data } from "../../data";
+import { ReservationService } from "./../../services/ReservationService";
 
 const BarChartContent = (props) => {
+  const [row, setRow] = useState([]);
+
+  const newArray = row.map((u) => {
+    return {
+      ...u,
+      name: u.service_type,
+      value: 1000,
+    };
+  });
+
+  const ReservationDetails = async () => {
+    try {
+      const result = await ReservationService.reservationDetails();
+
+      setRow(result);
+    } catch (err) {}
+  };
+
+  useEffect(() => {
+    ReservationDetails();
+  }, []);
+
   return (
     <BarChart
       width={400}
       height={400}
-      data={data}
+      data={newArray}
       margin={{
         top: 5,
         right: 30,
