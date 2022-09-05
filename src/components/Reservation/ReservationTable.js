@@ -30,14 +30,9 @@ const ReservationTable = (props) => {
     } catch (err) {}
   };
 
-  if (props.onAddReservation == true) {
-    ReservationDetails();
-  } else {
-    ReservationDetails();
-  }
-
   useEffect(() => {
     ReservationDetails();
+    props.addClientStateChange(false);
   }, [props.onAddReservation]);
 
   const onClick = () => {

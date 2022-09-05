@@ -30,7 +30,6 @@ const PieChartContent = (props) => {
   var facialCount = 0;
 
   for (var i = 0; i < newArray.length; ++i) {
-    console.log(newArray[i].service_type);
     if (newArray[i].service_type == "HairCut") {
       hairCount++;
     } else if (newArray[i].service_type == "MakeUp") {

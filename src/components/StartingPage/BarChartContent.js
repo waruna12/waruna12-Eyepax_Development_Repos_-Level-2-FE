@@ -30,7 +30,6 @@ const BarChartContent = (props) => {
   var facialCount = 0;
 
   for (var i = 0; i < row.length; ++i) {
-    console.log(row[i].service_type);
     if (row[i].service_type == "HairCut") {
       hairCount++;
     } else if (row[i].service_type == "MakeUp") {

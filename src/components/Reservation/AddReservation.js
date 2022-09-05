@@ -144,7 +144,8 @@ const AddReservationModel = (props) => {
                 <div className={classes.control}>
                   <label htmlFor="date">Select Date</label>
                   <input
-                    type="date"
+                    // type="date"
+                    type="datetime-local"
                     id="password"
                     required
                     ref={reservationDateInputRef}

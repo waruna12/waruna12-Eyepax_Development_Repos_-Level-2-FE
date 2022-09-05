@@ -27,15 +27,10 @@ const ClientTable = (props) => {
     } catch (err) {}
   };
 
-  if (props.newClient == true) {
-    ClientDetails();
-  } else {
-    ClientDetails();
-  }
-
   useEffect(() => {
     ClientDetails();
-  }, [clientUpdate]);
+    props.addClientStateChange(false);
+  }, [clientUpdate, props.newClient]);
 
   const onClick = () => {
     ClientDetails();

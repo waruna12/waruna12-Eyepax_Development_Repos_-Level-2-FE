@@ -16,7 +16,10 @@ const ClientPageContent = () => {
         <AddClientModel onSaveClientData={setNewClientAdded} />
       </div>
       <div className={classes.maincontent}>
-        <ClientTable newClient={newclientadd} />
+        <ClientTable
+          newClient={newclientadd}
+          addClientStateChange={setNewClientAdded}
+        />
       </div>
       <NotificationContainer />
     </section>

@@ -14,7 +14,10 @@ const ReservationPageContent = (props) => {
         <AddReservationModel onSaveAddReservation={setAddReservation} />
       </div>
       <div className={classes.maincontent}>
-        <ReservationTable onAddReservation={addreservation} />
+        <ReservationTable
+          onAddReservation={addreservation}
+          addClientStateChange={setAddReservation}
+        />
       </div>
       <NotificationContainer />
     </section>

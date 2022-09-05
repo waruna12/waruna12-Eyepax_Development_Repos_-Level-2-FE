@@ -36,9 +36,9 @@ const UpdateClient = (props) => {
         values.email
       );
       props.onClick();
-      setClientUpdate(true);
+      // setClientUpdate(true);
+      props.onUpdateClientData(true);
       NotificationManager.success("Client Success Update", "Success");
-
       handleClose();
     } catch (err) {
       console.log(err);
@@ -59,6 +59,7 @@ const UpdateClient = (props) => {
       info.phone_number = cliInfo.phone_number;
 
       setClientInfo(info);
+
       // setEmail(result.email);
     } catch (err) {
       // console.log(err);
