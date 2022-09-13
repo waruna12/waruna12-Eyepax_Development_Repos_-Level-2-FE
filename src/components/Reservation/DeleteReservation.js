@@ -8,6 +8,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ReservationService } from "./../../services/ReservationService";
 import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
+import Container from "react-bootstrap/Container";
 
 const DeleteReservation = (props) => {
   const [open, setOpen] = React.useState(false);
@@ -19,14 +20,26 @@ const DeleteReservation = (props) => {
 
     try {
       await ReservationService.reservationDelete(props.reservationId);
-      NotificationManager.success("Eeservation Deleted Success", "Success");
+      NotificationManager.success(
+        "Reservation Deleted Success",
+        "Success",
+        "Close after 15000ms",
+        15000
+      );
       props.onClick();
       handleClose();
-    } catch (err) {}
+    } catch (err) {
+      NotificationManager.error(
+        "Reservation Deleted Failed",
+        "error",
+        "Close after 15000ms",
+        15000
+      );
+    }
   };
 
   return (
-    <div>
+    <Container>
       <FontAwesomeIcon
         icon={faTrash}
         onClick={handleOpen}
@@ -64,7 +77,7 @@ const DeleteReservation = (props) => {
           </Typography>
         </Box>
       </Modal>
-    </div>
+    </Container>
   );
 };
 

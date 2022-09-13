@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -9,11 +9,12 @@ import { ClientService } from "./../../services/ClientService";
 import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 import { Formik } from "formik";
+import Container from "react-bootstrap/Container";
+import { ClientContext } from "./../../store/client-context";
 
 const UpdateClient = (props) => {
-  const [clientUpdate, setClientUpdate] = useState(false);
-
-  props.onUpdateClientData(clientUpdate);
+  const [clients, setClients] = useContext(ClientContext);
+  props.onUpdateClientData(false);
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -35,13 +36,23 @@ const UpdateClient = (props) => {
         values.phone_number,
         values.email
       );
-      props.onClick();
-      // setClientUpdate(true);
+
+      ClientDetails();
       props.onUpdateClientData(true);
-      NotificationManager.success("Client Success Update", "Success");
+      NotificationManager.success(
+        "Client Success Update",
+        "Success",
+        "Close after 25000ms",
+        25000
+      );
       handleClose();
     } catch (err) {
-      console.log(err);
+      NotificationManager.error(
+        "Client Update Failed",
+        "error",
+        "Close after 15000ms",
+        25000
+      );
     }
   };
 
@@ -59,11 +70,7 @@ const UpdateClient = (props) => {
       info.phone_number = cliInfo.phone_number;
 
       setClientInfo(info);
-
-      // setEmail(result.email);
-    } catch (err) {
-      // console.log(err);
-    }
+    } catch (err) {}
   };
 
   useEffect(() => {
@@ -73,8 +80,15 @@ const UpdateClient = (props) => {
     }
   }, [props.clientId]);
 
+  const ClientDetails = async () => {
+    try {
+      const result = await ClientService.clientDetails();
+      setClients(result);
+    } catch (err) {}
+  };
+
   return (
-    <div>
+    <Container>
       <FontAwesomeIcon
         icon={faPen}
         style={{ cursor: "pointer" }}
@@ -117,7 +131,6 @@ const UpdateClient = (props) => {
                   handleBlur,
                   handleSubmit,
                   isSubmitting,
-                  /* and other goodies */
                 }) => (
                   <form onSubmit={handleSubmit}>
                     <div className={classes.control}>
@@ -130,6 +143,7 @@ const UpdateClient = (props) => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.email}
+                        disabled
                       />
                     </div>
                     {/* {errors.email && touched.email && errors.email} */}
@@ -182,7 +196,7 @@ const UpdateClient = (props) => {
           </Typography>
         </Box>
       </Modal>
-    </div>
+    </Container>
   );
 };
 

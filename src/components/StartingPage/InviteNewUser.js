@@ -3,43 +3,45 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import classes from "./InviteNewUser.module.css";
-import emailjs from "emailjs-com";
 import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
+import Container from "react-bootstrap/Container";
+import { UserService } from "./../../services/UserService";
 
 const InviteNewUser = () => {
-  const form = useRef();
+  const emailInputRef = useRef();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  function sendEmail(e) {
-    e.preventDefault();
+  const submitHandler = async (event) => {
+    event.preventDefault();
 
-    console.log(form.current);
+    const enteredEmail = emailInputRef.current.value;
 
-    emailjs
-      .sendForm(
-        "service_i5n3mxr",
-        "template_92l5bzf",
-        e.target,
-        "zx5XX-Y7Yzw_AZjPQ"
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-          NotificationManager.success("Invitation Send successful", "Success");
-          handleClose();
-        },
-        (error) => {
-          console.log(error.text);
-        }
+    try {
+      const response = await UserService.inviteUser(enteredEmail);
+
+      NotificationManager.success(
+        "Send Email Success",
+        "Success",
+        "Close after 35000ms",
+        35000
       );
-    form.current.reset();
-  }
+      document.getElementById("invite_user").reset();
+      handleClose();
+    } catch (err) {
+      NotificationManager.error(
+        "Alredy Invite User",
+        "error",
+        "Close after 25000ms",
+        25000
+      );
+    }
+  };
 
   return (
-    <div>
+    <Container>
       <button onClick={handleOpen} className={classes.button}>
         Invite New User
       </button>
@@ -60,10 +62,16 @@ const InviteNewUser = () => {
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <section>
-              <form onSubmit={sendEmail} ref={form}>
+              <form onSubmit={submitHandler} id="invite_user">
                 <div className={classes.control}>
                   <label htmlFor="email">Email</label>
-                  <input type="email" id="email" required name="email" />
+                  <input
+                    type="email"
+                    id="email"
+                    required
+                    name="email"
+                    ref={emailInputRef}
+                  />
                 </div>
                 <div className={classes.actions}>
                   <button>Invite</button>
@@ -73,7 +81,7 @@ const InviteNewUser = () => {
           </Typography>
         </Box>
       </Modal>
-    </div>
+    </Container>
   );
 };
 

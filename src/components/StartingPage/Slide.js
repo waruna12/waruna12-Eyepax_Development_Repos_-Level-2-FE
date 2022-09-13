@@ -1,48 +1,84 @@
 import React from "react";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { section } from "./../../data";
 import { Link } from "react-router-dom";
 // import classes from "./Slide.module.css";
 import "./Slide.css";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import clients from "./../../images/clients.jpg";
+import resavation from "./../../images//resavation.jpg";
+import calender from "./../../images/calander.jpg";
 
-function Slide(props) {
-  const settings = {
-    dots: true,
-    infinite: false,
-    // speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-    initialSlide: 0,
-  };
-
+function Slide() {
   return (
-    <div className="slide">
-      <h3 className="slide_header">Services</h3>
-      <Slider {...settings}>
-        {section.map((item) => (
-          <div key={item.id} className="card">
-            <div className="card-top">
-              <img src={item.linkedImg} alt={item.title} />
-              <h1>{item.title}</h1>
-            </div>
-
-            <div className="card-buttom">
-              {/* <h3>{item.des}</h3> */}
+    <Container className="mt-5 mb-5">
+      <Row>
+        <Col sm>
+          <Card style={{ width: "18rem" }}>
+            <Card.Img variant="top" src={clients} />
+            <Card.Body>
+              <Card.Title>Clients</Card.Title>
+              <Card.Text>
+                Lorem ipsum dolor sit amet, conse adipiscing elit, sed do
+                eiusmod tempor incididunt ut.
+              </Card.Text>
               <Link
                 to={{
-                  pathname: `/${item.title}`,
+                  pathname: `/${"Clients_Section"}`,
                   state: { stateParam: true },
                 }}
               >
-                <button className="btn-style">Go Ahead</button>
+                <Button variant="primary">Clients</Button>
               </Link>
-            </div>
-          </div>
-        ))}
-      </Slider>
-    </div>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col sm>
+          <Card style={{ width: "18rem" }}>
+            <Card.Img variant="top" src={resavation} />
+            <Card.Body>
+              <Card.Title>Reservations</Card.Title>
+              <Card.Text>
+                Lorem ipsum dolor sit amet, conse adipiscing elit, sed do
+                eiusmod tempor incididunt ut.
+              </Card.Text>
+              <Link
+                to={{
+                  pathname: `/${"Reservations_Section"}`,
+                  state: { stateParam: true },
+                }}
+              >
+                <Button variant="primary">Reservations</Button>
+              </Link>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col sm>
+          <Card style={{ width: "18rem" }}>
+            <Card.Img variant="top" src={calender} />
+            <Card.Body>
+              <Card.Title>Calendar</Card.Title>
+              <Card.Text>
+                Lorem ipsum dolor sit amet, conse adipiscing elit, sed do
+                eiusmod tempor incididunt ut.
+              </Card.Text>
+              <Link
+                to={{
+                  pathname: `/${"Calendar_Section"}`,
+                  state: { stateParam: true },
+                }}
+              >
+                <Button variant="primary">Calendar</Button>
+              </Link>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

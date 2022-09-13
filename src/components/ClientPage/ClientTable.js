@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteClient from "./DeleteClient";
 import UpdateClient from "./UpdateClient";
 import { ClientService } from "./../../services/ClientService";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import { ClientContext } from "./../../store/client-context";
 
-const ClientTable = (props) => {
-  const [row, setRow] = useState([]);
-
+const ClientTable = () => {
+  const [clients, setClients] = useContext(ClientContext);
   const [clientUpdate, setClientUpdate] = useState(false);
+  const [clientId, setClientId] = useState("");
+  const [clientEmail, setClientEmail] = useState("");
 
-  const newArray = row.map((u) => {
+  const newArray = clients.map((u) => {
     return {
       ...u,
 
@@ -17,20 +21,12 @@ const ClientTable = (props) => {
     };
   });
 
-  const [clientId, setClientId] = useState("");
-
   const ClientDetails = async () => {
     try {
       const result = await ClientService.clientDetails();
-
-      setRow(result);
+      setClients(result);
     } catch (err) {}
   };
-
-  useEffect(() => {
-    ClientDetails();
-    props.addClientStateChange(false);
-  }, [clientUpdate, props.newClient]);
 
   const onClick = () => {
     ClientDetails();
@@ -38,7 +34,7 @@ const ClientTable = (props) => {
 
   useEffect(() => {
     ClientDetails();
-  }, []);
+  }, [clientUpdate]);
 
   const columns = [
     { field: "fname", headerName: "First Name", width: 150 },
@@ -60,7 +56,6 @@ const ClientTable = (props) => {
             <UpdateClient
               clientId={clientId}
               onUpdateClientData={setClientUpdate}
-              onClick={onClick}
             />
           </div>
         );
@@ -76,9 +71,14 @@ const ClientTable = (props) => {
           <div
             onClick={() => {
               setClientId(params.row.id);
+              setClientEmail(params.row.email);
             }}
           >
-            <DeleteClient clientId={clientId} onClick={onClick} />
+            <DeleteClient
+              clientId={clientId}
+              clientEmail={clientEmail}
+              onClick={onClick}
+            />
           </div>
         );
       },
@@ -86,16 +86,11 @@ const ClientTable = (props) => {
   ];
 
   return (
-    <>
-      <div
-        style={{
-          height: 300,
-          width: "80%",
-        }}
-      >
+    <Container style={{ display: "flex", justifyContent: "center" }}>
+      <Row style={{ height: "50vh", width: "100%", marginTop: "2vh" }}>
         <DataGrid rows={newArray} columns={columns} />
-      </div>
-    </>
+      </Row>
+    </Container>
   );
 };
 

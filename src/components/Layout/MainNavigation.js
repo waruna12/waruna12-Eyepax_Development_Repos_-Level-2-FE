@@ -12,14 +12,13 @@ const MainNavigation = () => {
 
   const logoutHandler = () => {
     authCtx.logout();
-    //optinal navigate the user
     history.replace("/auth");
   };
 
   return (
     <header className={classes.header}>
       <Link to="/">
-        <div className={classes.logo}>React Auth</div>
+        <div className={classes.logo}>Salon Booking App</div>
       </Link>
       <nav>
         <ul>
@@ -28,26 +27,18 @@ const MainNavigation = () => {
               <Link to="/auth">Login</Link>
             </li>
           )}
-          {/* <li>
-            <Link to="/auth">Login</Link>
-          </li> */}
+
           {isLoggedIn && (
             <li>
               <Link to="/profile">Profile</Link>
             </li>
           )}
 
-          {/* <li>
-            <Link to="/profile">Profile</Link>
-          </li> */}
           {isLoggedIn && (
             <li>
               <button onClick={logoutHandler}>Logout</button>
             </li>
           )}
-          {/* <li>
-            <button onClick={logoutHandler}>Logout</button>
-          </li> */}
         </ul>
       </nav>
     </header>

@@ -32,7 +32,6 @@ export class ClientService {
         throw Error("client validation failed");
       }
     } catch (err) {
-      console.log(err);
       throw err;
     }
   };
@@ -55,23 +54,6 @@ export class ClientService {
     }
   };
 
-  static clientDelete = async (clientID) => {
-    try {
-      let response = await axios({
-        method: "delete",
-        baseURL: API_ORIGIN + "/client/" + clientID,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      let responseData = response.data.data;
-
-      return responseData;
-    } catch (err) {
-      throw err;
-    }
-  };
-
   static clientDetailsID = async (clientID) => {
     try {
       let response = await axios({
@@ -82,7 +64,6 @@ export class ClientService {
         },
       });
 
-      console.log(response);
       let clientDetailID = response.data.data;
 
       return clientDetailID;
@@ -120,6 +101,49 @@ export class ClientService {
       } else {
         throw Error("client validation failed");
       }
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  static clientDelete = async (clientID, clientEmail) => {
+    try {
+      let response = await axios({
+        method: "delete",
+        baseURL: API_ORIGIN + "/client/" + clientID,
+        data: {
+          email: clientEmail,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.data.success !== false) {
+        let responseData = response.data.data;
+        return responseData;
+      } else {
+        throw Error("Cannot delete, Already have an appointment");
+      }
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  static clientSearch = async (key) => {
+    try {
+      let response = await axios({
+        method: "get",
+        baseURL: API_ORIGIN + "/client/search/" + key,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      // console.log(response);
+      let clientDetailSearch = response.data.data;
+
+      return clientDetailSearch;
     } catch (err) {
       throw err;
     }

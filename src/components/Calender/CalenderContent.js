@@ -7,7 +7,7 @@ import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import enUS from "date-fns/locale/en-US";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { event } from "./../../data";
+//import { event } from "./../../data";
 import { ReservationService } from "./../../services/ReservationService";
 
 const locales = {
@@ -30,20 +30,14 @@ const CalenderContent = () => {
       const result = await ReservationService.reservationDetails();
 
       setReservation(result);
-    } catch (err) {
-      //toast
-      // if (err.response.data.message !== undefined) {
-      //   notifyWarning(err.response.data.message);
-      // } else {
-      //   notifyWarning("Somthing Wrong");
-      // }
-    }
+    } catch (err) {}
   };
 
   useEffect(() => {
     ReservationDetails();
-    console.log(event);
   }, []);
+
+  console.log(reservation_details);
 
   const newArray = reservation_details.map((u) => {
     return {
@@ -54,6 +48,8 @@ const CalenderContent = () => {
       end: new Date(u.reservation_date),
     };
   });
+
+  console.log(newArray);
 
   return (
     <section className={classes.starting}>

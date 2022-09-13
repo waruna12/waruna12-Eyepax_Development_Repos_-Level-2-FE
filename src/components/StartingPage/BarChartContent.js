@@ -9,90 +9,71 @@ import {
   Legend,
 } from "recharts";
 import { ReservationService } from "./../../services/ReservationService";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 
-const BarChartContent = (props) => {
+const BarChartContent = () => {
   const [row, setRow] = useState([]);
 
-  const ReservationDetails = async () => {
+  const eachStylistReservation = async () => {
     try {
-      const result = await ReservationService.reservationDetails();
+      const result = await ReservationService.eachStylistReservation();
 
       setRow(result);
     } catch (err) {}
   };
 
   useEffect(() => {
-    ReservationDetails();
+    eachStylistReservation();
   }, []);
 
-  var hairCount = 0;
-  var makeUpCount = 0;
-  var facialCount = 0;
+  const newArray = row.map((u) => {
+    return {
+      ...u,
 
-  for (var i = 0; i < row.length; ++i) {
-    if (row[i].service_type == "HairCut") {
-      hairCount++;
-    } else if (row[i].service_type == "MakeUp") {
-      makeUpCount++;
-    } else if (row[i].service_type == "Facial") {
-      facialCount++;
-    }
-  }
-
-  // My object
-  const hair = {
-    label: "HairCut",
-    value: hairCount,
-  };
-
-  const makeup = {
-    label: "MakeUp",
-    value: makeUpCount,
-  };
-
-  const facial = {
-    label: "Facial",
-    value: facialCount,
-  };
-
-  var nietos = [];
-  var hairObj = {};
-  var makeObj = {};
-  var facialObj = {};
-
-  hairObj["name"] = hair.label;
-  hairObj["value"] = hair.value;
-
-  makeObj["name"] = makeup.label;
-  makeObj["value"] = makeup.value;
-
-  facialObj["name"] = facial.label;
-  facialObj["value"] = facial.value;
-
-  nietos.push(hairObj);
-  nietos.push(makeObj);
-  nietos.push(facialObj);
+      Stylist: u._id,
+      TotalHours: u.value,
+    };
+  });
 
   return (
-    <BarChart
-      width={400}
-      height={400}
-      data={nietos}
-      margin={{
-        top: 5,
-        right: 30,
-        left: 20,
-        bottom: 5,
-      }}
-      barSize={20}
-    >
-      <XAxis dataKey="name" scale="point" padding={{ left: 10, right: 10 }} />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <CartesianGrid strokeDasharray="3 3" />
-      <Bar dataKey="value" fill="#8884d8" background={{ fill: "#eee" }} />
-    </BarChart>
+    <Container>
+      <Row style={{ display: "flex", justifyContent: "center" }}>
+        <BarChart
+          width={400}
+          height={400}
+          data={newArray}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+          barSize={20}
+        >
+          <XAxis
+            dataKey="Stylist"
+            scale="point"
+            padding={{ left: 10, right: 10 }}
+          />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <CartesianGrid strokeDasharray="3 3" />
+          <Bar
+            dataKey="TotalHours"
+            fill="#8884d8"
+            background={{ fill: "#eee" }}
+          />
+        </BarChart>
+      </Row>
+      <Row>
+        <h6 style={{ display: "flex", justifyContent: "center" }}>
+          {" "}
+          Total time duration of each stylist.
+        </h6>
+      </Row>
+    </Container>
   );
 };
 

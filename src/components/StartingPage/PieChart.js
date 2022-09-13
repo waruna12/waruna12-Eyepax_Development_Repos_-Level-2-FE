@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { PieChart, Pie, Tooltip } from "recharts";
 import { ReservationService } from "./../../services/ReservationService";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 
 const PieChartContent = (props) => {
   const [row, setRow] = useState([]);
@@ -13,16 +15,16 @@ const PieChartContent = (props) => {
     };
   });
 
-  const ReservationDetails = async () => {
+  const completeReservation = async () => {
     try {
-      const result = await ReservationService.reservationDetails();
+      const result = await ReservationService.completeReservation();
 
       setRow(result);
     } catch (err) {}
   };
 
   useEffect(() => {
-    ReservationDetails();
+    completeReservation();
   }, []);
 
   var hairCount = 0;
@@ -74,19 +76,28 @@ const PieChartContent = (props) => {
   nietos.push(facialObj);
 
   return (
-    <PieChart width={400} height={400}>
-      <Pie
-        dataKey="value"
-        isAnimationActive={false}
-        data={nietos}
-        cx="50%"
-        cy="50%"
-        outerRadius={80}
-        fill="#8884d8"
-        label
-      />
-      <Tooltip />
-    </PieChart>
+    <Container>
+      <Row style={{ display: "flex", justifyContent: "center" }}>
+        <PieChart width={400} height={400}>
+          <Pie
+            dataKey="value"
+            isAnimationActive={true}
+            data={nietos}
+            cx="50%"
+            cy="50%"
+            outerRadius={80}
+            fill="#8884d8"
+            label
+          />
+          <Tooltip />
+        </PieChart>
+      </Row>
+      <Row>
+        <h6 style={{ display: "flex", justifyContent: "center" }}>
+          All reservation made verses completed reservations
+        </h6>
+      </Row>
+    </Container>
   );
 };
 

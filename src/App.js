@@ -8,6 +8,8 @@ import ClientPage from "./pages/ClientPage";
 import AuthContext from "./store/auth-context";
 import ReservationPage from "./pages/ReservationPage";
 import CalenderPage from "./pages/CalenderPage";
+import "bootstrap/dist/css/bootstrap.min.css";
+import SignUp from "./components/Auth/SignUp";
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -23,8 +25,13 @@ function App() {
           </Route>
         )}
         {!authCtx.isLoggedIn && (
-          <Route path="/auth">
+          <Route path="/auth" exact>
             <AuthPage />
+          </Route>
+        )}
+        {!authCtx.isLoggedIn && (
+          <Route path="/auth/sign_up/:email/:token">
+            <SignUp />
           </Route>
         )}
         {authCtx.isLoggedIn && (

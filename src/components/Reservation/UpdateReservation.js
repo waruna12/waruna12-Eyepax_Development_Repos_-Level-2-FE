@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -12,8 +12,11 @@ import { ClientService } from "./../../services/ClientService";
 import { UserService } from "./../../services/UserService";
 import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
+import Container from "react-bootstrap/Container";
+import { ReservationContext } from "./../../store/reservation-context";
 
 const UpdateReservation = (props) => {
+  const [reservation, setReservationContext] = useContext(ReservationContext);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -22,20 +25,10 @@ const UpdateReservation = (props) => {
 
   const [users, setUser] = useState([]);
 
-  // const clients = [
-  //   { id: "1", name: "Waruna Kulathunga" },
-  //   { id: "2", name: "Chamila Hearth" },
-  // ];
-
-  const stylist = [
-    { id: "1", name: "Ron Jesen" },
-    { id: "2", name: "Zamir Ahmed" },
-  ];
-
   const [reservationInfo, setReservationInfo] = useState({
-    client: "",
+    client_email: "",
     service_type: "",
-    stylist: "",
+    stylist_email: "",
     reservation_date: "",
     reservation_time: "",
     reservation_status: "",
@@ -51,17 +44,15 @@ const UpdateReservation = (props) => {
 
       const reservationInfo = result;
 
-      info.client = reservationInfo.client;
+      info.client_email = reservationInfo.client_email;
       info.service_type = reservationInfo.service_type;
-      info.stylist = reservationInfo.stylist;
+      info.stylist_email = reservationInfo.stylist_email;
       info.reservation_date = reservationInfo.reservation_date;
       info.reservation_time = reservationInfo.reservation_time;
       info.reservation_status = reservationInfo.reservation_status;
 
       setReservationInfo(info);
-    } catch (err) {
-      // console.log(err);
-    }
+    } catch (err) {}
   };
 
   const ClientDetails = async () => {
@@ -84,21 +75,39 @@ const UpdateReservation = (props) => {
     try {
       ReservationService.reservationUpdate(
         props.reservationId,
-        values.client,
+        values.client_email,
         values.service_type,
-        values.stylist,
+        values.stylist_email,
         values.reservation_date,
         values.reservation_time,
         values.reservation_status
       );
 
-      // props.onClick();
+      ReservationDetails();
       props.onUpdateReservationData();
-      NotificationManager.success("Client Success Update", "Success");
+      NotificationManager.success(
+        "Reservation Success Update",
+        "Success",
+        "Close after 15000ms",
+        25000
+      );
       handleClose();
     } catch (err) {
-      console.log(err);
+      NotificationManager.error(
+        "Reservation Update Failed",
+        "error",
+        "Close after 15000ms",
+        25000
+      );
     }
+  };
+
+  const ReservationDetails = async () => {
+    try {
+      const result = await ReservationService.reservationDetails();
+
+      setReservationContext(result);
+    } catch (err) {}
   };
 
   useEffect(() => {
@@ -114,7 +123,7 @@ const UpdateReservation = (props) => {
   }, [props.reservationId]);
 
   return (
-    <div>
+    <Container>
       <FontAwesomeIcon
         icon={faPen}
         style={{ cursor: "pointer" }}
@@ -141,9 +150,9 @@ const UpdateReservation = (props) => {
               <Formik
                 enableReinitialize={true}
                 initialValues={{
-                  client: reservationInfo.client,
+                  client_email: reservationInfo.client_email,
                   service_type: reservationInfo.service_type,
-                  stylist: reservationInfo.stylist,
+                  stylist_email: reservationInfo.stylist_email,
                   reservation_date: reservationInfo.reservation_date,
                   reservation_time: reservationInfo.reservation_time,
                   reservation_status: reservationInfo.reservation_status,
@@ -153,31 +162,28 @@ const UpdateReservation = (props) => {
               >
                 {({
                   values,
-                  errors,
-                  touched,
                   handleChange,
                   handleBlur,
                   handleSubmit,
-                  isSubmitting,
                   /* and other goodies */
                 }) => (
                   <form onSubmit={handleSubmit}>
                     <div className={classes.control}>
                       <label htmlFor="text">Client</label>
                       <select
-                        name="client"
+                        name="client_email"
                         className="form-control"
                         id="selectClient"
                         required
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.client}
+                        value={values.client_email}
                       >
                         <option value={""}>Select Client</option>
                         {clients.map((cli, index) => {
                           return (
-                            <option key={cli.fname} value={cli.fname}>
-                              {cli.fname}
+                            <option key={cli._id} value={cli.email}>
+                              {cli.email}
                             </option>
                           );
                         })}
@@ -203,26 +209,7 @@ const UpdateReservation = (props) => {
                         })}
                       </select>
                     </div>
-                    <div className={classes.control}>
-                      <label htmlFor="text">Stylist</label>
-                      <select
-                        name="stylist"
-                        className="form-control"
-                        id="stylist_id"
-                        required
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.stylist}
-                      >
-                        {users.map((user, index) => {
-                          return (
-                            <option key={user._id} value={user.fname}>
-                              {user.fname}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
+
                     <div className={classes.control}>
                       <label htmlFor="text">Select Date</label>
                       <input
@@ -233,6 +220,7 @@ const UpdateReservation = (props) => {
                         value={values.reservation_date}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        disabled
                       />
                     </div>
                     <div className={classes.control}>
@@ -245,11 +233,33 @@ const UpdateReservation = (props) => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.reservation_time}
+                        disabled
                       >
                         {timeArray.map((time, index) => {
                           return (
                             <option key={time.id} value={time.time}>
                               {time.time}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+                    <div className={classes.control}>
+                      <label htmlFor="text">Stylist</label>
+                      <select
+                        name="stylist_email"
+                        className="form-control"
+                        id="stylist_id"
+                        required
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.stylist_email}
+                        disabled
+                      >
+                        {users.map((user, index) => {
+                          return (
+                            <option key={user._id} value={user.email}>
+                              {user.email}
                             </option>
                           );
                         })}
@@ -286,7 +296,7 @@ const UpdateReservation = (props) => {
           </Typography>
         </Box>
       </Modal>
-    </div>
+    </Container>
   );
 };
 

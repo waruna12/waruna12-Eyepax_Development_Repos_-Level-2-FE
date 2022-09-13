@@ -1,28 +1,29 @@
-import React, { useState } from "react";
-import classes from "./ClientPageContent.module.css";
+import React from "react";
 import ClientTable from "./ClientTable";
 import AddClientModel from "./AddClientModel";
 import { NotificationContainer } from "react-notifications";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 
 const ClientPageContent = () => {
-  const [newclientadd, setNewClientAdded] = useState(false);
-
-  // const saveExpenseDataHadler = (enterdata) => {};
-
   return (
-    <section className={classes.starting}>
-      <h4>Welcome Client page</h4>
-      <div className={classes.header}>
-        <AddClientModel onSaveClientData={setNewClientAdded} />
-      </div>
-      <div className={classes.maincontent}>
-        <ClientTable
-          newClient={newclientadd}
-          addClientStateChange={setNewClientAdded}
-        />
-      </div>
+    <Container>
+      <Row>
+        <h4
+          className="mt-5"
+          style={{ display: "flex", justifyContent: "center" }}
+        >
+          Welcome Client page
+        </h4>
+      </Row>
+      <Row>
+        <AddClientModel />
+      </Row>
+      <Row>
+        <ClientTable />
+      </Row>
       <NotificationContainer />
-    </section>
+    </Container>
   );
 };
 

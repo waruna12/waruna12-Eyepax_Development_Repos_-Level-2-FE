@@ -8,6 +8,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ClientService } from "./../../services/ClientService";
 import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
+import Container from "react-bootstrap/Container";
 
 const DeleteClient = (props) => {
   const [open, setOpen] = React.useState(false);
@@ -15,20 +16,30 @@ const DeleteClient = (props) => {
   const handleClose = () => setOpen(false);
 
   const onDelete = async () => {
-    //todo extra validations
-
     try {
-      await ClientService.clientDelete(props.clientId);
+      await ClientService.clientDelete(props.clientId, props.clientEmail);
       props.onClick();
 
-      NotificationManager.success("Client Deleted Success", "Success");
+      NotificationManager.success(
+        "Client Deleted Success",
+        "Success",
+        "Close after 25000ms",
+        25000
+      );
 
       handleClose();
-    } catch (err) {}
+    } catch (err) {
+      NotificationManager.error(
+        "Cannot delete, Already have an appointment",
+        "error",
+        "Close after 25000ms",
+        25000
+      );
+    }
   };
 
   return (
-    <div>
+    <Container>
       <FontAwesomeIcon
         icon={faTrash}
         onClick={handleOpen}
@@ -66,7 +77,7 @@ const DeleteClient = (props) => {
           </Typography>
         </Box>
       </Modal>
-    </div>
+    </Container>
   );
 };
 
