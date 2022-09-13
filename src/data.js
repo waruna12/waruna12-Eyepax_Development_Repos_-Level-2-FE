@@ -86,22 +86,22 @@ export const timeArray = [
 export const event = [
   {
     title: "Big Meeting",
-    // allDay: true,
-    // start: new Date(2022, 8, 8),
-    end: new Date(2022, 8, 8),
+    allDay: true,
+    start: new Date(2022, 8, 8),
+    end: new Date(2022, 9, 9),
   },
-  // {
-  //   title: "Vacation",
-  //   allDay: true,
-  //   start: new Date(2022, 8, 10),
-  //   end: new Date(2022, 8, 10),
-  // },
-  // {
-  //   title: "Conference",
-  //   allDay: true,
-  //   start: new Date(2022, 11, 10),
-  //   end: new Date(2022, 11, 10),
-  // },
+  {
+    title: "Vacation",
+    allDay: true,
+    start: new Date(2022, 9, 13),
+    end: new Date(2022, 9, 13),
+  },
+  {
+    title: "Conference",
+    allDay: true,
+    start: new Date(2022, 9, 18),
+    end: new Date(2022, 9, 18),
+  },
 ];
 
 export const status = [
