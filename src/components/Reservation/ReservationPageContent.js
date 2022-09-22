@@ -1,4 +1,3 @@
-//import classes from "./ReservationPageContent.module.css";
 import ReservationTable from "./ReservationTable";
 import AddReservationModel from "./AddReservation";
 import { NotificationContainer } from "react-notifications";

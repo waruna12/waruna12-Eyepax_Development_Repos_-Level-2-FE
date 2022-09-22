@@ -4,7 +4,7 @@ import { ReservationService } from "./../../services/ReservationService";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
-const PieChartContent = (props) => {
+const PieChartContent = () => {
   const [row, setRow] = useState([]);
 
   const newArray = row.map((u) => {
@@ -32,16 +32,15 @@ const PieChartContent = (props) => {
   var facialCount = 0;
 
   for (var i = 0; i < newArray.length; ++i) {
-    if (newArray[i].service_type == "HairCut") {
+    if (newArray[i].service_type === "HairCut") {
       hairCount++;
-    } else if (newArray[i].service_type == "MakeUp") {
+    } else if (newArray[i].service_type === "MakeUp") {
       makeUpCount++;
-    } else if (newArray[i].service_type == "Facial") {
+    } else if (newArray[i].service_type === "Facial") {
       facialCount++;
     }
   }
 
-  // My object
   const hair = {
     label: "HairCut",
     value: hairCount,
@@ -57,7 +56,7 @@ const PieChartContent = (props) => {
     value: facialCount,
   };
 
-  var nietos = [];
+  var pieChatDataSet = [];
   var hairObj = {};
   var makeObj = {};
   var facialObj = {};
@@ -71,9 +70,9 @@ const PieChartContent = (props) => {
   facialObj["name"] = facial.label;
   facialObj["value"] = facial.value;
 
-  nietos.push(hairObj);
-  nietos.push(makeObj);
-  nietos.push(facialObj);
+  pieChatDataSet.push(hairObj);
+  pieChatDataSet.push(makeObj);
+  pieChatDataSet.push(facialObj);
 
   return (
     <Container>
@@ -82,7 +81,7 @@ const PieChartContent = (props) => {
           <Pie
             dataKey="value"
             isAnimationActive={true}
-            data={nietos}
+            data={pieChatDataSet}
             cx="50%"
             cy="50%"
             outerRadius={80}

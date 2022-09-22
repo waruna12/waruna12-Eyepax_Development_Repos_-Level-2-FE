@@ -24,9 +24,6 @@ export class UserService {
         },
       });
 
-      console.log(response.data.success);
-      console.log(response.data.data);
-
       if (response.data.success !== false) {
         let responseData = response.data.data;
 
@@ -34,12 +31,6 @@ export class UserService {
       } else {
         throw Error("Invalid User Credentials ");
       }
-
-      // console.log(response);
-
-      // let responseData = response.data.data;
-
-      // return responseData;
     } catch (err) {
       throw err;
     }
@@ -59,7 +50,6 @@ export class UserService {
         },
       });
 
-      console.log(response);
       if (response.data.success !== false) {
         let responseData = response.data.data;
 
@@ -68,7 +58,6 @@ export class UserService {
         throw Error("Login Fail");
       }
     } catch (err) {
-      console.log(err);
       throw err;
     }
   };

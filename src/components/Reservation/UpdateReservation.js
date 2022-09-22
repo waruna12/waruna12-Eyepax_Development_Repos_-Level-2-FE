@@ -16,10 +16,19 @@ import Container from "react-bootstrap/Container";
 import { ReservationContext } from "./../../store/reservation-context";
 
 const UpdateReservation = (props) => {
-  const [reservation, setReservationContext] = useContext(ReservationContext);
+  const [setReservationContext] = useContext(ReservationContext);
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+    ReservationDetailSearchID();
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    ReservationDetailSearchID();
+    ReservationDetails();
+  };
 
   const [clients, setClients] = useState([]);
 
@@ -116,8 +125,11 @@ const UpdateReservation = (props) => {
   }, []);
 
   useEffect(() => {
-    if (props.reservationId === "") {
-    } else {
+    // if (props.reservationId === "") {
+    // } else {
+    //   ReservationDetailSearchID();
+    // }
+    if (props.reservationId) {
       ReservationDetailSearchID();
     }
   }, [props.reservationId]);

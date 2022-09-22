@@ -30,6 +30,7 @@ const InviteNewUser = () => {
       );
       document.getElementById("invite_user").reset();
       handleClose();
+      return response;
     } catch (err) {
       NotificationManager.error(
         "Alredy Invite User",

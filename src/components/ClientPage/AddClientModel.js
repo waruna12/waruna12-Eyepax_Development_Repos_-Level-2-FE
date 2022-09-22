@@ -18,6 +18,8 @@ const AddClientModel = () => {
 
   const [searchvalue, setSearchValue] = useState("");
 
+  let replaceSearchValue = searchvalue.replace(/\s+/g, "");
+
   const emailInputRef = useRef();
   const fnameInputRef = useRef();
   const lnameInputRef = useRef();
@@ -52,6 +54,7 @@ const AddClientModel = () => {
       );
       document.getElementById("create_client").reset();
       handleClose();
+      return response;
     } catch (err) {
       NotificationManager.error(
         "Email alredy registered",
@@ -64,17 +67,17 @@ const AddClientModel = () => {
 
   const ClientDetailSearch = async () => {
     try {
-      const result = await ClientService.clientSearch(searchvalue);
+      const result = await ClientService.clientSearch(replaceSearchValue);
       setClients(result);
     } catch (err) {}
   };
 
   useEffect(() => {
-    if (searchvalue.length > 0) {
+    if (replaceSearchValue.length > 0) {
       ClientDetailSearch();
     } else {
     }
-  }, [searchvalue]);
+  }, [replaceSearchValue]);
 
   const ClientDetails = async () => {
     try {
@@ -102,7 +105,6 @@ const AddClientModel = () => {
           </InputGroup>
         </Col>
         <Col sm={8} style={{ display: "flex", justifyContent: "end" }}>
-          {" "}
           <button onClick={handleOpen} className={classes.button}>
             Add New
           </button>
@@ -164,7 +166,6 @@ const AddClientModel = () => {
                         ref={phoneNumberInputRef}
                       />
                     </div>
-
                     <div className={classes.actions}>
                       <button>Add New</button>
                     </div>

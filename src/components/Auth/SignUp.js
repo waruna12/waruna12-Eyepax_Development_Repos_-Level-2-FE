@@ -34,16 +34,15 @@ const SignUp = () => {
         enteredPassword
       );
 
-      NotificationManager.success(
-        "Success user Registered",
-        "Success",
-        "Close after 25000ms",
-        25000
-      );
-      console.log(response.token);
-      authCtx.login(response.token);
+      // NotificationManager.success(
+      //   "Success user Registered",
+      //   "Success",
+      //   "Close after 25000ms",
+      //   25000
+      // );
+
+      authCtx.login(response.token, response.usetId);
       history.replace("/");
-      // document.getElementById("create_client").reset();
     } catch (err) {
       NotificationManager.error(
         "Invalid User Credentials",

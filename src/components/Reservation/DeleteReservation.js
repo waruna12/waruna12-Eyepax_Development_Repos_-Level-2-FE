@@ -16,8 +16,6 @@ const DeleteReservation = (props) => {
   const handleClose = () => setOpen(false);
 
   const onDelete = async () => {
-    //todo extra validations
-
     try {
       await ReservationService.reservationDelete(props.reservationId);
       NotificationManager.success(

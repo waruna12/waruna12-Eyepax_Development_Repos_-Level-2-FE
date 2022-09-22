@@ -30,19 +30,34 @@ export class UserService {
         },
       });
 
-      console.log(response);
-
-      // let inviteUserDetail = response.data.data;
-
-      // return inviteUserDetail;
-
-      // console.log(response);
       if (response.data.success !== false) {
         let inviteUserDetail = response.data.data;
 
         return inviteUserDetail;
       } else {
         throw Error("Email Send Failed");
+      }
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  static passwordUpdate = async (userID, newPassword) => {
+    try {
+      let response = await axios({
+        method: "put",
+        baseURL: API_ORIGIN + "/user/" + userID + "/" + newPassword,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.data.success !== false) {
+        let responseData = response.data.data;
+
+        return responseData;
+      } else {
+        throw Error("client validation failed");
       }
     } catch (err) {
       throw err;

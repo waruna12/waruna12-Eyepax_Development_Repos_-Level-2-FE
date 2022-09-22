@@ -8,7 +8,6 @@ import { ReservationService } from "./../../services/ReservationService";
 import { ClientService } from "./../../services/ClientService";
 import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
-import { UserService } from "./../../services/UserService";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -18,10 +17,10 @@ import { ReservationContext } from "./../../store/reservation-context";
 import moment from "moment";
 
 const AddReservationModel = () => {
-  var dt = new Date();
-  dt.setDate(dt.getDate() - 0);
+  var currentDate = new Date();
+  currentDate.setDate(currentDate.getDate() - 0);
 
-  const format1 = "YYYY-MM-DD";
+  const formatOne = "YYYY-MM-DD";
 
   const [reservation, setReservationContext] = useContext(ReservationContext);
 
@@ -30,10 +29,10 @@ const AddReservationModel = () => {
   const [onChangeDate, setChangeDate] = useState("");
   const [onChangeTime, setChangeTime] = useState("");
 
-  const [users, setUser] = useState([]);
   const [availablestylist, setAvailableStylist] = useState([]);
 
   const [reservationsearchvalue, setReservationSearchValue] = useState("");
+  let replaceSearchValue = reservationsearchvalue.replace(/\s+/g, "");
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -65,15 +64,16 @@ const AddReservationModel = () => {
 
       ReservationDetails();
       NotificationManager.success(
-        "Reservation Success Added",
+        "Reservation success added",
         "Success",
         "Close after 15000ms",
         15000
       );
       handleClose();
+      return response;
     } catch (err) {
       NotificationManager.error(
-        "Reservation Added Failed",
+        "Reservation cannot be duplicate",
         "error",
         "Close after 15000ms",
         15000
@@ -86,14 +86,6 @@ const AddReservationModel = () => {
       const result = await ClientService.clientDetails();
 
       setClients(result);
-    } catch (err) {}
-  };
-
-  const UserDetails = async () => {
-    try {
-      const result = await UserService.userDetails();
-
-      setUser(result);
     } catch (err) {}
   };
 
@@ -117,7 +109,7 @@ const AddReservationModel = () => {
   const ReservationDetailSearch = async () => {
     try {
       const result = await ReservationService.reservationSearch(
-        reservationsearchvalue
+        replaceSearchValue
       );
 
       setReservationContext(result);
@@ -133,15 +125,14 @@ const AddReservationModel = () => {
   };
 
   useEffect(() => {
-    if (reservationsearchvalue.length > 0) {
+    if (replaceSearchValue.length > 0) {
       ReservationDetailSearch();
     } else {
     }
-  }, [reservationsearchvalue]);
+  }, [replaceSearchValue]);
 
   useEffect(() => {
     ClientDetails();
-    UserDetails();
   }, []);
 
   return (
@@ -220,7 +211,7 @@ const AddReservationModel = () => {
                       <label htmlFor="date">Select Date</label>
                       <input
                         type="date"
-                        min={moment(dt).format(format1)}
+                        min={moment(currentDate).format(formatOne)}
                         max="2024-09-09"
                         id="password"
                         required

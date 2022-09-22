@@ -14,8 +14,6 @@ import SignUp from "./components/Auth/SignUp";
 function App() {
   const authCtx = useContext(AuthContext);
 
-  console.log(authCtx);
-
   return (
     <Layout>
       <Switch>

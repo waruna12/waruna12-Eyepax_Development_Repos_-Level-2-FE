@@ -141,7 +141,6 @@ export class ReservationService {
         },
       });
 
-      // console.log(response);
       let reservationDetailSearch = response.data.data;
 
       return reservationDetailSearch;
@@ -159,8 +158,6 @@ export class ReservationService {
           "Content-Type": "application/json",
         },
       });
-
-      console.log(response.data.data);
 
       let reservationStylistDetail = response.data.data;
 
@@ -180,7 +177,6 @@ export class ReservationService {
         },
       });
 
-      // console.log(response);
       let completeReservationDetail = response.data.data;
 
       return completeReservationDetail;
@@ -202,6 +198,51 @@ export class ReservationService {
       let eachStylistDetail = response.data.data;
 
       return eachStylistDetail;
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  static dragReservationUpdate = async (
+    reservationID,
+    date,
+    time,
+    enteredStylist,
+    enteredClient,
+    enteredServiceType,
+    enteredReservationStatus
+  ) => {
+    try {
+      let response = await axios({
+        method: "put",
+        baseURL:
+          API_ORIGIN +
+          "/drag_reservation/" +
+          reservationID +
+          "/" +
+          date +
+          "/" +
+          time +
+          "/" +
+          enteredStylist,
+        data: {
+          client_email: enteredClient,
+          service_type: enteredServiceType,
+          reservation_status: enteredReservationStatus,
+          reservation_count: 1,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.data.success !== false) {
+        let responseData = response.data.data;
+
+        return responseData;
+      } else {
+        throw Error("");
+      }
     } catch (err) {
       throw err;
     }

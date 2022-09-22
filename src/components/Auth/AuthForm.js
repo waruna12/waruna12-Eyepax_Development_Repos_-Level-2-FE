@@ -11,16 +11,13 @@ import "react-notifications/lib/notifications.css";
 
 const AuthForm = () => {
   const history = useHistory();
+
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const authCtx = useContext(AuthContext);
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
-
-  // const switchAuthModeHandler = () => {
-  //   setIsLogin((prevState) => !prevState);
-  // };
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -36,10 +33,10 @@ const AuthForm = () => {
           enteredPassword
         );
 
-        authCtx.login(response.token);
+        authCtx.login(response.token, response.usetId);
         setIsLoading(false);
+        setIsLogin(true);
         history.replace("/");
-        // document.getElementById("create_client").reset();
       } catch (err) {
         setIsLoading(false);
         NotificationManager.error(
@@ -76,13 +73,6 @@ const AuthForm = () => {
             <button>{isLogin ? "Login" : "Create Account"}</button>
           )}
           {isLoading && <p>Loading...</p>}
-          {/* <button
-            type="button"
-            className={classes.toggle}
-            onClick={switchAuthModeHandler}
-          >
-            {isLogin ? "Create new account" : "Login with existing account"}
-          </button> */}
         </div>
       </form>
       <NotificationContainer />

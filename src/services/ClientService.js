@@ -23,7 +23,6 @@ export class ClientService {
         },
       });
 
-      console.log(response);
       if (response.data.success !== false) {
         let responseData = response.data.data;
 
@@ -74,6 +73,7 @@ export class ClientService {
 
   static clientUpdate = async (
     clientID,
+    clientEmail,
     enteredFname,
     enteredLname,
     enteredPhonenumber,
@@ -82,7 +82,7 @@ export class ClientService {
     try {
       let response = await axios({
         method: "put",
-        baseURL: API_ORIGIN + "/client/" + clientID,
+        baseURL: API_ORIGIN + "/client/" + clientID + "/" + clientEmail,
         data: {
           fname: enteredFname,
           lname: enteredLname,
@@ -140,7 +140,6 @@ export class ClientService {
         },
       });
 
-      // console.log(response);
       let clientDetailSearch = response.data.data;
 
       return clientDetailSearch;

@@ -13,10 +13,9 @@ const ClientTable = () => {
   const [clientId, setClientId] = useState("");
   const [clientEmail, setClientEmail] = useState("");
 
-  const newArray = clients.map((u) => {
+  const newArrayRow = clients.map((u) => {
     return {
       ...u,
-
       id: u._id,
     };
   });
@@ -37,25 +36,32 @@ const ClientTable = () => {
   }, [clientUpdate]);
 
   const columns = [
-    { field: "fname", headerName: "First Name", width: 150 },
-    { field: "lname", headerName: "Last Name", width: 150 },
-    { field: "phone_number", headerName: "Phone Number", width: 150 },
-    { field: "email", headerName: "Email", width: 200 },
+    {
+      field: "fname",
+      headerName: "First Name",
+      flex: 1,
+    },
+    { field: "lname", headerName: "Last Name", flex: 1 },
+    { field: "phone_number", headerName: "Phone Number", flex: 1 },
+    { field: "email", headerName: "Email", flex: 1 },
     {
       field: "Edit",
       headerName: "Edit",
-      width: 150,
+      flex: 1,
       sortable: false,
+      hideable: false,
       renderCell: (params) => {
         return (
           <div
             onClick={() => {
               setClientId(params.row.id);
+              setClientEmail(params.row.email);
             }}
           >
             <UpdateClient
               clientId={clientId}
               onUpdateClientData={setClientUpdate}
+              clientEmail={clientEmail}
             />
           </div>
         );
@@ -64,8 +70,10 @@ const ClientTable = () => {
     {
       field: "Delete",
       headerName: "Delete",
-      width: 150,
+      flex: 1,
       sortable: false,
+      hideable: false,
+      disableColumnSelector: true,
       renderCell: (params) => {
         return (
           <div
@@ -87,8 +95,14 @@ const ClientTable = () => {
 
   return (
     <Container style={{ display: "flex", justifyContent: "center" }}>
-      <Row style={{ height: "50vh", width: "100%", marginTop: "2vh" }}>
-        <DataGrid rows={newArray} columns={columns} />
+      <Row style={{ width: "100%", marginTop: "2vh" }}>
+        <DataGrid
+          rows={newArrayRow}
+          columns={columns}
+          autoHeight
+          hideFooter
+          disableColumnMenu
+        />
       </Row>
     </Container>
   );

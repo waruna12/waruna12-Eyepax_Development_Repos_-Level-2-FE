@@ -17,8 +17,12 @@ const UpdateClient = (props) => {
   props.onUpdateClientData(false);
 
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+    ClientDetailSearchID();
+  };
 
   const [clientInfo, setClientInfo] = useState({
     email: "",
@@ -27,10 +31,11 @@ const UpdateClient = (props) => {
     phone_number: "",
   });
 
-  const onSubmitForm = (values) => {
+  const onSubmitForm = async (values) => {
     try {
-      ClientService.clientUpdate(
+      const result = await ClientService.clientUpdate(
         props.clientId,
+        props.clientEmail,
         values.fname,
         values.lname,
         values.phone_number,
@@ -46,9 +51,10 @@ const UpdateClient = (props) => {
         25000
       );
       handleClose();
+      return result;
     } catch (err) {
       NotificationManager.error(
-        "Client Update Failed",
+        "Cannot update , Already have an appointment",
         "error",
         "Close after 15000ms",
         25000
@@ -143,7 +149,6 @@ const UpdateClient = (props) => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.email}
-                        disabled
                       />
                     </div>
                     {/* {errors.email && touched.email && errors.email} */}

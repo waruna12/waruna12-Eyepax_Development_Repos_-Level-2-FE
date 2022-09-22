@@ -32,9 +32,11 @@ const localizer = dateFnsLocalizer({
 });
 
 const CalenderDragDrop = () => {
-  const format1 = "YYYY-MM-DD";
+  const customFormat = "YYYY-MM-DD";
 
-  const [reservation, setReservationContext] = useContext(ReservationContext);
+  var today = new Date();
+
+  const [setReservationContext] = useContext(ReservationContext);
   const [reservation_details, setReservation] = useState([]);
 
   const [test, setTest] = useState(false);
@@ -66,38 +68,46 @@ const CalenderDragDrop = () => {
   const moveEvent = ({
     event,
     start,
-    end,
+    // end,
     isAllDay: droppedOnAllDaySlot = false,
   }) => {
-    onSubmitForm(
-      event.id,
-      event.client_email,
-      event.service_type,
-      event.stylist_email,
-      moment(start).format(format1),
-      //   start,
-      event.reservation_time,
-      event.reservation_status
-    );
+    if (start >= today) {
+      onSubmitForm(
+        event.id,
+        moment(start).format(customFormat),
+        event.reservation_time,
+        event.stylist_email,
+        event.client_email,
+        event.service_type,
+        event.reservation_status
+      );
+    } else {
+      NotificationManager.error(
+        "The date is too old",
+        "error",
+        "Close after 45000ms",
+        45000
+      );
+    }
   };
 
-  const onSubmitForm = (
+  const onSubmitForm = async (
     id,
-    client_email,
-    service_type,
-    stylist_email,
     start,
     reservation_time,
+    stylist_email,
+    client_email,
+    service_type,
     reservation_status
   ) => {
     try {
-      ReservationService.reservationUpdate(
+      await ReservationService.dragReservationUpdate(
         id,
-        client_email,
-        service_type,
-        stylist_email,
         start,
         reservation_time,
+        stylist_email,
+        client_email,
+        service_type,
         reservation_status
       );
 
@@ -111,10 +121,10 @@ const CalenderDragDrop = () => {
       );
     } catch (err) {
       NotificationManager.error(
-        "Reservation Update Failed",
+        "There is no available date.",
         "error",
-        "Close after 15000ms",
-        25000
+        "Close after 45000ms",
+        45000
       );
     }
   };

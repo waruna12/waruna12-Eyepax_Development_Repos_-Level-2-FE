@@ -1,5 +1,4 @@
 import React from "react";
-//import classes from "./StartingPageContent.module.css";
 import PieChartContent from "./PieChart";
 import BarChartContent from "./BarChartContent";
 import InviteNewUser from "./InviteNewUser";

@@ -27,10 +27,9 @@ const BarChartContent = () => {
     eachStylistReservation();
   }, []);
 
-  const newArray = row.map((u) => {
+  const newArrayData = row.map((u) => {
     return {
       ...u,
-
       Stylist: u._id,
       TotalHours: u.value,
     };
@@ -42,7 +41,7 @@ const BarChartContent = () => {
         <BarChart
           width={400}
           height={400}
-          data={newArray}
+          data={newArrayData}
           margin={{
             top: 5,
             right: 30,
@@ -69,7 +68,6 @@ const BarChartContent = () => {
       </Row>
       <Row>
         <h6 style={{ display: "flex", justifyContent: "center" }}>
-          {" "}
           Total time duration of each stylist.
         </h6>
       </Row>
