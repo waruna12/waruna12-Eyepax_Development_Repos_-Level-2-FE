@@ -31,7 +31,7 @@ export class ClientService {
         throw Error("client validation failed");
       }
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 
@@ -49,7 +49,7 @@ export class ClientService {
 
       return clientDetail;
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 
@@ -67,7 +67,7 @@ export class ClientService {
 
       return clientDetailID;
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 
@@ -102,7 +102,7 @@ export class ClientService {
         throw Error("client validation failed");
       }
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 
@@ -126,7 +126,7 @@ export class ClientService {
         throw Error("Cannot delete, Already have an appointment");
       }
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 
@@ -144,7 +144,7 @@ export class ClientService {
 
       return clientDetailSearch;
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 }

@@ -22,7 +22,7 @@ const DeleteReservation = (props) => {
         "Reservation Deleted Success",
         "Success",
         "Close after 15000ms",
-        15000
+        10000000000
       );
       props.onClick();
       handleClose();
@@ -31,7 +31,7 @@ const DeleteReservation = (props) => {
         "Reservation Deleted Failed",
         "error",
         "Close after 15000ms",
-        15000
+        10000000000
       );
     }
   };

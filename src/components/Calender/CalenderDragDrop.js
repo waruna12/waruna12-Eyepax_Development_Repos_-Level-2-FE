@@ -11,8 +11,10 @@ import enUS from "date-fns/locale/en-US";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { ReservationService } from "./../../services/ReservationService";
 import { ReservationContext } from "./../../store/reservation-context";
-import { NotificationManager } from "react-notifications";
-import { NotificationContainer } from "react-notifications";
+import {
+  NotificationManager,
+  NotificationContainer,
+} from "react-notifications";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import moment from "moment";
@@ -34,12 +36,12 @@ const localizer = dateFnsLocalizer({
 const CalenderDragDrop = () => {
   const customFormat = "YYYY-MM-DD";
 
-  var today = new Date();
+  const today = new Date();
 
   const [setReservationContext] = useContext(ReservationContext);
   const [reservation_details, setReservation] = useState([]);
 
-  const [test, setTest] = useState(false);
+  const [reser, setReservationDetails] = useState(false);
 
   const ReservationDetails = async () => {
     try {
@@ -52,14 +54,15 @@ const CalenderDragDrop = () => {
 
   useEffect(() => {
     ReservationDetails();
-    setTest(false);
-  }, [test]);
+    setReservationDetails(false);
+  }, [reser]);
 
   const newArray = reservation_details.map((u) => {
     return {
       ...u,
       id: u._id,
-      title: u.service_type,
+      title:
+        u.service_type + " : " + u.reservation_time + " : " + u.stylist_email,
       start: new Date(u.reservation_date),
       end: new Date(u.reservation_date),
     };
@@ -86,7 +89,7 @@ const CalenderDragDrop = () => {
         "The date is too old",
         "error",
         "Close after 45000ms",
-        45000
+        10000000000
       );
     }
   };
@@ -111,20 +114,20 @@ const CalenderDragDrop = () => {
         reservation_status
       );
 
-      setTest(true);
+      setReservationDetails(true);
       ReservationDetails();
       NotificationManager.success(
         "Reservation Success Update",
         "Success",
         "Close after 15000ms",
-        50000
+        10000000000
       );
     } catch (err) {
       NotificationManager.error(
         "There is no available date.",
         "error",
         "Close after 45000ms",
-        45000
+        10000000000
       );
     }
   };
@@ -142,7 +145,7 @@ const CalenderDragDrop = () => {
             draggableAccessor={(event) => true}
             startAccessor="start"
             endAccessor="end"
-            style={{ height: 500 }}
+            style={{ height: 600 }}
             resizable={false}
             onEventDrop={moveEvent}
           />

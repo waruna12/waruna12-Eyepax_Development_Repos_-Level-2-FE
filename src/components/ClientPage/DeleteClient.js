@@ -24,7 +24,7 @@ const DeleteClient = (props) => {
         "Client Deleted Success",
         "Success",
         "Close after 25000ms",
-        25000
+        10000000000
       );
 
       handleClose();
@@ -33,7 +33,7 @@ const DeleteClient = (props) => {
         "Cannot delete, Already have an appointment",
         "error",
         "Close after 25000ms",
-        25000
+        10000000000
       );
     }
   };

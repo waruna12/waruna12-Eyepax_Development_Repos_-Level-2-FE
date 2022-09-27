@@ -34,13 +34,6 @@ const SignUp = () => {
         enteredPassword
       );
 
-      // NotificationManager.success(
-      //   "Success user Registered",
-      //   "Success",
-      //   "Close after 25000ms",
-      //   25000
-      // );
-
       authCtx.login(response.token, response.usetId);
       history.replace("/");
     } catch (err) {
@@ -48,7 +41,7 @@ const SignUp = () => {
         "Invalid User Credentials",
         "error",
         "Close after 25000ms",
-        45000
+        10000000000
       );
     }
   };

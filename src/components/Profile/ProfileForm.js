@@ -1,9 +1,8 @@
-import { useRef } from "react";
+import { useRef, useContext } from "react";
 import classes from "./ProfileForm.module.css";
 import "react-notifications/lib/notifications.css";
 import { UserService } from "./../../services/UserService";
 import AuthContext from "./../../store/auth-context";
-import { useContext } from "react";
 import * as Yup from "yup";
 import {
   NotificationContainer,
@@ -28,7 +27,7 @@ const ProfileForm = () => {
         "User password update",
         "Success",
         "Close after 25000ms",
-        25000
+        10000000000
       );
       formRef.current.resetForm();
       return result;
@@ -37,7 +36,7 @@ const ProfileForm = () => {
         "Cannot update",
         "error",
         "Close after 25000ms",
-        25000
+        10000000000
       );
     }
   };

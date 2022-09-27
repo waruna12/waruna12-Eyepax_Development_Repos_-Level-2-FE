@@ -17,7 +17,7 @@ import { ReservationContext } from "./../../store/reservation-context";
 import moment from "moment";
 
 const AddReservationModel = () => {
-  var currentDate = new Date();
+  const currentDate = new Date();
   currentDate.setDate(currentDate.getDate() - 0);
 
   const formatOne = "YYYY-MM-DD";
@@ -67,7 +67,7 @@ const AddReservationModel = () => {
         "Reservation success added",
         "Success",
         "Close after 15000ms",
-        15000
+        10000000000
       );
       handleClose();
       return response;
@@ -76,7 +76,7 @@ const AddReservationModel = () => {
         "Reservation cannot be duplicate",
         "error",
         "Close after 15000ms",
-        15000
+        10000000000
       );
     }
   };
@@ -127,7 +127,6 @@ const AddReservationModel = () => {
   useEffect(() => {
     if (replaceSearchValue.length > 0) {
       ReservationDetailSearch();
-    } else {
     }
   }, [replaceSearchValue]);
 

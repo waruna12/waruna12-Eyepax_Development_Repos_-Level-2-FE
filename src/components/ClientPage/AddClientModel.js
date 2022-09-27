@@ -49,8 +49,8 @@ const AddClientModel = () => {
       NotificationManager.success(
         "Client Success Added",
         "Success",
-        "Close after 25000ms",
-        25000
+        "Close after 100000ms",
+        10000000000
       );
       document.getElementById("create_client").reset();
       handleClose();
@@ -60,7 +60,7 @@ const AddClientModel = () => {
         "Email alredy registered",
         "error",
         "Close after 25000ms",
-        25000
+        10000000000
       );
     }
   };
@@ -75,7 +75,6 @@ const AddClientModel = () => {
   useEffect(() => {
     if (replaceSearchValue.length > 0) {
       ClientDetailSearch();
-    } else {
     }
   }, [replaceSearchValue]);
 

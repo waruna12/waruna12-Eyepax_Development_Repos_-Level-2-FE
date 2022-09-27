@@ -48,7 +48,7 @@ const UpdateClient = (props) => {
         "Client Success Update",
         "Success",
         "Close after 25000ms",
-        25000
+        10000000000
       );
       handleClose();
       return result;
@@ -57,7 +57,7 @@ const UpdateClient = (props) => {
         "Cannot update , Already have an appointment",
         "error",
         "Close after 15000ms",
-        25000
+        10000000000
       );
     }
   };
@@ -76,7 +76,9 @@ const UpdateClient = (props) => {
       info.phone_number = cliInfo.phone_number;
 
       setClientInfo(info);
-    } catch (err) {}
+    } catch (err) {
+      throw Error(err);
+    }
   };
 
   useEffect(() => {
@@ -90,7 +92,9 @@ const UpdateClient = (props) => {
     try {
       const result = await ClientService.clientDetails();
       setClients(result);
-    } catch (err) {}
+    } catch (err) {
+      throw Error(err);
+    }
   };
 
   return (
@@ -127,7 +131,6 @@ const UpdateClient = (props) => {
                   phone_number: clientInfo.phone_number,
                 }}
                 onSubmit={onSubmitForm}
-                // innerRef={formRef}
               >
                 {({
                   values,
@@ -151,7 +154,6 @@ const UpdateClient = (props) => {
                         value={values.email}
                       />
                     </div>
-                    {/* {errors.email && touched.email && errors.email} */}
                     <div className={classes.control}>
                       <label htmlFor="fname">First Name</label>
                       <input

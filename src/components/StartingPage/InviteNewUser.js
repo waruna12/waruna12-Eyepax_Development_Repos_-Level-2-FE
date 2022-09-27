@@ -26,7 +26,7 @@ const InviteNewUser = () => {
         "Send Email Success",
         "Success",
         "Close after 35000ms",
-        35000
+        10000000000
       );
       document.getElementById("invite_user").reset();
       handleClose();
@@ -36,7 +36,7 @@ const InviteNewUser = () => {
         "Alredy Invite User",
         "error",
         "Close after 25000ms",
-        25000
+        10000000000
       );
     }
   };

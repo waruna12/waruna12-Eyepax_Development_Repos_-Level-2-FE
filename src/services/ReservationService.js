@@ -35,7 +35,7 @@ export class ReservationService {
         throw Error("reservation validation failed");
       }
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 
@@ -53,7 +53,7 @@ export class ReservationService {
 
       return reservationDetail;
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 
@@ -70,7 +70,7 @@ export class ReservationService {
 
       return responseData;
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 
@@ -88,7 +88,7 @@ export class ReservationService {
 
       return reservationIDDetailID;
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 
@@ -127,7 +127,7 @@ export class ReservationService {
         throw Error("reservation validation failed");
       }
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 
@@ -145,7 +145,7 @@ export class ReservationService {
 
       return reservationDetailSearch;
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 
@@ -163,7 +163,7 @@ export class ReservationService {
 
       return reservationStylistDetail;
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 
@@ -181,7 +181,7 @@ export class ReservationService {
 
       return completeReservationDetail;
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 
@@ -199,7 +199,7 @@ export class ReservationService {
 
       return eachStylistDetail;
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 
@@ -244,7 +244,7 @@ export class ReservationService {
         throw Error("");
       }
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 }

@@ -43,10 +43,9 @@ const AuthForm = () => {
           "User Login Faield",
           "error",
           "Close after 25000ms",
-          45000
+          10000000000
         );
       }
-    } else {
     }
   };
 

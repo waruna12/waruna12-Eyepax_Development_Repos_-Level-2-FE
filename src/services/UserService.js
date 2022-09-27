@@ -16,7 +16,7 @@ export class UserService {
 
       return userDetail;
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 
@@ -38,7 +38,7 @@ export class UserService {
         throw Error("Email Send Failed");
       }
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 
@@ -60,7 +60,7 @@ export class UserService {
         throw Error("client validation failed");
       }
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 }

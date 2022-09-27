@@ -98,7 +98,7 @@ const UpdateReservation = (props) => {
         "Reservation Success Update",
         "Success",
         "Close after 15000ms",
-        25000
+        10000000000
       );
       handleClose();
     } catch (err) {
@@ -106,7 +106,7 @@ const UpdateReservation = (props) => {
         "Reservation Update Failed",
         "error",
         "Close after 15000ms",
-        25000
+        10000000000
       );
     }
   };
@@ -125,10 +125,6 @@ const UpdateReservation = (props) => {
   }, []);
 
   useEffect(() => {
-    // if (props.reservationId === "") {
-    // } else {
-    //   ReservationDetailSearchID();
-    // }
     if (props.reservationId) {
       ReservationDetailSearchID();
     }

@@ -32,7 +32,7 @@ export class UserService {
         throw Error("Invalid User Credentials ");
       }
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
   };
 

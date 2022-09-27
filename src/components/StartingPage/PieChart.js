@@ -27,11 +27,11 @@ const PieChartContent = () => {
     completeReservation();
   }, []);
 
-  var hairCount = 0;
-  var makeUpCount = 0;
-  var facialCount = 0;
+  let hairCount = 0;
+  let makeUpCount = 0;
+  let facialCount = 0;
 
-  for (var i = 0; i < newArray.length; ++i) {
+  for (let i = 0; i < newArray.length; ++i) {
     if (newArray[i].service_type === "HairCut") {
       hairCount++;
     } else if (newArray[i].service_type === "MakeUp") {
@@ -56,10 +56,10 @@ const PieChartContent = () => {
     value: facialCount,
   };
 
-  var pieChatDataSet = [];
-  var hairObj = {};
-  var makeObj = {};
-  var facialObj = {};
+  let pieChatDataSet = [];
+  let hairObj = {};
+  let makeObj = {};
+  let facialObj = {};
 
   hairObj["name"] = hair.label;
   hairObj["value"] = hair.value;
