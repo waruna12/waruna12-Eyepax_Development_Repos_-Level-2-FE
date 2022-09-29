@@ -84,10 +84,11 @@ const PieChartContent = () => {
             data={pieChatDataSet}
             cx="50%"
             cy="50%"
-            outerRadius={80}
-            fill="#8884d8"
+            outerRadius={140}
+            fill="#FFBB28"
             label
           />
+
           <Tooltip />
         </PieChart>
       </Row>

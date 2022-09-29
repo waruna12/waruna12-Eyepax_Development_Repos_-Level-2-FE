@@ -1,7 +1,11 @@
 import { useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
-import classes from "./MainNavigation.module.css";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import InviteNewUser from "./../../components/StartingPage/InviteNewUser";
 
 const MainNavigation = () => {
   const history = useHistory();
@@ -15,32 +19,32 @@ const MainNavigation = () => {
   };
 
   return (
-    <header className={classes.header}>
-      <Link to="/">
-        <div className={classes.logo}>Salon Booking App</div>
-      </Link>
-      <nav>
-        <ul>
-          {!isLoggedIn && (
-            <li>
-              <Link to="/auth">Login</Link>
-            </li>
-          )}
-
-          {isLoggedIn && (
-            <li>
-              <Link to="/profile">Profile</Link>
-            </li>
-          )}
-
-          {isLoggedIn && (
-            <li>
-              <button onClick={logoutHandler}>Logout</button>
-            </li>
-          )}
-        </ul>
-      </nav>
-    </header>
+    <Navbar bg="dark" variant="dark" fluid>
+      <Container fluid>
+        <Navbar.Brand href="/">Salon Booking App</Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbarScroll" />
+        <Navbar.Collapse id="navbarScroll">
+          <Nav
+            className="me-auto my-2 my-lg-0"
+            style={{ maxHeight: "100px" }}
+            navbarScroll
+          ></Nav>
+          <Nav>
+            {!isLoggedIn && (
+              <Button variant="light" href="/auth">
+                Login
+              </Button>
+            )}
+            {isLoggedIn && <InviteNewUser />}
+            {isLoggedIn && (
+              <Button variant="light" onClick={logoutHandler}>
+                Logout
+              </Button>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 

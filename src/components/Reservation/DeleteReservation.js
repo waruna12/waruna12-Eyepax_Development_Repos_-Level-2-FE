@@ -9,6 +9,7 @@ import { ReservationService } from "./../../services/ReservationService";
 import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
 
 const DeleteReservation = (props) => {
   const [open, setOpen] = React.useState(false);
@@ -58,18 +59,24 @@ const DeleteReservation = (props) => {
           >
             Delete ?
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Typography id="modal-modal-description" sx={{ mt: 1 }}>
             <section>
               <p style={{ display: "flex", justifyContent: "center" }}>
                 Please ensure and then confirm!
               </p>
-              <div style={{ display: "flex", justifyContent: "space-around" }}>
-                <button className={classes.button} onClick={handleClose}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  marginTop: "5vh",
+                }}
+              >
+                <Button variant="light" type="submit" onClick={handleClose}>
                   Cancel
-                </button>
-                <button className={classes.button_red} onClick={onDelete}>
-                  Delete
-                </button>
+                </Button>
+                <Button variant="danger" type="submit" onClick={onDelete}>
+                  Delete Reservation
+                </Button>
               </div>
             </section>
           </Typography>

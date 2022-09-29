@@ -12,6 +12,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { ClientContext } from "./../../store/client-context";
+import Button from "react-bootstrap/Button";
 
 const AddClientModel = () => {
   const [clients, setClients] = useContext(ClientContext);
@@ -107,6 +108,7 @@ const AddClientModel = () => {
           <button onClick={handleOpen} className={classes.button}>
             Add New
           </button>
+
           <Modal
             open={open}
             onClose={handleClose}
@@ -165,8 +167,16 @@ const AddClientModel = () => {
                         ref={phoneNumberInputRef}
                       />
                     </div>
-                    <div className={classes.actions}>
-                      <button>Add New</button>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: "5vh",
+                      }}
+                    >
+                      <Button type="submit" variant="light">
+                        Add New Client
+                      </Button>
                     </div>
                   </form>
                 </section>

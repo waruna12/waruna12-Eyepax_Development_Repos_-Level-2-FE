@@ -1,6 +1,6 @@
 .button {
   font: inherit;
-  background-color: #38015c;
+  background-color: #212529;
   border: 1px solid white;
   color: white;
   font-weight: bold;
@@ -24,7 +24,7 @@
   width: 95%;
   max-width: 25rem;
   border-radius: 6px;
-  background-color: #38015c;
+  background-color: #212529;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   padding: 1rem;
   text-align: left;

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -7,20 +7,24 @@ import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 import Container from "react-bootstrap/Container";
 import { UserService } from "./../../services/UserService";
+import Button from "react-bootstrap/Button";
 
 const InviteNewUser = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const emailInputRef = useRef();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const submitHandler = async (event) => {
+    setIsLoading(true);
     event.preventDefault();
 
     const enteredEmail = emailInputRef.current.value;
 
     try {
       const response = await UserService.inviteUser(enteredEmail);
+      setIsLoading(false);
 
       NotificationManager.success(
         "Send Email Success",
@@ -32,6 +36,7 @@ const InviteNewUser = () => {
       handleClose();
       return response;
     } catch (err) {
+      setIsLoading(false);
       NotificationManager.error(
         "Alredy Invite User",
         "error",
@@ -43,9 +48,9 @@ const InviteNewUser = () => {
 
   return (
     <Container>
-      <button onClick={handleOpen} className={classes.button}>
+      <Button variant="light" onClick={handleOpen}>
         Invite New User
-      </button>
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -74,8 +79,19 @@ const InviteNewUser = () => {
                     ref={emailInputRef}
                   />
                 </div>
-                <div className={classes.actions}>
-                  <button>Invite</button>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "5vh",
+                  }}
+                >
+                  {!isLoading && (
+                    <Button type="submit" variant="light">
+                      Invite User
+                    </Button>
+                  )}
+                  {isLoading && <p>Sending Email...</p>}
                 </div>
               </form>
             </section>

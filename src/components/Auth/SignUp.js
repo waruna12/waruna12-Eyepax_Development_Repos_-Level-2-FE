@@ -8,10 +8,13 @@ import {
   NotificationManager,
 } from "react-notifications";
 import "react-notifications/lib/notifications.css";
+import Button from "react-bootstrap/Button";
 
 const SignUp = () => {
   const history = useHistory();
   const params = useParams();
+
+  console.log(params.email);
 
   const authCtx = useContext(AuthContext);
 
@@ -81,8 +84,16 @@ const SignUp = () => {
           />
         </div>
 
-        <div className={classes.actions}>
-          <button>SignUp</button>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "5vh",
+          }}
+        >
+          <Button variant="light" type="submit">
+            User SignUp
+          </Button>
         </div>
       </form>
       <NotificationContainer />

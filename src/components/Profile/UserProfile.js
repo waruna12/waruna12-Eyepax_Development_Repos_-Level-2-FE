@@ -1,10 +1,13 @@
 import ProfileForm from "./ProfileForm";
-import classes from "./UserProfile.module.css";
 
 const UserProfile = () => {
   return (
-    <section className={classes.profile}>
-      <h4>Change Your Password</h4>
+    <section>
+      <h4
+        style={{ display: "flex", justifyContent: "center", marginTop: "5vh" }}
+      >
+        Change Your Password
+      </h4>
       <ProfileForm />
     </section>
   );

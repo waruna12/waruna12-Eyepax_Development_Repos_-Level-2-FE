@@ -15,6 +15,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { ReservationContext } from "./../../store/reservation-context";
 import moment from "moment";
+import Button from "react-bootstrap/Button";
 
 const AddReservationModel = () => {
   const currentDate = new Date();
@@ -254,8 +255,16 @@ const AddReservationModel = () => {
                       </select>
                     </div>
 
-                    <div className={classes.actions}>
-                      <button>Reservation</button>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: "5vh",
+                      }}
+                    >
+                      <Button type="submit" variant="light">
+                        Add Reservation
+                      </Button>
                     </div>
                   </form>
                 </section>

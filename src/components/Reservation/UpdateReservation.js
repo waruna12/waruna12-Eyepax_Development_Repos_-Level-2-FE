@@ -14,8 +14,18 @@ import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 import Container from "react-bootstrap/Container";
 import { ReservationContext } from "./../../store/reservation-context";
+import Button from "react-bootstrap/Button";
+import moment from "moment";
 
 const UpdateReservation = (props) => {
+  const currentDate = new Date();
+  currentDate.setDate(currentDate.getDate() - 0);
+  const formatOne = "YYYY-MM-DD";
+
+  const [onChangeDate, setChangeDate] = useState("");
+  const [onChangeTime, setChangeTime] = useState("");
+  const [availablestylist, setAvailableStylist] = useState([]);
+
   const [setReservationContext] = useContext(ReservationContext);
   const [open, setOpen] = React.useState(false);
 
@@ -60,6 +70,9 @@ const UpdateReservation = (props) => {
       info.reservation_time = reservationInfo.reservation_time;
       info.reservation_status = reservationInfo.reservation_status;
 
+      setChangeDate(reservationInfo.reservation_date);
+      setChangeTime(reservationInfo.reservation_time);
+
       setReservationInfo(info);
     } catch (err) {}
   };
@@ -87,8 +100,8 @@ const UpdateReservation = (props) => {
         values.client_email,
         values.service_type,
         values.stylist_email,
-        values.reservation_date,
-        values.reservation_time,
+        onChangeDate,
+        onChangeTime,
         values.reservation_status
       );
 
@@ -130,6 +143,23 @@ const UpdateReservation = (props) => {
     }
   }, [props.reservationId]);
 
+  const AvailableStylsitDetails = async () => {
+    try {
+      const result = await ReservationService.reservationStylistSearch(
+        onChangeDate,
+        onChangeTime
+      );
+
+      setAvailableStylist(result);
+    } catch (err) {}
+  };
+
+  useEffect(() => {
+    if (onChangeDate && onChangeTime) {
+      AvailableStylsitDetails();
+    }
+  }, [onChangeDate, onChangeTime]);
+
   return (
     <Container>
       <FontAwesomeIcon
@@ -168,13 +198,7 @@ const UpdateReservation = (props) => {
                 onSubmit={onSubmitForm}
                 // innerRef={formRef}
               >
-                {({
-                  values,
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  /* and other goodies */
-                }) => (
+                {({ values, handleChange, handleBlur, handleSubmit }) => (
                   <form onSubmit={handleSubmit}>
                     <div className={classes.control}>
                       <label htmlFor="text">Client</label>
@@ -224,11 +248,13 @@ const UpdateReservation = (props) => {
                         type="date"
                         id="date_id"
                         name="reservation_date"
+                        min={moment(currentDate).format(formatOne)}
                         required
-                        value={values.reservation_date}
-                        onChange={handleChange}
+                        value={onChangeDate}
                         onBlur={handleBlur}
-                        disabled
+                        onChange={(e) => {
+                          setChangeDate(e.target.value);
+                        }}
                       />
                     </div>
                     <div className={classes.control}>
@@ -238,10 +264,11 @@ const UpdateReservation = (props) => {
                         className="form-control"
                         id="reservation_time_id"
                         required
-                        onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.reservation_time}
-                        disabled
+                        value={onChangeTime}
+                        onChange={(e) => {
+                          setChangeTime(e.target.value);
+                        }}
                       >
                         {timeArray.map((time, index) => {
                           return (
@@ -259,15 +286,17 @@ const UpdateReservation = (props) => {
                         className="form-control"
                         id="stylist_id"
                         required
-                        onChange={handleChange}
-                        onBlur={handleBlur}
                         value={values.stylist_email}
-                        disabled
+                        onBlur={handleBlur}
+                        onChange={handleChange}
                       >
-                        {users.map((user, index) => {
+                        <option value={values.stylist_email}>
+                          {values.stylist_email}
+                        </option>
+                        {availablestylist.map((x) => {
                           return (
-                            <option key={user._id} value={user.email}>
-                              {user.email}
+                            <option key={x} value={x}>
+                              {x}
                             </option>
                           );
                         })}
@@ -294,8 +323,10 @@ const UpdateReservation = (props) => {
                       </select>
                     </div>
 
-                    <div className={classes.actions}>
-                      <button>Update</button>
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                      <Button variant="light" type="submit">
+                        Update Reservation
+                      </Button>
                     </div>
                   </form>
                 )}

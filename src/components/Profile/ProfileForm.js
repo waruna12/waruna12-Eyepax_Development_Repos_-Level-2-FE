@@ -114,7 +114,14 @@ const ProfileForm = () => {
             <div style={{ color: "red", fontSize: "12px" }}>
               {touched.confirmPassword && errors.confirmPassword}
             </div>
-            <div className={classes.action}>
+            <div
+              className={classes.action}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "5vh",
+              }}
+            >
               <button> Change Password</button>
             </div>
           </form>

@@ -48,7 +48,7 @@ const BarChartContent = () => {
             left: 20,
             bottom: 5,
           }}
-          barSize={20}
+          barSize={30}
         >
           <XAxis
             dataKey="Stylist"
@@ -61,7 +61,7 @@ const BarChartContent = () => {
           <CartesianGrid strokeDasharray="3 3" />
           <Bar
             dataKey="TotalHours"
-            fill="#8884d8"
+            fill="#FFBB28"
             background={{ fill: "#eee" }}
           />
         </BarChart>

@@ -134,9 +134,7 @@ const CalenderDragDrop = () => {
 
   return (
     <Container className={classes.starting}>
-      <Row>
-        <h4 className="mb-3">Welcome on Calendar</h4>
-      </Row>
+      {console.log(newArray)}
       <Row>
         <div className={classes.maincontent}>
           <DnDCalendar
@@ -145,7 +143,7 @@ const CalenderDragDrop = () => {
             draggableAccessor={(event) => true}
             startAccessor="start"
             endAccessor="end"
-            style={{ height: 600 }}
+            style={{ height: "75vh" }}
             resizable={false}
             onEventDrop={moveEvent}
           />

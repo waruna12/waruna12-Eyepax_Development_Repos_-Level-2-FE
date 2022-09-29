@@ -9,6 +9,7 @@ import { ClientService } from "./../../services/ClientService";
 import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
 
 const DeleteClient = (props) => {
   const [open, setOpen] = React.useState(false);
@@ -60,18 +61,25 @@ const DeleteClient = (props) => {
           >
             Delete ?
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Typography id="modal-modal-description" sx={{ mt: 1 }}>
             <section>
               <p style={{ display: "flex", justifyContent: "center" }}>
                 Please ensure and then confirm!
               </p>
-              <div style={{ display: "flex", justifyContent: "space-around" }}>
-                <button className={classes.button} onClick={handleClose}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  marginTop: "5vh",
+                }}
+              >
+                <Button variant="light" onClick={handleClose} type="submit">
                   Cancel
-                </button>
-                <button className={classes.button_red} onClick={onDelete}>
-                  Delete
-                </button>
+                </Button>
+
+                <Button variant="danger" onClick={onDelete} type="submit">
+                  Delete Client
+                </Button>
               </div>
             </section>
           </Typography>

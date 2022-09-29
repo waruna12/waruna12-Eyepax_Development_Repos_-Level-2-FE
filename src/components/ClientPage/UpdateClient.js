@@ -11,6 +11,7 @@ import "react-notifications/lib/notifications.css";
 import { Formik } from "formik";
 import Container from "react-bootstrap/Container";
 import { ClientContext } from "./../../store/client-context";
+import Button from "react-bootstrap/Button";
 
 const UpdateClient = (props) => {
   const [clients, setClients] = useContext(ClientContext);
@@ -190,11 +191,20 @@ const UpdateClient = (props) => {
                         onBlur={handleBlur}
                       />
                     </div>
-
-                    <div className={classes.actions}>
-                      <button disabled={isSubmitting} type="submit">
-                        Update
-                      </button>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: "5vh",
+                      }}
+                    >
+                      <Button
+                        disabled={isSubmitting}
+                        type="submit"
+                        variant="light"
+                      >
+                        Update Client
+                      </Button>
                     </div>
                   </form>
                 )}

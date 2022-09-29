@@ -10,50 +10,64 @@ import ReservationPage from "./pages/ReservationPage";
 import CalenderPage from "./pages/CalenderPage";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SignUp from "./components/Auth/SignUp";
+import Sidebar from "./components/Layout/Sidebar";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 function App() {
   const authCtx = useContext(AuthContext);
 
   return (
-    <Layout>
-      <Switch>
-        {authCtx.isLoggedIn && (
-          <Route path="/" exact>
-            <HomePage />
-          </Route>
-        )}
-        {!authCtx.isLoggedIn && (
-          <Route path="/auth" exact>
-            <AuthPage />
-          </Route>
-        )}
-        {!authCtx.isLoggedIn && (
-          <Route path="/auth/sign_up/:email/:token">
-            <SignUp />
-          </Route>
-        )}
-        {authCtx.isLoggedIn && (
-          <Route path="/profile">
-            <UserProfile />
-          </Route>
-        )}
-        {authCtx.isLoggedIn && (
-          <Route path="/Clients_Section">
-            <ClientPage />
-          </Route>
-        )}
-        {authCtx.isLoggedIn && (
-          <Route path="/Reservations_Section">
-            <ReservationPage />
-          </Route>
-        )}
-        {authCtx.isLoggedIn && (
-          <Route path="/Calendar_Section">
-            <CalenderPage />
-          </Route>
-        )}
-      </Switch>
-    </Layout>
+    <Container fluid style={{ paddingLeft: "0px", paddingRight: "0px" }}>
+      <Layout>
+        <Row style={{ marginLeft: "0px", marginRight: "0px" }}>
+          <Col sm={3} style={{ paddingLeft: "0px" }}>
+            {authCtx.isLoggedIn && <Sidebar />}
+          </Col>
+
+          <Col sm={9} style={{ paddingLeft: "0px", paddingRight: "0px" }}>
+            <Switch>
+              {authCtx.isLoggedIn && (
+                <Route path="/" exact>
+                  <HomePage />
+                </Route>
+              )}
+              {!authCtx.isLoggedIn && (
+                <Route path="/auth" exact>
+                  <AuthPage />
+                </Route>
+              )}
+              {!authCtx.isLoggedIn && (
+                <Route path="/auth/sign_up/:email/:token">
+                  <SignUp />
+                </Route>
+              )}
+              {authCtx.isLoggedIn && (
+                <Route path="/profile">
+                  <UserProfile />
+                </Route>
+              )}
+              {authCtx.isLoggedIn && (
+                <Route path="/Clients_Section">
+                  <ClientPage />
+                </Route>
+              )}
+              {authCtx.isLoggedIn && (
+                <Route path="/Reservations_Section">
+                  <ReservationPage />
+                </Route>
+              )}
+              {authCtx.isLoggedIn && (
+                <Route path="/Calendar_Section">
+                  <CalenderPage />
+                </Route>
+              )}
+            </Switch>
+          </Col>
+        </Row>
+      </Layout>
+    </Container>
   );
 }
 

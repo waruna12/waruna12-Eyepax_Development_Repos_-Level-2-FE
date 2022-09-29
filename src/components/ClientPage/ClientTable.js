@@ -39,14 +39,14 @@ const ClientTable = () => {
     {
       field: "fname",
       headerName: "First Name",
-      flex: 1,
+      flex: 2,
     },
-    { field: "lname", headerName: "Last Name", flex: 1 },
-    { field: "phone_number", headerName: "Phone Number", flex: 1 },
-    { field: "email", headerName: "Email", flex: 1 },
+    { field: "lname", headerName: "Last Name", flex: 2 },
+    { field: "phone_number", headerName: "Phone Number", flex: 2 },
+    { field: "email", headerName: "Email", flex: 2 },
     {
-      field: "Edit",
-      headerName: "Edit",
+      field: "Action",
+      headerName: "Action",
       flex: 1,
       sortable: false,
       hideable: false,
@@ -57,31 +57,13 @@ const ClientTable = () => {
               setClientId(params.row.id);
               setClientEmail(params.row.email);
             }}
+            style={{ display: "flex", justifyContent: "flex-end" }}
           >
             <UpdateClient
               clientId={clientId}
               onUpdateClientData={setClientUpdate}
               clientEmail={clientEmail}
             />
-          </div>
-        );
-      },
-    },
-    {
-      field: "Delete",
-      headerName: "Delete",
-      flex: 1,
-      sortable: false,
-      hideable: false,
-      disableColumnSelector: true,
-      renderCell: (params) => {
-        return (
-          <div
-            onClick={() => {
-              setClientId(params.row.id);
-              setClientEmail(params.row.email);
-            }}
-          >
             <DeleteClient
               clientId={clientId}
               clientEmail={clientEmail}

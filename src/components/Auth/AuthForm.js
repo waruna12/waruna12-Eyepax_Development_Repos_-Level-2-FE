@@ -8,6 +8,7 @@ import {
   NotificationManager,
 } from "react-notifications";
 import "react-notifications/lib/notifications.css";
+import Button from "react-bootstrap/Button";
 
 const AuthForm = () => {
   const history = useHistory();
@@ -66,10 +67,17 @@ const AuthForm = () => {
             ref={passwordInputRef}
           />
         </div>
-
-        <div className={classes.actions}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "4vh",
+          }}
+        >
           {!isLoading && (
-            <button>{isLogin ? "Login" : "Create Account"}</button>
+            <Button variant="light" type="submit">
+              {isLogin ? "User Login" : "Create Account"}
+            </Button>
           )}
           {isLoading && <p>Loading...</p>}
         </div>

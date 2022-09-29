@@ -37,15 +37,15 @@ const ReservationTable = () => {
   };
 
   const columns = [
-    { field: "client_email", headerName: "Client", flex: 1 },
-    { field: "service_type", headerName: "Service Type", flex: 1 },
-    { field: "stylist_email", headerName: "Stylist", flex: 1 },
-    { field: "reservation_date", headerName: "Date", flex: 1 },
-    { field: "reservation_time", headerName: "Time", flex: 1 },
-    { field: "reservation_status", headerName: "Status", flex: 1 },
+    { field: "client_email", headerName: "Client", flex: 2 },
+    { field: "service_type", headerName: "Service Type", flex: 2 },
+    { field: "stylist_email", headerName: "Stylist", flex: 2 },
+    { field: "reservation_date", headerName: "Date", flex: 2 },
+    { field: "reservation_time", headerName: "Time", flex: 2 },
+    { field: "reservation_status", headerName: "Status", flex: 2 },
     {
-      field: "Edit",
-      headerName: "Edit",
+      field: "Action",
+      headerName: "Action",
       flex: 1,
       sortable: false,
       renderCell: (params) => {
@@ -54,27 +54,12 @@ const ReservationTable = () => {
             onClick={() => {
               setReservationId(params.row.id);
             }}
+            style={{ display: "flex", justifyContent: "flex-end" }}
           >
             <UpdateReservation
               reservationId={reservationId}
               onUpdateReservationData={setReservationUpdate}
             />
-          </div>
-        );
-      },
-    },
-    {
-      field: "Delete",
-      headerName: "Delete",
-      flex: 1,
-      sortable: false,
-      renderCell: (params) => {
-        return (
-          <div
-            onClick={() => {
-              setReservationId(params.row.id);
-            }}
-          >
             <DeleteReservation
               reservationId={reservationId}
               onClick={onClick}
