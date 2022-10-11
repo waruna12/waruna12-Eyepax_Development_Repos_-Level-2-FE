@@ -6,6 +6,7 @@ import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
+import min from "date-fns/min";
 import getDay from "date-fns/getDay";
 import enUS from "date-fns/locale/en-US";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -18,6 +19,7 @@ import {
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import moment from "moment";
+import { DATE_FORMAT, CURRENT_DATE } from "./../../config/constants";
 
 const DnDCalendar = withDragAndDrop(Calendar);
 
@@ -31,40 +33,43 @@ const localizer = dateFnsLocalizer({
   startOfWeek,
   getDay,
   locales,
+  min,
 });
 
 const CalenderDragDrop = () => {
-  const customFormat = "YYYY-MM-DD";
-
-  const today = new Date();
-
   const [setReservationContext] = useContext(ReservationContext);
-  const [reservation_details, setReservation] = useState([]);
+  const [reservationDetails, setReservationDetails] = useState([]);
 
-  const [reser, setReservationDetails] = useState(false);
+  const [reservation, setReservationBoolean] = useState(false);
 
   const ReservationDetails = async () => {
     try {
       const result = await ReservationService.reservationDetails();
 
-      setReservation(result);
+      setReservationDetails(result);
       setReservationContext(result);
-    } catch (err) {}
+    } catch (err) {
+      return err;
+    }
   };
 
   useEffect(() => {
     ReservationDetails();
-    setReservationDetails(false);
-  }, [reser]);
+    setReservationBoolean(false);
+  }, [reservation]);
 
-  const newArray = reservation_details.map((u) => {
+  const DnDCalendarFormatData = reservationDetails.map((reservation) => {
     return {
-      ...u,
-      id: u._id,
+      ...reservation,
+      id: reservation._id,
       title:
-        u.service_type + " : " + u.reservation_time + " : " + u.stylist_email,
-      start: new Date(u.reservation_date),
-      end: new Date(u.reservation_date),
+        reservation.service_type +
+        " : " +
+        reservation.reservation_time +
+        " : " +
+        reservation.stylist_email,
+      start: new Date(reservation.reservation_date),
+      end: new Date(reservation.reservation_date),
     };
   });
 
@@ -74,10 +79,10 @@ const CalenderDragDrop = () => {
     // end,
     isAllDay: droppedOnAllDaySlot = false,
   }) => {
-    if (start >= today) {
+    if (start >= CURRENT_DATE) {
       onSubmitForm(
         event.id,
-        moment(start).format(customFormat),
+        moment(start).format(DATE_FORMAT),
         event.reservation_time,
         event.stylist_email,
         event.client_email,
@@ -85,12 +90,7 @@ const CalenderDragDrop = () => {
         event.reservation_status
       );
     } else {
-      NotificationManager.error(
-        "The date is too old",
-        "error",
-        "Close after 45000ms",
-        10000000000
-      );
+      NotificationManager.error("Cannot update to a previous date.", "error");
     }
   };
 
@@ -113,33 +113,20 @@ const CalenderDragDrop = () => {
         service_type,
         reservation_status
       );
-
-      setReservationDetails(true);
+      setReservationBoolean(true);
       ReservationDetails();
-      NotificationManager.success(
-        "Reservation Success Update",
-        "Success",
-        "Close after 15000ms",
-        10000000000
-      );
     } catch (err) {
-      NotificationManager.error(
-        "There is no available date.",
-        "error",
-        "Close after 45000ms",
-        10000000000
-      );
+      return err;
     }
   };
 
   return (
     <Container className={classes.starting}>
-      {console.log(newArray)}
       <Row>
         <div className={classes.maincontent}>
           <DnDCalendar
             localizer={localizer}
-            events={newArray}
+            events={DnDCalendarFormatData}
             draggableAccessor={(event) => true}
             startAccessor="start"
             endAccessor="end"

@@ -37,10 +37,18 @@ const Sidebar = () => {
             }}
           />
         </MenuItem>
+        <MenuItem>
+          Admin
+          <Link to="/Admin_Section" />
+        </MenuItem>
         <SubMenu title="Profile">
           <MenuItem>
             Change Password
             <Link to="/profile" />
+          </MenuItem>
+          <MenuItem>
+            My Profile
+            <Link to="/myprofile" />
           </MenuItem>
         </SubMenu>
       </Menu>

@@ -47,39 +47,39 @@ export const service_type = [
 export const timeArray = [
   {
     id: 1,
-    time: "08.00 AM",
+    time: "08:00 AM",
   },
   {
     id: 2,
-    time: "09.00 AM",
+    time: "09:00 AM",
   },
   {
     id: 3,
-    time: "10.00 AM",
+    time: "10:00 AM",
   },
   {
     id: 4,
-    time: "11.00 AM",
+    time: "11:00 AM",
   },
   {
     id: 5,
-    time: "12.00 PM",
+    time: "12:00 AM",
   },
   {
     id: 6,
-    time: "13.00 PM",
+    time: "13:00 PM",
   },
   {
     id: 7,
-    time: "14.00 PM",
+    time: "14:00 PM",
   },
   {
     id: 8,
-    time: "15.00 PM",
+    time: "15:00 PM",
   },
   {
     id: 9,
-    time: "16.00 PM",
+    time: "16:00 PM",
   },
 ];
 

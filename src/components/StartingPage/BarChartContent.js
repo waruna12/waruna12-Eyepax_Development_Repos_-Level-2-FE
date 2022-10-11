@@ -13,25 +13,27 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
 const BarChartContent = () => {
-  const [row, setRow] = useState([]);
+  const [stylistRow, setStylistRow] = useState([]);
 
   const eachStylistReservation = async () => {
     try {
-      const result = await ReservationService.eachStylistReservation();
+      const result = await ReservationService.eachStylistReservationPerWeek();
 
-      setRow(result);
-    } catch (err) {}
+      setStylistRow(result);
+    } catch (err) {
+      return err;
+    }
   };
 
   useEffect(() => {
     eachStylistReservation();
   }, []);
 
-  const newArrayData = row.map((u) => {
+  const newStylistArray = stylistRow.map((stylistData) => {
     return {
-      ...u,
-      Stylist: u._id,
-      TotalHours: u.value,
+      ...stylistData,
+      Stylist: stylistData._id,
+      TotalHours: stylistData.value,
     };
   });
 
@@ -41,7 +43,7 @@ const BarChartContent = () => {
         <BarChart
           width={400}
           height={400}
-          data={newArrayData}
+          data={newStylistArray}
           margin={{
             top: 5,
             right: 30,

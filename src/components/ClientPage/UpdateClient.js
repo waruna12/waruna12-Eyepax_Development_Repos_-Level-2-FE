@@ -6,8 +6,6 @@ import classes from "./UpdateClient.module.css";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ClientService } from "./../../services/ClientService";
-import { NotificationManager } from "react-notifications";
-import "react-notifications/lib/notifications.css";
 import { Formik } from "formik";
 import Container from "react-bootstrap/Container";
 import { ClientContext } from "./../../store/client-context";
@@ -36,30 +34,17 @@ const UpdateClient = (props) => {
     try {
       const result = await ClientService.clientUpdate(
         props.clientId,
-        props.clientEmail,
         values.fname,
         values.lname,
         values.phone_number,
         values.email
       );
-
       ClientDetails();
       props.onUpdateClientData(true);
-      NotificationManager.success(
-        "Client Success Update",
-        "Success",
-        "Close after 25000ms",
-        10000000000
-      );
       handleClose();
       return result;
     } catch (err) {
-      NotificationManager.error(
-        "Cannot update , Already have an appointment",
-        "error",
-        "Close after 15000ms",
-        10000000000
-      );
+      return err;
     }
   };
 
@@ -78,7 +63,7 @@ const UpdateClient = (props) => {
 
       setClientInfo(info);
     } catch (err) {
-      throw Error(err);
+      return err;
     }
   };
 
@@ -94,7 +79,7 @@ const UpdateClient = (props) => {
       const result = await ClientService.clientDetails();
       setClients(result);
     } catch (err) {
-      throw Error(err);
+      return err;
     }
   };
 
@@ -135,8 +120,6 @@ const UpdateClient = (props) => {
               >
                 {({
                   values,
-                  errors,
-                  touched,
                   handleChange,
                   handleBlur,
                   handleSubmit,

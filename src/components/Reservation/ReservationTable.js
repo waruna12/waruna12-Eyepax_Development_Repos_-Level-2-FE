@@ -3,7 +3,6 @@ import { DataGrid } from "@mui/x-data-grid";
 import DeleteReservation from "./DeleteReservation";
 import UpdateReservation from "./UpdateReservation";
 import { ReservationService } from "./../../services/ReservationService";
-import "react-notifications/lib/notifications.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import { ReservationContext } from "./../../store/reservation-context";
@@ -13,10 +12,10 @@ const ReservationTable = () => {
   const [reservationId, setReservationId] = useState("");
   const [reservationUpdate, setReservationUpdate] = useState(false);
 
-  const newArrayRow = reservation.map((u) => {
+  const updateReservationRow = reservation.map((reservation) => {
     return {
-      ...u,
-      id: u._id,
+      ...reservation,
+      id: reservation._id,
     };
   });
 
@@ -24,7 +23,9 @@ const ReservationTable = () => {
     try {
       const result = await ReservationService.reservationDetails();
       setReservationContext(result);
-    } catch (err) {}
+    } catch (err) {
+      return err;
+    }
   };
 
   useEffect(() => {
@@ -79,11 +80,11 @@ const ReservationTable = () => {
         }}
       >
         <DataGrid
-          rows={newArrayRow}
+          rows={updateReservationRow}
           columns={columns}
           autoHeight
-          hideFooter
-          disableColumnMenu
+          pageSize={5}
+          rowsPerPageOptions={[5]}
         />
       </Row>
     </Container>

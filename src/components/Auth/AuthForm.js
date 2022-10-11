@@ -2,7 +2,7 @@ import { useState, useRef, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 import classes from "./AuthForm.module.css";
-import { UserService } from "./../../services/AuthService";
+import { MainUserService } from "./../../services/AuthService";
 import {
   NotificationContainer,
   NotificationManager,
@@ -29,7 +29,7 @@ const AuthForm = () => {
       const enteredPassword = passwordInputRef.current.value;
 
       try {
-        const response = await UserService.userLogin(
+        const response = await MainUserService.userLogin(
           enteredEmail,
           enteredPassword
         );

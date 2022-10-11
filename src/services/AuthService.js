@@ -1,7 +1,7 @@
 import axios from "axios";
 import { API_ORIGIN } from "../config/constants";
 
-export class UserService {
+export class MainUserService {
   static userCreate = async (
     token,
     enteredEmail,

@@ -5,26 +5,27 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
 const PieChartContent = () => {
-  const [row, setRow] = useState([]);
+  const [completeReservation, setCompleteReservation] = useState([]);
 
-  const newArray = row.map((u) => {
+  const newArray = completeReservation.map((reservation) => {
     return {
-      ...u,
-      name: u.service_type,
+      ...reservation,
+      name: reservation.service_type,
       value: 1000,
     };
   });
 
-  const completeReservation = async () => {
+  const completeReservationDetails = async () => {
     try {
       const result = await ReservationService.completeReservation();
-
-      setRow(result);
-    } catch (err) {}
+      setCompleteReservation(result);
+    } catch (err) {
+      return err;
+    }
   };
 
   useEffect(() => {
-    completeReservation();
+    completeReservationDetails();
   }, []);
 
   let hairCount = 0;

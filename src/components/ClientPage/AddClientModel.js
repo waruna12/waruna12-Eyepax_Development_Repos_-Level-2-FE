@@ -4,7 +4,6 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import classes from "./AddClient.module.css";
 import { ClientService } from "./../../services/ClientService";
-import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -13,56 +12,36 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { ClientContext } from "./../../store/client-context";
 import Button from "react-bootstrap/Button";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { PHONE_REGEX } from "./../../config/constants";
 
 const AddClientModel = () => {
-  const [clients, setClients] = useContext(ClientContext);
-
-  const [searchvalue, setSearchValue] = useState("");
-
-  let replaceSearchValue = searchvalue.replace(/\s+/g, "");
-
-  const emailInputRef = useRef();
-  const fnameInputRef = useRef();
-  const lnameInputRef = useRef();
-  const phoneNumberInputRef = useRef();
-
+  const formRef = useRef();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const submitHandler = async (event) => {
-    event.preventDefault();
+  const [clients, setClients] = useContext(ClientContext);
 
-    const enteredEmail = emailInputRef.current.value;
-    const enteredFname = fnameInputRef.current.value;
-    const enteredLname = lnameInputRef.current.value;
-    const enteredPhonenumber = phoneNumberInputRef.current.value;
+  const [searchvalue, setSearchValue] = useState("");
+  const replaceSearchValue = searchvalue.replace(/\s+/g, "");
 
+  const onSubmitForm = async (values) => {
     try {
       const response = await ClientService.clientCreate(
-        enteredEmail,
-        enteredFname,
-        enteredLname,
-        enteredPhonenumber
+        values.email,
+        values.fname,
+        values.lname,
+        values.phonenumber
       );
 
       ClientDetails();
-      NotificationManager.success(
-        "Client Success Added",
-        "Success",
-        "Close after 100000ms",
-        10000000000
-      );
       document.getElementById("create_client").reset();
       handleClose();
       return response;
     } catch (err) {
-      NotificationManager.error(
-        "Email alredy registered",
-        "error",
-        "Close after 25000ms",
-        10000000000
-      );
+      return err;
     }
   };
 
@@ -70,7 +49,9 @@ const AddClientModel = () => {
     try {
       const result = await ClientService.clientSearch(replaceSearchValue);
       setClients(result);
-    } catch (err) {}
+    } catch (err) {
+      return err;
+    }
   };
 
   useEffect(() => {
@@ -83,7 +64,9 @@ const AddClientModel = () => {
     try {
       const result = await ClientService.clientDetails();
       setClients(result);
-    } catch (err) {}
+    } catch (err) {
+      return err;
+    }
   };
 
   return (
@@ -126,59 +109,114 @@ const AddClientModel = () => {
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 <section>
-                  <form onSubmit={submitHandler} id="create_client">
-                    <div className={classes.control}>
-                      <label htmlFor="email">Email</label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        required
-                        ref={emailInputRef}
-                      />
-                    </div>
-                    <div className={classes.control}>
-                      <label htmlFor="text">First Name</label>
-                      <input
-                        type="text"
-                        id="fname"
-                        name="name"
-                        required
-                        ref={fnameInputRef}
-                      />
-                    </div>
-                    <div className={classes.control}>
-                      <label htmlFor="text">Last Name</label>
-                      <input
-                        type="text"
-                        id="text"
-                        name="lname"
-                        required
-                        ref={lnameInputRef}
-                      />
-                    </div>
-                    <div className={classes.control}>
-                      <label htmlFor="phone">Phone Number</label>
-                      <input
-                        type="phone"
-                        id="phone"
-                        name="phone"
-                        required
-                        ref={phoneNumberInputRef}
-                      />
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: "5vh",
-                      }}
-                    >
-                      <Button type="submit" variant="light">
-                        Add New Client
-                      </Button>
-                    </div>
-                  </form>
+                  <Formik
+                    enableReinitialize={true}
+                    initialValues={{
+                      email: "",
+                      fname: "",
+                      lname: "",
+                      phonenumber: "",
+                    }}
+                    validationSchema={Yup.object().shape({
+                      email: Yup.string()
+                        .email("Invalid email")
+                        .required("Required"),
+                      fname: Yup.string().required("Required"),
+                      lname: Yup.string().required("Required"),
+                      phonenumber: Yup.string()
+                        .matches(PHONE_REGEX, "Phone number is not valid")
+                        .required("Phone Number is required"),
+                    })}
+                    onSubmit={onSubmitForm}
+                    innerRef={formRef}
+                  >
+                    {({
+                      errors,
+                      handleBlur,
+                      handleChange,
+                      touched,
+                      values,
+                      handleSubmit,
+                    }) => (
+                      <form onSubmit={handleSubmit} id="create_client">
+                        <div className={classes.control}>
+                          <label htmlFor="email">Email</label>
+                          <input
+                            type="email"
+                            name="email"
+                            required
+                            className="form-control"
+                            id="email_id"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.email}
+                          />
+                        </div>
+                        <div style={{ color: "red", fontSize: "12px" }}>
+                          {touched.email && errors.email}
+                        </div>
+                        <div className={classes.control}>
+                          <label htmlFor="text">First Name</label>
+                          <input
+                            type="text"
+                            name="fname"
+                            required
+                            className="form-control"
+                            id="fname_id"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.fname}
+                          />
+                        </div>
+                        <div style={{ color: "red", fontSize: "12px" }}>
+                          {touched.fname && errors.fname}
+                        </div>
+                        <div className={classes.control}>
+                          <label htmlFor="text">Last Name</label>
+                          <input
+                            type="text"
+                            name="lname"
+                            required
+                            className="form-control"
+                            id="lname_id"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.lname}
+                          />
+                        </div>
+                        <div style={{ color: "red", fontSize: "12px" }}>
+                          {touched.lname && errors.lname}
+                        </div>
+                        <div className={classes.control}>
+                          <label htmlFor="phone">Phone Number</label>
+                          <input
+                            type="phone"
+                            name="phonenumber"
+                            required
+                            className="form-control"
+                            id="phone_id"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.phonenumber}
+                          />
+                        </div>
+                        <div style={{ color: "red", fontSize: "12px" }}>
+                          {touched.phonenumber && errors.phonenumber}
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            marginTop: "5vh",
+                          }}
+                        >
+                          <Button type="submit" variant="light">
+                            Add New Client
+                          </Button>
+                        </div>
+                      </form>
+                    )}
+                  </Formik>
                 </section>
               </Typography>
             </Box>

@@ -13,10 +13,10 @@ const ClientTable = () => {
   const [clientId, setClientId] = useState("");
   const [clientEmail, setClientEmail] = useState("");
 
-  const newArrayRow = clients.map((u) => {
+  const updateClientRow = clients.map((updateValue) => {
     return {
-      ...u,
-      id: u._id,
+      ...updateValue,
+      id: updateValue._id,
     };
   });
 
@@ -62,7 +62,6 @@ const ClientTable = () => {
             <UpdateClient
               clientId={clientId}
               onUpdateClientData={setClientUpdate}
-              clientEmail={clientEmail}
             />
             <DeleteClient
               clientId={clientId}
@@ -79,11 +78,13 @@ const ClientTable = () => {
     <Container style={{ display: "flex", justifyContent: "center" }}>
       <Row style={{ width: "100%", marginTop: "2vh" }}>
         <DataGrid
-          rows={newArrayRow}
+          rows={updateClientRow}
           columns={columns}
           autoHeight
-          hideFooter
-          disableColumnMenu
+          // hideFooter
+          //disableColumnMenu
+          pageSize={5}
+          rowsPerPageOptions={[5]}
         />
       </Row>
     </Container>

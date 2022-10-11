@@ -6,8 +6,6 @@ import classes from "./DeleteReservation.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ReservationService } from "./../../services/ReservationService";
-import { NotificationManager } from "react-notifications";
-import "react-notifications/lib/notifications.css";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 
@@ -19,21 +17,10 @@ const DeleteReservation = (props) => {
   const onDelete = async () => {
     try {
       await ReservationService.reservationDelete(props.reservationId);
-      NotificationManager.success(
-        "Reservation Deleted Success",
-        "Success",
-        "Close after 15000ms",
-        10000000000
-      );
       props.onClick();
       handleClose();
     } catch (err) {
-      NotificationManager.error(
-        "Reservation Deleted Failed",
-        "error",
-        "Close after 15000ms",
-        10000000000
-      );
+      return err;
     }
   };
 

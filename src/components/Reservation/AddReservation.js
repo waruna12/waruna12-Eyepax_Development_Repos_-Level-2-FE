@@ -6,8 +6,6 @@ import classes from "./AddReservation.module.css";
 import { service_type, timeArray } from "./../../data";
 import { ReservationService } from "./../../services/ReservationService";
 import { ClientService } from "./../../services/ClientService";
-import { NotificationManager } from "react-notifications";
-import "react-notifications/lib/notifications.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -16,24 +14,22 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { ReservationContext } from "./../../store/reservation-context";
 import moment from "moment";
 import Button from "react-bootstrap/Button";
+import { DATE_FORMAT, TIME_FORMAT } from "./../../config/constants";
 
 const AddReservationModel = () => {
   const currentDate = new Date();
+  const currentTime = moment(currentDate).format(TIME_FORMAT);
   currentDate.setDate(currentDate.getDate() - 0);
-
-  const formatOne = "YYYY-MM-DD";
 
   const [reservation, setReservationContext] = useContext(ReservationContext);
 
   const [clients, setClients] = useState([]);
-
   const [onChangeDate, setChangeDate] = useState("");
   const [onChangeTime, setChangeTime] = useState("");
+  const [availableStylist, setAvailableStylist] = useState([]);
+  const [reservationSearchValue, setReservationSearchValue] = useState("");
 
-  const [availablestylist, setAvailableStylist] = useState([]);
-
-  const [reservationsearchvalue, setReservationSearchValue] = useState("");
-  let replaceSearchValue = reservationsearchvalue.replace(/\s+/g, "");
+  let replaceSearchValue = reservationSearchValue.replace(/\s+/g, "");
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -47,7 +43,6 @@ const AddReservationModel = () => {
 
   const onSubmitForm = async (event) => {
     event.preventDefault();
-
     const enteredClient = clientInputRef.current.value;
     const enteredService = serviceTypeInputRef.current.value;
     const enteredStylist = stylistInputRef.current.value;
@@ -62,32 +57,21 @@ const AddReservationModel = () => {
         enteredDate,
         enteredTime
       );
-
       ReservationDetails();
-      NotificationManager.success(
-        "Reservation success added",
-        "Success",
-        "Close after 15000ms",
-        10000000000
-      );
       handleClose();
       return response;
     } catch (err) {
-      NotificationManager.error(
-        "Reservation cannot be duplicate",
-        "error",
-        "Close after 15000ms",
-        10000000000
-      );
+      return err;
     }
   };
 
   const ClientDetails = async () => {
     try {
       const result = await ClientService.clientDetails();
-
       setClients(result);
-    } catch (err) {}
+    } catch (err) {
+      return err;
+    }
   };
 
   const AvailableStylsitDetails = async () => {
@@ -96,9 +80,30 @@ const AddReservationModel = () => {
         onChangeDate,
         onChangeTime
       );
-
       setAvailableStylist(result);
-    } catch (err) {}
+    } catch (err) {
+      return err;
+    }
+  };
+
+  const ReservationDetailSearch = async () => {
+    try {
+      const result = await ReservationService.reservationSearch(
+        replaceSearchValue
+      );
+      setReservationContext(result);
+    } catch (err) {
+      return err;
+    }
+  };
+
+  const ReservationDetails = async () => {
+    try {
+      const result = await ReservationService.reservationDetails();
+      setReservationContext(result);
+    } catch (err) {
+      return err;
+    }
   };
 
   useEffect(() => {
@@ -106,24 +111,6 @@ const AddReservationModel = () => {
       AvailableStylsitDetails();
     }
   }, [onChangeDate, onChangeTime]);
-
-  const ReservationDetailSearch = async () => {
-    try {
-      const result = await ReservationService.reservationSearch(
-        replaceSearchValue
-      );
-
-      setReservationContext(result);
-    } catch (err) {}
-  };
-
-  const ReservationDetails = async () => {
-    try {
-      const result = await ReservationService.reservationDetails();
-
-      setReservationContext(result);
-    } catch (err) {}
-  };
 
   useEffect(() => {
     if (replaceSearchValue.length > 0) {
@@ -146,7 +133,6 @@ const AddReservationModel = () => {
               aria-describedby="basic-addon2"
               onChange={(e) => {
                 setReservationSearchValue(e.target.value);
-
                 if (e.target.value === "") {
                   ReservationDetails();
                 }
@@ -180,10 +166,10 @@ const AddReservationModel = () => {
                       <label htmlFor="email">Client</label>
                       <select name="client" required ref={clientInputRef}>
                         <option value="">Select Client </option>
-                        {clients.map((cli, index) => {
+                        {clients.map((client, index) => {
                           return (
-                            <option key={cli.id} value={cli.email}>
-                              {cli.email}
+                            <option key={index} value={client.email}>
+                              {client.fname}
                             </option>
                           );
                         })}
@@ -199,7 +185,7 @@ const AddReservationModel = () => {
                         <option value="">Select Service Type</option>
                         {service_type.map((service, index) => {
                           return (
-                            <option key={service.id} value={service.title}>
+                            <option key={index} value={service.title}>
                               {service.title}
                             </option>
                           );
@@ -211,7 +197,7 @@ const AddReservationModel = () => {
                       <label htmlFor="date">Select Date</label>
                       <input
                         type="date"
-                        min={moment(currentDate).format(formatOne)}
+                        min={moment(currentDate).format(DATE_FORMAT)}
                         max="2024-09-09"
                         id="password"
                         required
@@ -232,10 +218,16 @@ const AddReservationModel = () => {
                         }}
                       >
                         <option value="">Select Time</option>
-                        {timeArray.map((time, index) => {
+                        {timeArray.map((timeData, index) => {
                           return (
-                            <option key={time.id} value={time.time}>
-                              {time.time}
+                            <option
+                              key={index}
+                              value={timeData.time}
+                              disabled={
+                                parseInt(timeData.time) < parseInt(currentTime)
+                              }
+                            >
+                              {timeData.time}
                             </option>
                           );
                         })}
@@ -245,10 +237,10 @@ const AddReservationModel = () => {
                       <label htmlFor="password">Stylist</label>
                       <select name="stylist" required ref={stylistInputRef}>
                         <option value="">Select Stylist</option>
-                        {availablestylist.map((x) => {
+                        {availableStylist.map((stylist, index) => {
                           return (
-                            <option key={x} value={x}>
-                              {x}
+                            <option key={index} value={stylist}>
+                              {stylist}
                             </option>
                           );
                         })}

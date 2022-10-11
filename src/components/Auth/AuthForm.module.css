@@ -6,7 +6,18 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   padding: 1rem;
   color: white;
-  margin-top: 15vh;
+  margin-top: 10vh;
+}
+
+.auth_error {
+  width: 100%;
+  max-width: 42rem;
+  border-radius: 6px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  color: rgb(255, 0, 0);
+  margin-top: 10vh;
 }
 
 .auth h1 {

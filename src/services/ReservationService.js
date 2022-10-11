@@ -1,5 +1,7 @@
 import axios from "axios";
 import { API_ORIGIN } from "../config/constants";
+import { NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 export class ReservationService {
   static reservationCreate = async (
@@ -26,15 +28,13 @@ export class ReservationService {
           "Content-Type": "application/json",
         },
       });
-
-      if (response.data.success !== false) {
+      if (response.data.success === true) {
         let responseData = response.data.data;
-
+        NotificationManager.success(response.data.message, "Success");
         return responseData;
-      } else {
-        throw Error("reservation validation failed");
       }
     } catch (err) {
+      NotificationManager.error(err.response.data.message, "error");
       throw Error(err);
     }
   };
@@ -48,11 +48,10 @@ export class ReservationService {
           "Content-Type": "application/json",
         },
       });
-
       let reservationDetail = response.data.data;
-
       return reservationDetail;
     } catch (err) {
+      NotificationManager.error(err.response.data.message, "error");
       throw Error(err);
     }
   };
@@ -66,26 +65,29 @@ export class ReservationService {
           "Content-Type": "application/json",
         },
       });
-      let responseData = response.data.data;
 
-      return responseData;
+      if (response.data.success === true) {
+        let responseData = response.data.data;
+        NotificationManager.success(response.data.message, "Success");
+        return responseData;
+      }
     } catch (err) {
+      NotificationManager.error(err.response.data.message, "error");
       throw Error(err);
     }
   };
 
-  static reservationIDDetailsID = async (reservationIDID) => {
+  static reservationDetailsID = async (reservationID) => {
     try {
       let response = await axios({
         method: "get",
-        baseURL: API_ORIGIN + "/reservation/" + reservationIDID,
+        baseURL: API_ORIGIN + "/reservation/" + reservationID,
         headers: {
           "Content-Type": "application/json",
         },
       });
 
       let reservationIDDetailID = response.data.data;
-
       return reservationIDDetailID;
     } catch (err) {
       throw Error(err);
@@ -119,14 +121,13 @@ export class ReservationService {
         },
       });
 
-      if (response.data.success !== false) {
+      if (response.data.success === true) {
         let responseData = response.data.data;
-
+        NotificationManager.success(response.data.message, "Success");
         return responseData;
-      } else {
-        throw Error("reservation validation failed");
       }
     } catch (err) {
+      NotificationManager.error(err.response.data.message, "error");
       throw Error(err);
     }
   };
@@ -142,7 +143,6 @@ export class ReservationService {
       });
 
       let reservationDetailSearch = response.data.data;
-
       return reservationDetailSearch;
     } catch (err) {
       throw Error(err);
@@ -153,21 +153,20 @@ export class ReservationService {
     try {
       let response = await axios({
         method: "get",
-        baseURL: API_ORIGIN + "/reservation/stylistsearch/" + date + "/" + time,
+        baseURL: API_ORIGIN + "/reservation/stylistSearch/" + date + "/" + time,
         headers: {
           "Content-Type": "application/json",
         },
       });
 
       let reservationStylistDetail = response.data.data;
-
       return reservationStylistDetail;
     } catch (err) {
       throw Error(err);
     }
   };
 
-  static completeReservation = async (key) => {
+  static completeReservation = async () => {
     try {
       let response = await axios({
         method: "get",
@@ -178,27 +177,26 @@ export class ReservationService {
       });
 
       let completeReservationDetail = response.data.data;
-
       return completeReservationDetail;
     } catch (err) {
       throw Error(err);
     }
   };
 
-  static eachStylistReservation = async () => {
+  static eachStylistReservationPerWeek = async () => {
     try {
       let response = await axios({
         method: "get",
-        baseURL: API_ORIGIN + "/reservations/stylist",
+        baseURL: API_ORIGIN + "/reservation/stylist",
         headers: {
           "Content-Type": "application/json",
         },
       });
 
       let eachStylistDetail = response.data.data;
-
       return eachStylistDetail;
     } catch (err) {
+      NotificationManager.error(err.response.data.message, "error");
       throw Error(err);
     }
   };
@@ -217,7 +215,7 @@ export class ReservationService {
         method: "put",
         baseURL:
           API_ORIGIN +
-          "/drag_reservation/" +
+          "/reservation/dragReservation/" +
           reservationID +
           "/" +
           date +
@@ -236,14 +234,13 @@ export class ReservationService {
         },
       });
 
-      if (response.data.success !== false) {
+      if (response.data.success === true) {
         let responseData = response.data.data;
-
+        NotificationManager.success(response.data.message, "Success");
         return responseData;
-      } else {
-        throw Error("");
       }
     } catch (err) {
+      NotificationManager.error(err.response.data.message, "error");
       throw Error(err);
     }
   };

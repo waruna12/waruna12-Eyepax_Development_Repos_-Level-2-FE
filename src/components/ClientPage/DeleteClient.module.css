@@ -1,34 +1,3 @@
-.button {
-  font: inherit;
-  background-color: #38015c;
-  border: 1px solid white;
-  color: white;
-  font-weight: bold;
-  padding: 0.5rem 1.5rem;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.button_red {
-  font: inherit;
-  background-color: #ff0606;
-  border: 1px solid white;
-  color: white;
-  font-weight: bold;
-  padding: 0.5rem 1.5rem;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.a:hover {
-  color: #c291e2;
-}
-
-.header button:hover {
-  background-color: #c291e2;
-  color: #38015c;
-}
-
 .auth {
   margin: 3rem auto;
   width: 95%;
@@ -44,8 +13,4 @@
 .auth h1 {
   text-align: center;
   color: white;
-}
-
-.control {
-  margin-bottom: 1rem;
 }

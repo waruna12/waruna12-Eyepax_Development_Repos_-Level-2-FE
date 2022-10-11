@@ -9,18 +9,19 @@ import { service_type, timeArray, status } from "./../../data";
 import { ReservationService } from "./../../services/ReservationService";
 import { Formik } from "formik";
 import { ClientService } from "./../../services/ClientService";
-import { UserService } from "./../../services/UserService";
-import { NotificationManager } from "react-notifications";
-import "react-notifications/lib/notifications.css";
 import Container from "react-bootstrap/Container";
 import { ReservationContext } from "./../../store/reservation-context";
 import Button from "react-bootstrap/Button";
 import moment from "moment";
+import {
+  DATE_FORMAT,
+  TIME_FORMAT,
+  CURRENT_DATE,
+} from "./../../config/constants";
 
 const UpdateReservation = (props) => {
-  const currentDate = new Date();
-  currentDate.setDate(currentDate.getDate() - 0);
-  const formatOne = "YYYY-MM-DD";
+  CURRENT_DATE.setDate(CURRENT_DATE.getDate() - 0);
+  const currentTime = moment(CURRENT_DATE).format(TIME_FORMAT);
 
   const [onChangeDate, setChangeDate] = useState("");
   const [onChangeTime, setChangeTime] = useState("");
@@ -42,8 +43,6 @@ const UpdateReservation = (props) => {
 
   const [clients, setClients] = useState([]);
 
-  const [users, setUser] = useState([]);
-
   const [reservationInfo, setReservationInfo] = useState({
     client_email: "",
     service_type: "",
@@ -55,12 +54,11 @@ const UpdateReservation = (props) => {
 
   const ReservationDetailSearchID = async () => {
     try {
-      const result = await ReservationService.reservationIDDetailsID(
+      const result = await ReservationService.reservationDetailsID(
         props.reservationId
       );
 
       const info = {};
-
       const reservationInfo = result;
 
       info.client_email = reservationInfo.client_email;
@@ -72,9 +70,10 @@ const UpdateReservation = (props) => {
 
       setChangeDate(reservationInfo.reservation_date);
       setChangeTime(reservationInfo.reservation_time);
-
       setReservationInfo(info);
-    } catch (err) {}
+    } catch (err) {
+      return err;
+    }
   };
 
   const ClientDetails = async () => {
@@ -82,15 +81,9 @@ const UpdateReservation = (props) => {
       const result = await ClientService.clientDetails();
 
       setClients(result);
-    } catch (err) {}
-  };
-
-  const UserDetails = async () => {
-    try {
-      const result = await UserService.userDetails();
-
-      setUser(result);
-    } catch (err) {}
+    } catch (err) {
+      return err;
+    }
   };
 
   const onSubmitForm = (values) => {
@@ -107,41 +100,20 @@ const UpdateReservation = (props) => {
 
       ReservationDetails();
       props.onUpdateReservationData();
-      NotificationManager.success(
-        "Reservation Success Update",
-        "Success",
-        "Close after 15000ms",
-        10000000000
-      );
       handleClose();
     } catch (err) {
-      NotificationManager.error(
-        "Reservation Update Failed",
-        "error",
-        "Close after 15000ms",
-        10000000000
-      );
+      return err;
     }
   };
 
   const ReservationDetails = async () => {
     try {
       const result = await ReservationService.reservationDetails();
-
       setReservationContext(result);
-    } catch (err) {}
-  };
-
-  useEffect(() => {
-    ClientDetails();
-    UserDetails();
-  }, []);
-
-  useEffect(() => {
-    if (props.reservationId) {
-      ReservationDetailSearchID();
+    } catch (err) {
+      return err;
     }
-  }, [props.reservationId]);
+  };
 
   const AvailableStylsitDetails = async () => {
     try {
@@ -149,10 +121,21 @@ const UpdateReservation = (props) => {
         onChangeDate,
         onChangeTime
       );
-
       setAvailableStylist(result);
-    } catch (err) {}
+    } catch (err) {
+      return err;
+    }
   };
+
+  useEffect(() => {
+    ClientDetails();
+  }, []);
+
+  useEffect(() => {
+    if (props.reservationId) {
+      ReservationDetailSearchID();
+    }
+  }, [props.reservationId]);
 
   useEffect(() => {
     if (onChangeDate && onChangeTime) {
@@ -196,7 +179,6 @@ const UpdateReservation = (props) => {
                   reservation_status: reservationInfo.reservation_status,
                 }}
                 onSubmit={onSubmitForm}
-                // innerRef={formRef}
               >
                 {({ values, handleChange, handleBlur, handleSubmit }) => (
                   <form onSubmit={handleSubmit}>
@@ -248,7 +230,7 @@ const UpdateReservation = (props) => {
                         type="date"
                         id="date_id"
                         name="reservation_date"
-                        min={moment(currentDate).format(formatOne)}
+                        min={moment(CURRENT_DATE).format(DATE_FORMAT)}
                         required
                         value={onChangeDate}
                         onBlur={handleBlur}
@@ -272,7 +254,13 @@ const UpdateReservation = (props) => {
                       >
                         {timeArray.map((time, index) => {
                           return (
-                            <option key={time.id} value={time.time}>
+                            <option
+                              key={time.id}
+                              value={time.time}
+                              disabled={
+                                parseInt(time.time) < parseInt(currentTime)
+                              }
+                            >
                               {time.time}
                             </option>
                           );
@@ -293,10 +281,10 @@ const UpdateReservation = (props) => {
                         <option value={values.stylist_email}>
                           {values.stylist_email}
                         </option>
-                        {availablestylist.map((x) => {
+                        {availablestylist.map((stylist) => {
                           return (
-                            <option key={x} value={x}>
-                              {x}
+                            <option key={stylist} value={stylist}>
+                              {stylist}
                             </option>
                           );
                         })}

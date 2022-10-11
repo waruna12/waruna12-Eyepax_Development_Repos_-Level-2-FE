@@ -1,5 +1,7 @@
 import axios from "axios";
 import { API_ORIGIN } from "../config/constants";
+import { NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 export class ClientService {
   static clientCreate = async (
@@ -23,14 +25,15 @@ export class ClientService {
         },
       });
 
-      if (response.data.success !== false) {
+      if (response.data.success === true) {
+        NotificationManager.success(response.data.message, "Success");
         let responseData = response.data.data;
 
         return responseData;
-      } else {
-        throw Error("client validation failed");
       }
     } catch (err) {
+      var errorObject = err.response.data.error;
+      NotificationManager.error(Object.values(errorObject)[0], "error");
       throw Error(err);
     }
   };
@@ -49,6 +52,7 @@ export class ClientService {
 
       return clientDetail;
     } catch (err) {
+      NotificationManager.error(err.response.data.message, "error");
       throw Error(err);
     }
   };
@@ -62,18 +66,16 @@ export class ClientService {
           "Content-Type": "application/json",
         },
       });
-
-      let clientDetailID = response.data.data;
-
-      return clientDetailID;
+      let clientDetailByID = response.data.data;
+      return clientDetailByID;
     } catch (err) {
+      NotificationManager.error(err.response.data.message, "error");
       throw Error(err);
     }
   };
 
   static clientUpdate = async (
     clientID,
-    clientEmail,
     enteredFname,
     enteredLname,
     enteredPhonenumber,
@@ -82,7 +84,7 @@ export class ClientService {
     try {
       let response = await axios({
         method: "put",
-        baseURL: API_ORIGIN + "/client/" + clientID + "/" + clientEmail,
+        baseURL: API_ORIGIN + "/client/" + clientID,
         data: {
           fname: enteredFname,
           lname: enteredLname,
@@ -94,15 +96,20 @@ export class ClientService {
         },
       });
 
-      if (response.data.success !== false) {
+      if (response.data.success === true) {
         let responseData = response.data.data;
-
+        NotificationManager.success(response.data.message, "Success");
         return responseData;
-      } else {
-        throw Error("client validation failed");
       }
     } catch (err) {
-      throw Error(err);
+      if (err.response.status === 400) {
+        NotificationManager.error(err.response.data.message, "error");
+        throw Error(err);
+      } else {
+        var errorObject = err.response.data.error;
+        NotificationManager.error(Object.values(errorObject)[0], "error");
+        throw Error(err);
+      }
     }
   };
 
@@ -118,14 +125,13 @@ export class ClientService {
           "Content-Type": "application/json",
         },
       });
-
-      if (response.data.success !== false) {
+      if (response.data.success === true) {
         let responseData = response.data.data;
+        NotificationManager.success(response.data.message, "Success");
         return responseData;
-      } else {
-        throw Error("Cannot delete, Already have an appointment");
       }
     } catch (err) {
+      NotificationManager.error(err.response.data.message, "error");
       throw Error(err);
     }
   };
@@ -140,9 +146,10 @@ export class ClientService {
         },
       });
 
-      let clientDetailSearch = response.data.data;
-
-      return clientDetailSearch;
+      if (response.data.success === true) {
+        let clientDetailSearch = response.data.data;
+        return clientDetailSearch;
+      }
     } catch (err) {
       throw Error(err);
     }

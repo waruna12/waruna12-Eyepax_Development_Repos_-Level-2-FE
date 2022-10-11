@@ -6,8 +6,6 @@ import classes from "./DeleteClient.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ClientService } from "./../../services/ClientService";
-import { NotificationManager } from "react-notifications";
-import "react-notifications/lib/notifications.css";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 
@@ -20,22 +18,9 @@ const DeleteClient = (props) => {
     try {
       await ClientService.clientDelete(props.clientId, props.clientEmail);
       props.onClick();
-
-      NotificationManager.success(
-        "Client Deleted Success",
-        "Success",
-        "Close after 25000ms",
-        10000000000
-      );
-
       handleClose();
     } catch (err) {
-      NotificationManager.error(
-        "Cannot delete, Already have an appointment",
-        "error",
-        "Close after 25000ms",
-        10000000000
-      );
+      return err;
     }
   };
 

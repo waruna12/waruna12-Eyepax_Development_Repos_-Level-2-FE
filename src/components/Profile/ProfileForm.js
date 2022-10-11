@@ -23,12 +23,7 @@ const ProfileForm = () => {
         values.newPassword
       );
 
-      NotificationManager.success(
-        "User password update",
-        "Success",
-        "Close after 25000ms",
-        10000000000
-      );
+      NotificationManager.success("User password update", "Success");
       formRef.current.resetForm();
       return result;
     } catch (err) {
