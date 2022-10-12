@@ -3,8 +3,6 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import classes from "./InviteNewUser.module.css";
-import { NotificationManager } from "react-notifications";
-import "react-notifications/lib/notifications.css";
 import Container from "react-bootstrap/Container";
 import { UserService } from "./../../services/UserService";
 import Button from "react-bootstrap/Button";
@@ -25,24 +23,12 @@ const InviteNewUser = () => {
     try {
       const response = await UserService.inviteUser(enteredEmail);
       setIsLoading(false);
-
-      NotificationManager.success(
-        "Send Email Success",
-        "Success",
-        "Close after 35000ms",
-        10000000000
-      );
       document.getElementById("invite_user").reset();
       handleClose();
       return response;
     } catch (err) {
       setIsLoading(false);
-      NotificationManager.error(
-        "Alredy Invite User",
-        "error",
-        "Close after 25000ms",
-        10000000000
-      );
+      return err;
     }
   };
 

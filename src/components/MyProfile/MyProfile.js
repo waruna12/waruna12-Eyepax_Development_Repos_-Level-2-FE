@@ -4,10 +4,7 @@ import "react-notifications/lib/notifications.css";
 import { UserService } from "./../../services/UserService";
 import AuthContext from "./../../store/auth-context";
 import * as Yup from "yup";
-import {
-  NotificationContainer,
-  NotificationManager,
-} from "react-notifications";
+import { NotificationContainer } from "react-notifications";
 import Container from "react-bootstrap/Container";
 import { Formik } from "formik";
 
@@ -24,23 +21,9 @@ const MyProfileForm = () => {
         values.fname,
         values.lname
       );
-
       UserDetailSearchID();
-      NotificationManager.success(
-        "User Success Update",
-        "Success",
-        "Close after 25000ms",
-        10000000000
-      );
-
       return result;
     } catch (err) {
-      NotificationManager.error(
-        "Cannot update",
-        "error",
-        "Close after 15000ms",
-        10000000000
-      );
       return err;
     }
   };
@@ -96,9 +79,7 @@ const MyProfileForm = () => {
           handleChange,
           touched,
           values,
-          submitForm,
           handleSubmit,
-          /* and other goodies */
         }) => (
           <form
             className={classes.form}

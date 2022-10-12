@@ -4,10 +4,7 @@ import AuthContext from "../../store/auth-context";
 import classes from "./AuthForm.module.css";
 import { MainUserService } from "./../../services/AuthService";
 import { UserService } from "./../../services/UserService";
-import {
-  NotificationContainer,
-  NotificationManager,
-} from "react-notifications";
+import { NotificationContainer } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 import Button from "react-bootstrap/Button";
 import { Formik } from "formik";
@@ -34,12 +31,7 @@ const SignUp = () => {
       authCtx.login(result.token, result.usetId);
       history.replace("/");
     } catch (err) {
-      NotificationManager.error(
-        "Invalid User Credentials",
-        "error",
-        "Close after 25000ms",
-        10000000000
-      );
+      return err;
     }
   };
 
@@ -106,9 +98,7 @@ const SignUp = () => {
             handleChange,
             touched,
             values,
-            submitForm,
             handleSubmit,
-            /* and other goodies */
           }) => (
             <form onSubmit={handleSubmit}>
               <div className={classes.control}>

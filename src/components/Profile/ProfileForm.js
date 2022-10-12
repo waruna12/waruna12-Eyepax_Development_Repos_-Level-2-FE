@@ -4,10 +4,7 @@ import "react-notifications/lib/notifications.css";
 import { UserService } from "./../../services/UserService";
 import AuthContext from "./../../store/auth-context";
 import * as Yup from "yup";
-import {
-  NotificationContainer,
-  NotificationManager,
-} from "react-notifications";
+import { NotificationContainer } from "react-notifications";
 import Container from "react-bootstrap/Container";
 import { Formik } from "formik";
 
@@ -22,17 +19,10 @@ const ProfileForm = () => {
         authCtx.userId,
         values.newPassword
       );
-
-      NotificationManager.success("User password update", "Success");
       formRef.current.resetForm();
       return result;
     } catch (err) {
-      NotificationManager.error(
-        "Cannot update",
-        "error",
-        "Close after 25000ms",
-        10000000000
-      );
+      return err;
     }
   };
 
@@ -66,9 +56,7 @@ const ProfileForm = () => {
           handleChange,
           touched,
           values,
-          submitForm,
           handleSubmit,
-          /* and other goodies */
         }) => (
           <form
             className={classes.form}

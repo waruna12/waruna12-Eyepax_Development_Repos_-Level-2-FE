@@ -17,7 +17,12 @@ export class UserService {
       let userDetails = response.data.data;
       return userDetails;
     } catch (err) {
-      NotificationManager.error(err.response.data.message, "error");
+      NotificationManager.error(
+        err.response.data.message,
+        "error",
+        "Close after 3000ms",
+        3000
+      );
       throw Error(err);
     }
   };
@@ -26,7 +31,7 @@ export class UserService {
     try {
       let response = await axios({
         method: "post",
-        baseURL: API_ORIGIN + "/invite-user",
+        baseURL: API_ORIGIN + "/inviteUser",
         data: {
           email: enterEmail,
         },
@@ -37,12 +42,21 @@ export class UserService {
 
       if (response.data.success !== false) {
         let inviteUserDetail = response.data.data;
-
+        NotificationManager.success(
+          response.data.message,
+          "Success",
+          "Close after 3000ms",
+          3000
+        );
         return inviteUserDetail;
-      } else {
-        throw Error("Email Send Failed");
       }
     } catch (err) {
+      NotificationManager.error(
+        err.response.data.message,
+        "error",
+        "Close after 3000ms",
+        3000
+      );
       throw Error(err);
     }
   };
@@ -51,7 +65,10 @@ export class UserService {
     try {
       let response = await axios({
         method: "put",
-        baseURL: API_ORIGIN + "/user/" + userID + "/" + newPassword,
+        baseURL: API_ORIGIN + "/user/changePassword/" + userID,
+        data: {
+          newPassword: newPassword,
+        },
         headers: {
           "Content-Type": "application/json",
         },
@@ -59,12 +76,21 @@ export class UserService {
 
       if (response.data.success !== false) {
         let responseData = response.data.data;
-
+        NotificationManager.success(
+          response.data.message,
+          "Success",
+          "Close after 3000ms",
+          3000
+        );
         return responseData;
-      } else {
-        throw Error("client validation failed");
       }
     } catch (err) {
+      NotificationManager.error(
+        err.response.data.message,
+        "error",
+        "Close after 3000ms",
+        3000
+      );
       throw Error(err);
     }
   };
@@ -73,7 +99,7 @@ export class UserService {
     try {
       let response = await axios({
         method: "get",
-        baseURL: API_ORIGIN + "/user/" + email,
+        baseURL: API_ORIGIN + `/user/signUp/findUser/${email}`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -81,7 +107,6 @@ export class UserService {
 
       if (response.data.success !== false) {
         let findUserDetail = response.data.data;
-
         return findUserDetail;
       }
     } catch (err) {
@@ -133,7 +158,7 @@ export class UserService {
     try {
       let response = await axios({
         method: "put",
-        baseURL: API_ORIGIN + "/user/" + userID,
+        baseURL: API_ORIGIN + "/user/profileUpdate/" + userID,
         data: {
           email: enteredEmail,
           fname: enteredFname,
@@ -146,13 +171,22 @@ export class UserService {
 
       if (response.data.success !== false) {
         let responseData = response.data.data;
-
+        NotificationManager.success(
+          response.data.message,
+          "Success",
+          "Close after 3000ms",
+          3000
+        );
         return responseData;
-      } else {
-        throw Error("User validation failed");
       }
     } catch (err) {
-      throw Error(err.response.data.message);
+      NotificationManager.error(
+        err.response.data.message,
+        "error",
+        "Close after 3000ms",
+        3000
+      );
+      throw Error(err);
     }
   };
 }

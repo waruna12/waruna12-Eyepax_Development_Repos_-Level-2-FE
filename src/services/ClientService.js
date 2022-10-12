@@ -26,14 +26,23 @@ export class ClientService {
       });
 
       if (response.data.success === true) {
-        NotificationManager.success(response.data.message, "Success");
+        NotificationManager.success(
+          response.data.message,
+          "Success",
+          "Close after 3000ms",
+          3000
+        );
         let responseData = response.data.data;
-
         return responseData;
       }
     } catch (err) {
       var errorObject = err.response.data.error;
-      NotificationManager.error(Object.values(errorObject)[0], "error");
+      NotificationManager.error(
+        Object.values(errorObject)[0],
+        "error",
+        "Close after 3000ms",
+        3000
+      );
       throw Error(err);
     }
   };
@@ -42,17 +51,21 @@ export class ClientService {
     try {
       let response = await axios({
         method: "get",
-        baseURL: API_ORIGIN + "/client",
+        baseURL: API_ORIGIN + "/client/getAllClients",
         headers: {
           "Content-Type": "application/json",
         },
       });
 
       let clientDetail = response.data.data;
-
       return clientDetail;
     } catch (err) {
-      NotificationManager.error(err.response.data.message, "error");
+      NotificationManager.error(
+        err.response.data.message,
+        "error",
+        "Close after 3000ms",
+        3000
+      );
       throw Error(err);
     }
   };
@@ -66,10 +79,10 @@ export class ClientService {
           "Content-Type": "application/json",
         },
       });
+
       let clientDetailByID = response.data.data;
       return clientDetailByID;
     } catch (err) {
-      NotificationManager.error(err.response.data.message, "error");
       throw Error(err);
     }
   };
@@ -98,16 +111,31 @@ export class ClientService {
 
       if (response.data.success === true) {
         let responseData = response.data.data;
-        NotificationManager.success(response.data.message, "Success");
+        NotificationManager.success(
+          response.data.message,
+          "Success",
+          "Close after 3000ms",
+          3000
+        );
         return responseData;
       }
     } catch (err) {
       if (err.response.status === 400) {
-        NotificationManager.error(err.response.data.message, "error");
+        NotificationManager.error(
+          err.response.data.message,
+          "error",
+          "Close after 3000ms",
+          3000
+        );
         throw Error(err);
       } else {
         var errorObject = err.response.data.error;
-        NotificationManager.error(Object.values(errorObject)[0], "error");
+        NotificationManager.error(
+          Object.values(errorObject)[0],
+          "error",
+          "Close after 3000ms",
+          3000
+        );
         throw Error(err);
       }
     }
@@ -127,11 +155,21 @@ export class ClientService {
       });
       if (response.data.success === true) {
         let responseData = response.data.data;
-        NotificationManager.success(response.data.message, "Success");
+        NotificationManager.success(
+          response.data.message,
+          "Success",
+          "Close after 3000ms",
+          3000
+        );
         return responseData;
       }
     } catch (err) {
-      NotificationManager.error(err.response.data.message, "error");
+      NotificationManager.error(
+        err.response.data.message,
+        "error",
+        "Close after 3000ms",
+        3000
+      );
       throw Error(err);
     }
   };

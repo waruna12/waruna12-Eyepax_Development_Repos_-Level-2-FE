@@ -90,7 +90,12 @@ const CalenderDragDrop = () => {
         event.reservation_status
       );
     } else {
-      NotificationManager.error("Cannot update to a previous date.", "error");
+      NotificationManager.error(
+        "Cannot update to a previous date.",
+        "error",
+        "Close after 3000ms",
+        3000
+      );
     }
   };
 

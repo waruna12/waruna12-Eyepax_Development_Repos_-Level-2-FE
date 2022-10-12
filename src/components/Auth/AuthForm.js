@@ -3,10 +3,7 @@ import { useHistory } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 import classes from "./AuthForm.module.css";
 import { MainUserService } from "./../../services/AuthService";
-import {
-  NotificationContainer,
-  NotificationManager,
-} from "react-notifications";
+import { NotificationContainer } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 import Button from "react-bootstrap/Button";
 
@@ -40,12 +37,7 @@ const AuthForm = () => {
         history.replace("/");
       } catch (err) {
         setIsLoading(false);
-        NotificationManager.error(
-          "User Login Faield",
-          "error",
-          "Close after 25000ms",
-          10000000000
-        );
+        return err;
       }
     }
   };

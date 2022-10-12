@@ -1,5 +1,7 @@
 import axios from "axios";
 import { API_ORIGIN } from "../config/constants";
+import { NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 export class MainUserService {
   static userCreate = async (
@@ -26,12 +28,15 @@ export class MainUserService {
 
       if (response.data.success !== false) {
         let responseData = response.data.data;
-
         return responseData;
-      } else {
-        throw Error("Invalid User Credentials ");
       }
     } catch (err) {
+      NotificationManager.error(
+        err.response.data.message,
+        "error",
+        "Close after 3000ms",
+        3000
+      );
       throw Error(err);
     }
   };
@@ -52,13 +57,16 @@ export class MainUserService {
 
       if (response.data.success !== false) {
         let responseData = response.data.data;
-
         return responseData;
-      } else {
-        throw Error("Login Fail");
       }
     } catch (err) {
-      throw err;
+      NotificationManager.error(
+        err.response.data.message,
+        "error",
+        "Close after 3000ms",
+        3000
+      );
+      throw Error(err);
     }
   };
 }

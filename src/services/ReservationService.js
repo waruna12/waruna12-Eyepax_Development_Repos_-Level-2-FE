@@ -30,11 +30,21 @@ export class ReservationService {
       });
       if (response.data.success === true) {
         let responseData = response.data.data;
-        NotificationManager.success(response.data.message, "Success");
+        NotificationManager.success(
+          response.data.message,
+          "Success",
+          "Close after 3000ms",
+          3000
+        );
         return responseData;
       }
     } catch (err) {
-      NotificationManager.error(err.response.data.message, "error");
+      NotificationManager.error(
+        err.response.data.message,
+        "error",
+        "Close after 3000ms",
+        3000
+      );
       throw Error(err);
     }
   };
@@ -51,7 +61,12 @@ export class ReservationService {
       let reservationDetail = response.data.data;
       return reservationDetail;
     } catch (err) {
-      NotificationManager.error(err.response.data.message, "error");
+      NotificationManager.error(
+        err.response.data.message,
+        "error",
+        "Close after 3000ms",
+        3000
+      );
       throw Error(err);
     }
   };
@@ -68,11 +83,21 @@ export class ReservationService {
 
       if (response.data.success === true) {
         let responseData = response.data.data;
-        NotificationManager.success(response.data.message, "Success");
+        NotificationManager.success(
+          response.data.message,
+          "Success",
+          "Close after 3000ms",
+          3000
+        );
         return responseData;
       }
     } catch (err) {
-      NotificationManager.error(err.response.data.message, "error");
+      NotificationManager.error(
+        err.response.data.message,
+        "error",
+        "Close after 3000ms",
+        3000
+      );
       throw Error(err);
     }
   };
@@ -123,11 +148,21 @@ export class ReservationService {
 
       if (response.data.success === true) {
         let responseData = response.data.data;
-        NotificationManager.success(response.data.message, "Success");
+        NotificationManager.success(
+          response.data.message,
+          "Success",
+          "Close after 3000ms",
+          3000
+        );
         return responseData;
       }
     } catch (err) {
-      NotificationManager.error(err.response.data.message, "error");
+      NotificationManager.error(
+        err.response.data.message,
+        "error",
+        "Close after 3000ms",
+        3000
+      );
       throw Error(err);
     }
   };
@@ -196,7 +231,12 @@ export class ReservationService {
       let eachStylistDetail = response.data.data;
       return eachStylistDetail;
     } catch (err) {
-      NotificationManager.error(err.response.data.message, "error");
+      NotificationManager.error(
+        err.response.data.message,
+        "error",
+        "Close after 3000ms",
+        3000
+      );
       throw Error(err);
     }
   };
@@ -236,11 +276,21 @@ export class ReservationService {
 
       if (response.data.success === true) {
         let responseData = response.data.data;
-        NotificationManager.success(response.data.message, "Success");
+        NotificationManager.success(
+          response.data.message,
+          "Success",
+          "Close after 3000ms",
+          3000
+        );
         return responseData;
       }
     } catch (err) {
-      NotificationManager.error(err.response.data.message, "error");
+      NotificationManager.error(
+        err.response.data.message,
+        "error",
+        "Close after 3000ms",
+        3000
+      );
       throw Error(err);
     }
   };
