@@ -258,7 +258,9 @@ const UpdateReservation = (props) => {
                               key={time.id}
                               value={time.time}
                               disabled={
-                                parseInt(time.time) < parseInt(currentTime)
+                                parseInt(time.time) < parseInt(currentTime) &&
+                                moment(CURRENT_DATE).format(DATE_FORMAT) ===
+                                  onChangeDate
                               }
                             >
                               {time.time}

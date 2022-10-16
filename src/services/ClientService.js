@@ -4,7 +4,7 @@ import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 
 export class ClientService {
-  static clientCreate = async (
+  static createClient = async (
     enteredEmail,
     enteredFname,
     enteredLname,
@@ -48,10 +48,15 @@ export class ClientService {
   };
 
   static clientDetails = async () => {
+    const SKIP = 0;
+    const LIMIT = 0;
+
     try {
       let response = await axios({
         method: "get",
-        baseURL: API_ORIGIN + "/client/getAllClients",
+        baseURL:
+          API_ORIGIN +
+          `/client/getAllClients/skip/${SKIP}/limit/${LIMIT}?sortBy=fname:asc`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -70,11 +75,42 @@ export class ClientService {
     }
   };
 
+  // static clientDetails = async (sortModel) => {
+  //   const SKIP = 0;
+  //   const LIMIT = 0;
+
+  //   const SORT_KEY = sortModel[0].field;
+  //   const SORT_VALUE = sortModel[0].sort;
+
+  //   try {
+  //     let response = await axios({
+  //       method: "get",
+  //       baseURL:
+  //         API_ORIGIN +
+  //         `/client/getAllClients/skip/${SKIP}/limit/${LIMIT}?sortBy=${SORT_KEY}:${SORT_VALUE}`,
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+
+  //     let clientDetail = response.data.data;
+  //     return clientDetail;
+  //   } catch (err) {
+  //     NotificationManager.error(
+  //       err.response.data.message,
+  //       "error",
+  //       "Close after 3000ms",
+  //       3000
+  //     );
+  //     throw Error(err);
+  //   }
+  // };
+
   static clientDetailsID = async (clientID) => {
     try {
       let response = await axios({
         method: "get",
-        baseURL: API_ORIGIN + "/client/" + clientID,
+        baseURL: API_ORIGIN + `/client/${clientID}`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -97,7 +133,7 @@ export class ClientService {
     try {
       let response = await axios({
         method: "put",
-        baseURL: API_ORIGIN + "/client/" + clientID,
+        baseURL: API_ORIGIN + `/client/${clientID}`,
         data: {
           fname: enteredFname,
           lname: enteredLname,
@@ -145,7 +181,7 @@ export class ClientService {
     try {
       let response = await axios({
         method: "delete",
-        baseURL: API_ORIGIN + "/client/" + clientID,
+        baseURL: API_ORIGIN + `/client/${clientID}`,
         data: {
           email: clientEmail,
         },
@@ -174,11 +210,11 @@ export class ClientService {
     }
   };
 
-  static clientSearch = async (key) => {
+  static searchClient = async (key) => {
     try {
       let response = await axios({
         method: "get",
-        baseURL: API_ORIGIN + "/client/search/" + key,
+        baseURL: API_ORIGIN + `/client/search/${key}`,
         headers: {
           "Content-Type": "application/json",
         },

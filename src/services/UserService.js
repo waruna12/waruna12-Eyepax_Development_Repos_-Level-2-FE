@@ -4,11 +4,13 @@ import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 
 export class UserService {
-  static userDetails = async () => {
+  static userDetails = async (skip, limit) => {
+    const SKIP = skip || 0;
+    const LIMIT = limit || 0;
     try {
       let response = await axios({
         method: "get",
-        baseURL: API_ORIGIN + "/user",
+        baseURL: API_ORIGIN + `/user/getAllUsers/skip/${SKIP}/limit/${LIMIT}`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -41,13 +43,14 @@ export class UserService {
       });
 
       if (response.data.success !== false) {
-        let inviteUserDetail = response.data.data;
         NotificationManager.success(
           response.data.message,
           "Success",
           "Close after 3000ms",
           3000
         );
+        let inviteUserDetail = response.data.data;
+
         return inviteUserDetail;
       }
     } catch (err) {
@@ -65,7 +68,7 @@ export class UserService {
     try {
       let response = await axios({
         method: "put",
-        baseURL: API_ORIGIN + "/user/changePassword/" + userID,
+        baseURL: API_ORIGIN + `/user/changePassword/${userID}`,
         data: {
           newPassword: newPassword,
         },
@@ -118,7 +121,7 @@ export class UserService {
     try {
       let response = await axios({
         method: "get",
-        baseURL: API_ORIGIN + "/user/search/" + key,
+        baseURL: API_ORIGIN + `/user/search/${key}`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -135,7 +138,7 @@ export class UserService {
     try {
       let response = await axios({
         method: "get",
-        baseURL: API_ORIGIN + "/user/" + userID,
+        baseURL: API_ORIGIN + `/user/${userID}`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -158,7 +161,7 @@ export class UserService {
     try {
       let response = await axios({
         method: "put",
-        baseURL: API_ORIGIN + "/user/profileUpdate/" + userID,
+        baseURL: API_ORIGIN + `/user/profileUpdate/${userID}`,
         data: {
           email: enteredEmail,
           fname: enteredFname,

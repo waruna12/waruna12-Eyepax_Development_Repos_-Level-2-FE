@@ -8,6 +8,15 @@ import Row from "react-bootstrap/Row";
 import { ClientContext } from "./../../store/client-context";
 
 const ClientTable = () => {
+  const [page, setPage] = useState(0);
+
+  const [sortModel, setSortModel] = useState([
+    {
+      field: "fname",
+      sort: "desc",
+    },
+  ]);
+
   const [clients, setClients] = useContext(ClientContext);
   const [clientUpdate, setClientUpdate] = useState(false);
   const [clientId, setClientId] = useState("");
@@ -24,7 +33,9 @@ const ClientTable = () => {
     try {
       const result = await ClientService.clientDetails();
       setClients(result);
-    } catch (err) {}
+    } catch (err) {
+      return err;
+    }
   };
 
   const onClick = () => {
@@ -77,14 +88,30 @@ const ClientTable = () => {
   return (
     <Container style={{ display: "flex", justifyContent: "center" }}>
       <Row style={{ width: "100%", marginTop: "2vh" }}>
+        {/* <DataGrid
+          rows={updateClientRow}
+          columns={columns}
+          autoHeight
+          pagination
+          paginationMode="server"
+          pageSize={3}
+          rowsPerPageOptions={[10]}
+          onPageChange={(newPage) => {
+            setPage(newPage);
+          }}
+          rowCount={100}
+        /> */}
+
         <DataGrid
           rows={updateClientRow}
           columns={columns}
           autoHeight
-          // hideFooter
-          //disableColumnMenu
+          pagination
           pageSize={5}
           rowsPerPageOptions={[5]}
+          onSortModelChange={(newSortModel) => {
+            setSortModel(newSortModel);
+          }}
         />
       </Row>
     </Container>

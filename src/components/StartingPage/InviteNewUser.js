@@ -6,6 +6,7 @@ import classes from "./InviteNewUser.module.css";
 import Container from "react-bootstrap/Container";
 import { UserService } from "./../../services/UserService";
 import Button from "react-bootstrap/Button";
+import { NotificationContainer } from "react-notifications";
 
 const InviteNewUser = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -84,6 +85,7 @@ const InviteNewUser = () => {
           </Typography>
         </Box>
       </Modal>
+      <NotificationContainer />
     </Container>
   );
 };

@@ -18,6 +18,7 @@ import { DATE_FORMAT, TIME_FORMAT } from "./../../config/constants";
 
 const AddReservationModel = () => {
   const currentDate = new Date();
+
   const currentTime = moment(currentDate).format(TIME_FORMAT);
   currentDate.setDate(currentDate.getDate() - 0);
 
@@ -224,7 +225,10 @@ const AddReservationModel = () => {
                               key={index}
                               value={timeData.time}
                               disabled={
-                                parseInt(timeData.time) < parseInt(currentTime)
+                                parseInt(timeData.time) <
+                                  parseInt(currentTime) &&
+                                moment(currentDate).format(DATE_FORMAT) ===
+                                  onChangeDate
                               }
                             >
                               {timeData.time}
@@ -233,6 +237,34 @@ const AddReservationModel = () => {
                         })}
                       </select>
                     </div>
+
+                    {/* <div className={classes.control}>
+                      <label htmlFor="password">Select Time</label>
+                      <select
+                        name="time"
+                        required
+                        ref={reservationTimeInputRef}
+                        onChange={(e) => {
+                          setChangeTime(e.target.value);
+                        }}
+                      >
+                        <option value="">Select Time</option>
+                        {timeArray.map((timeData, index) => {
+                          // currentDate === new Date(onChangeDate)
+                          return (
+                            <option
+                              key={index}
+                              value={timeData.time}
+                              disabled={
+                                parseInt(timeData.time) < parseInt(currentTime)
+                              }
+                            >
+                              {timeData.time}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div> */}
                     <div className={classes.control}>
                       <label htmlFor="password">Stylist</label>
                       <select name="stylist" required ref={stylistInputRef}>

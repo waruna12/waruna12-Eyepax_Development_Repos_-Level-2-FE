@@ -4,7 +4,7 @@ import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 
 export class MainUserService {
-  static userCreate = async (
+  static signUpUser = async (
     token,
     enteredEmail,
     enteredFname,
@@ -13,7 +13,7 @@ export class MainUserService {
     try {
       let response = await axios({
         method: "post",
-        baseURL: API_ORIGIN + `/signup/${token}`,
+        baseURL: API_ORIGIN + `/signUp/${token}`,
         data: {
           fname: enteredFname,
           lname: "test",
@@ -41,7 +41,7 @@ export class MainUserService {
     }
   };
 
-  static userLogin = async (enteredEmail, enteredPassword) => {
+  static loginUser = async (enteredEmail, enteredPassword) => {
     try {
       let response = await axios({
         method: "post",

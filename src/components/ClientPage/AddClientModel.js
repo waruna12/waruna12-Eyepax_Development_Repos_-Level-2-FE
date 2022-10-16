@@ -29,7 +29,7 @@ const AddClientModel = () => {
 
   const onSubmitForm = async (values) => {
     try {
-      const response = await ClientService.clientCreate(
+      const response = await ClientService.createClient(
         values.email,
         values.fname,
         values.lname,
@@ -47,7 +47,16 @@ const AddClientModel = () => {
 
   const ClientDetailSearch = async () => {
     try {
-      const result = await ClientService.clientSearch(replaceSearchValue);
+      const result = await ClientService.searchClient(replaceSearchValue);
+      setClients(result);
+    } catch (err) {
+      return err;
+    }
+  };
+
+  const ClientDetails = async () => {
+    try {
+      const result = await ClientService.clientDetails();
       setClients(result);
     } catch (err) {
       return err;
@@ -59,15 +68,6 @@ const AddClientModel = () => {
       ClientDetailSearch();
     }
   }, [replaceSearchValue]);
-
-  const ClientDetails = async () => {
-    try {
-      const result = await ClientService.clientDetails();
-      setClients(result);
-    } catch (err) {
-      return err;
-    }
-  };
 
   return (
     <Container>

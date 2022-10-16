@@ -26,7 +26,7 @@ const AuthForm = () => {
       const enteredPassword = passwordInputRef.current.value;
 
       try {
-        const response = await MainUserService.userLogin(
+        const response = await MainUserService.loginUser(
           enteredEmail,
           enteredPassword
         );

@@ -75,7 +75,7 @@ export class ReservationService {
     try {
       let response = await axios({
         method: "delete",
-        baseURL: API_ORIGIN + "/reservation/" + reservationID,
+        baseURL: API_ORIGIN + `/reservation/${reservationID}`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -106,7 +106,7 @@ export class ReservationService {
     try {
       let response = await axios({
         method: "get",
-        baseURL: API_ORIGIN + "/reservation/" + reservationID,
+        baseURL: API_ORIGIN + `/reservation/${reservationID}`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -131,7 +131,7 @@ export class ReservationService {
     try {
       let response = await axios({
         method: "put",
-        baseURL: API_ORIGIN + "/reservation/" + reservationID,
+        baseURL: API_ORIGIN + `/reservation/${reservationID}`,
         data: {
           client_email: enteredClient,
           service_type: enteredServiceType,
@@ -171,7 +171,7 @@ export class ReservationService {
     try {
       let response = await axios({
         method: "get",
-        baseURL: API_ORIGIN + "/reservation/search/" + key,
+        baseURL: API_ORIGIN + `/reservation/search/${key}`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -188,7 +188,7 @@ export class ReservationService {
     try {
       let response = await axios({
         method: "get",
-        baseURL: API_ORIGIN + "/reservation/stylistSearch/" + date + "/" + time,
+        baseURL: API_ORIGIN + `/reservation/stylistSearch/${date}/${time}`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -255,14 +255,7 @@ export class ReservationService {
         method: "put",
         baseURL:
           API_ORIGIN +
-          "/reservation/dragReservation/" +
-          reservationID +
-          "/" +
-          date +
-          "/" +
-          time +
-          "/" +
-          enteredStylist,
+          `/reservation/dragReservation/${reservationID}/${date}/${time}/${enteredStylist}`,
         data: {
           client_email: enteredClient,
           service_type: enteredServiceType,

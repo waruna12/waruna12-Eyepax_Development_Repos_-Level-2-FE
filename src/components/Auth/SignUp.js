@@ -21,7 +21,7 @@ const SignUp = () => {
 
   const onSubmitForm = async (values) => {
     try {
-      const result = await MainUserService.userCreate(
+      const result = await MainUserService.signUpUser(
         params.token,
         values.email,
         values.fname,
