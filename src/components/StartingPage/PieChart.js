@@ -75,8 +75,22 @@ const PieChartContent = () => {
   pieChatDataSet.push(makeObj);
   pieChatDataSet.push(facialObj);
 
+  console.log(newArray.length);
+
+  const [dataAvailable, setDataAvalible] = useState(false);
+
+  // if (newArray.length > 0) {
+  //   setDataAvalible(true);
+  // } else {
+  //   setDataAvalible(false);
+  // }
+
   return (
     <Container>
+      <div>
+        {dataAvailable ? <button>true</button> : <button>false</button>}
+      </div>
+
       <Row style={{ display: "flex", justifyContent: "center" }}>
         <PieChart width={400} height={400}>
           <Pie

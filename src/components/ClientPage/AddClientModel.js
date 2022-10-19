@@ -4,17 +4,17 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import classes from "./AddClient.module.css";
 import { ClientService } from "./../../services/ClientService";
-import "react-notifications/lib/notifications.css";
+// import "react-notifications/lib/notifications.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { ClientContext } from "./../../store/client-context";
 import Button from "react-bootstrap/Button";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { PHONE_REGEX } from "./../../config/constants";
+import ClientContext from "./../../store/client-context";
 
 const AddClientModel = () => {
   const formRef = useRef();
@@ -22,10 +22,24 @@ const AddClientModel = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [clients, setClients] = useContext(ClientContext);
+  const clientCtx = useContext(ClientContext);
 
   const [searchvalue, setSearchValue] = useState("");
   const replaceSearchValue = searchvalue.replace(/\s+/g, "");
+
+  // const [sortModel, setSortModel] = useState([
+  //   {
+  //     field: "createdAt",
+  //     sort: "asc",
+  //   },
+  // ]);
+
+  const sortModel = [
+    {
+      field: "createdAt",
+      sort: "asc",
+    },
+  ];
 
   const onSubmitForm = async (values) => {
     try {
@@ -48,7 +62,7 @@ const AddClientModel = () => {
   const ClientDetailSearch = async () => {
     try {
       const result = await ClientService.searchClient(replaceSearchValue);
-      setClients(result);
+      clientCtx.getAllClientDetails(result);
     } catch (err) {
       return err;
     }
@@ -56,8 +70,11 @@ const AddClientModel = () => {
 
   const ClientDetails = async () => {
     try {
-      const result = await ClientService.clientDetails();
-      setClients(result);
+      const result = await ClientService.clientDetails(
+        clientCtx.currentPage,
+        sortModel
+      );
+      clientCtx.getAllClientDetails(result);
     } catch (err) {
       return err;
     }

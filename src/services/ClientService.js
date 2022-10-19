@@ -2,6 +2,7 @@ import axios from "axios";
 import { API_ORIGIN } from "../config/constants";
 import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
+import ClientContext from "./../store/client-context";
 
 export class ClientService {
   static createClient = async (
@@ -47,22 +48,25 @@ export class ClientService {
     }
   };
 
-  static clientDetails = async () => {
-    const SKIP = 0;
-    const LIMIT = 0;
+  static clientDetails = async (page, setModel) => {
+    const SKIP = page * 5;
+    const LIMIT = 5;
+
+    const SORT_KEY = setModel[0].field;
+    const SORT_VALUE = setModel[0].sort;
 
     try {
       let response = await axios({
         method: "get",
         baseURL:
           API_ORIGIN +
-          `/client/getAllClients/skip/${SKIP}/limit/${LIMIT}?sortBy=fname:asc`,
+          `/client/getAllClients/skip/${SKIP}/limit/${LIMIT}?sortBy=${SORT_KEY}:${SORT_VALUE}`,
         headers: {
           "Content-Type": "application/json",
         },
       });
 
-      let clientDetail = response.data.data;
+      let clientDetail = response.data;
       return clientDetail;
     } catch (err) {
       NotificationManager.error(
@@ -74,37 +78,6 @@ export class ClientService {
       throw Error(err);
     }
   };
-
-  // static clientDetails = async (sortModel) => {
-  //   const SKIP = 0;
-  //   const LIMIT = 0;
-
-  //   const SORT_KEY = sortModel[0].field;
-  //   const SORT_VALUE = sortModel[0].sort;
-
-  //   try {
-  //     let response = await axios({
-  //       method: "get",
-  //       baseURL:
-  //         API_ORIGIN +
-  //         `/client/getAllClients/skip/${SKIP}/limit/${LIMIT}?sortBy=${SORT_KEY}:${SORT_VALUE}`,
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-
-  //     let clientDetail = response.data.data;
-  //     return clientDetail;
-  //   } catch (err) {
-  //     NotificationManager.error(
-  //       err.response.data.message,
-  //       "error",
-  //       "Close after 3000ms",
-  //       3000
-  //     );
-  //     throw Error(err);
-  //   }
-  // };
 
   static clientDetailsID = async (clientID) => {
     try {
@@ -221,7 +194,7 @@ export class ClientService {
       });
 
       if (response.data.success === true) {
-        let clientDetailSearch = response.data.data;
+        let clientDetailSearch = response.data;
         return clientDetailSearch;
       }
     } catch (err) {

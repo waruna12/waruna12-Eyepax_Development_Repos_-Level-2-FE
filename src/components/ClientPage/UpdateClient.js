@@ -8,12 +8,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ClientService } from "./../../services/ClientService";
 import { Formik } from "formik";
 import Container from "react-bootstrap/Container";
-import { ClientContext } from "./../../store/client-context";
 import Button from "react-bootstrap/Button";
+import ClientContext from "./../../store/client-context";
 
 const UpdateClient = (props) => {
-  const [clients, setClients] = useContext(ClientContext);
-  props.onUpdateClientData(false);
+  const clientCtx = useContext(ClientContext);
 
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
@@ -40,7 +39,6 @@ const UpdateClient = (props) => {
         values.email
       );
       ClientDetails();
-      props.onUpdateClientData(true);
       handleClose();
       return result;
     } catch (err) {
@@ -74,10 +72,20 @@ const UpdateClient = (props) => {
     }
   }, [props.clientId]);
 
+  const sortModel = [
+    {
+      field: "createdAt",
+      sort: "asc",
+    },
+  ];
+
   const ClientDetails = async () => {
     try {
-      const result = await ClientService.clientDetails();
-      setClients(result);
+      const result = await ClientService.clientDetails(
+        clientCtx.currentPage,
+        sortModel
+      );
+      clientCtx.getAllClientDetails(result);
     } catch (err) {
       return err;
     }

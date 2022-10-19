@@ -66,10 +66,17 @@ const AddReservationModel = () => {
     }
   };
 
+  const sortModel = [
+    {
+      field: "createdAt",
+      sort: "asc",
+    },
+  ];
+
   const ClientDetails = async () => {
     try {
-      const result = await ClientService.clientDetails();
-      setClients(result);
+      const result = await ClientService.clientDetails(0, sortModel);
+      setClients(result.data);
     } catch (err) {
       return err;
     }

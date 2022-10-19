@@ -135,7 +135,7 @@ const CalenderDragDrop = () => {
             draggableAccessor={(event) => true}
             startAccessor="start"
             endAccessor="end"
-            style={{ height: "75vh" }}
+            style={{ height: "75vh", maxWidth: "100%" }}
             resizable={false}
             onEventDrop={moveEvent}
           />

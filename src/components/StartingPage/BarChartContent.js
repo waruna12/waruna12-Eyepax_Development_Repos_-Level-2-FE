@@ -37,6 +37,9 @@ const BarChartContent = () => {
     };
   });
 
+  // console.log(newStylistArray);
+  // console.log(newStylistArray.length);
+
   return (
     <Container>
       <Row style={{ display: "flex", justifyContent: "center" }}>

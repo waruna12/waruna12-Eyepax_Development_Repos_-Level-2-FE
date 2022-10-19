@@ -3,21 +3,21 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import { AuthContextProvider } from "./store/auth-context";
-import { ClientProvider } from "./store/client-context";
 import { UserProvider } from "./store/user-context";
 import { ReservationProvider } from "./store/reservation-context";
+import { ClientContextProvider } from "./store/client-context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <AuthContextProvider>
-    <ClientProvider>
-      <UserProvider>
-        <ReservationProvider>
-          <BrowserRouter>
+  <BrowserRouter>
+    <AuthContextProvider>
+      <ClientContextProvider>
+        <UserProvider>
+          <ReservationProvider>
             <App />
-          </BrowserRouter>
-        </ReservationProvider>
-      </UserProvider>
-    </ClientProvider>
-  </AuthContextProvider>
+          </ReservationProvider>
+        </UserProvider>
+      </ClientContextProvider>
+    </AuthContextProvider>
+  </BrowserRouter>
 );
