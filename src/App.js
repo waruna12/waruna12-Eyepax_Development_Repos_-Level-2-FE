@@ -16,6 +16,8 @@ import Sidebar from "./components/Layout/Sidebar";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { NotificationContainer } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -79,6 +81,7 @@ function App() {
           </Col>
         </Row>
       </Layout>
+      <NotificationContainer />
     </Container>
   );
 }

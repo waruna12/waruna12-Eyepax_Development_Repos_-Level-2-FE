@@ -1,6 +1,5 @@
 import ReservationTable from "./ReservationTable";
 import AddReservationModel from "./AddReservation";
-import { NotificationContainer } from "react-notifications";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
@@ -21,7 +20,6 @@ const ReservationPageContent = (props) => {
       <Row>
         <ReservationTable />
       </Row>
-      <NotificationContainer />
     </Container>
   );
 };

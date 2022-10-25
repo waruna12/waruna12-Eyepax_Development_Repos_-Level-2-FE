@@ -5,7 +5,7 @@ import Modal from "@mui/material/Modal";
 import classes from "./UpdateReservation.module.css";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { service_type, timeArray, status } from "./../../data";
+import { serviceType, timeArray, status } from "./../../data";
 import { ReservationService } from "./../../services/ReservationService";
 import { Formik } from "formik";
 import { ClientService } from "./../../services/ClientService";
@@ -18,6 +18,7 @@ import {
   TIME_FORMAT,
   CURRENT_DATE,
 } from "./../../config/constants";
+import { sortModel } from "../../data";
 
 const UpdateReservation = (props) => {
   CURRENT_DATE.setDate(CURRENT_DATE.getDate() - 0);
@@ -75,13 +76,6 @@ const UpdateReservation = (props) => {
       return err;
     }
   };
-
-  const sortModel = [
-    {
-      field: "createdAt",
-      sort: "asc",
-    },
-  ];
 
   const ClientDetails = async () => {
     try {
@@ -221,7 +215,7 @@ const UpdateReservation = (props) => {
                         onBlur={handleBlur}
                         value={values.service_type}
                       >
-                        {service_type.map((service, index) => {
+                        {serviceType.map((service, index) => {
                           return (
                             <option key={service.id} value={service.title}>
                               {service.title}

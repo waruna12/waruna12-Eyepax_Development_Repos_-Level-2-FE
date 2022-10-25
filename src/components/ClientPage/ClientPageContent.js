@@ -1,7 +1,6 @@
 import React from "react";
 import ClientTable from "./ClientTable";
 import AddClientModel from "./AddClientModel";
-import { NotificationContainer } from "react-notifications";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
@@ -22,7 +21,6 @@ const ClientPageContent = () => {
       <Row>
         <ClientTable />
       </Row>
-      <NotificationContainer />
     </Container>
   );
 };

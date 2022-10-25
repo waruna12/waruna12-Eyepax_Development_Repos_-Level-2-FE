@@ -10,6 +10,7 @@ import { Formik } from "formik";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import ClientContext from "./../../store/client-context";
+import { sortModel } from "../../data";
 
 const UpdateClient = (props) => {
   const clientCtx = useContext(ClientContext);
@@ -71,13 +72,6 @@ const UpdateClient = (props) => {
       ClientDetailSearchID();
     }
   }, [props.clientId]);
-
-  const sortModel = [
-    {
-      field: "createdAt",
-      sort: "asc",
-    },
-  ];
 
   const ClientDetails = async () => {
     try {

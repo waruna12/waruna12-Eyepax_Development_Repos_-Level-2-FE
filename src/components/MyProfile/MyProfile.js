@@ -1,10 +1,8 @@
 import { useRef, useContext, useState, useEffect } from "react";
 import classes from "./../Profile/ProfileForm.module.css";
-import "react-notifications/lib/notifications.css";
 import { UserService } from "./../../services/UserService";
 import AuthContext from "./../../store/auth-context";
 import * as Yup from "yup";
-import { NotificationContainer } from "react-notifications";
 import Container from "react-bootstrap/Container";
 import { Formik } from "formik";
 
@@ -150,7 +148,6 @@ const MyProfileForm = () => {
           </form>
         )}
       </Formik>
-      <NotificationContainer />
     </Container>
   );
 };

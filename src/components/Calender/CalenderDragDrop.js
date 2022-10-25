@@ -12,10 +12,7 @@ import enUS from "date-fns/locale/en-US";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { ReservationService } from "./../../services/ReservationService";
 import { ReservationContext } from "./../../store/reservation-context";
-import {
-  NotificationManager,
-  NotificationContainer,
-} from "react-notifications";
+import { NotificationManager } from "react-notifications";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import moment from "moment";
@@ -141,7 +138,7 @@ const CalenderDragDrop = () => {
           />
         </div>
       </Row>
-      <NotificationContainer />
+      {/* <NotificationContainer /> */}
     </Container>
   );
 };

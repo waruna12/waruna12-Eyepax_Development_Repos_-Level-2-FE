@@ -1,8 +1,6 @@
 import axios from "axios";
 import { API_ORIGIN } from "../config/constants";
 import { NotificationManager } from "react-notifications";
-import "react-notifications/lib/notifications.css";
-import ClientContext from "./../store/client-context";
 
 export class ClientService {
   static createClient = async (
@@ -183,7 +181,7 @@ export class ClientService {
     }
   };
 
-  static searchClient = async (key) => {
+  static clientSearch = async (key) => {
     try {
       let response = await axios({
         method: "get",

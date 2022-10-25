@@ -1,44 +1,11 @@
-import clients from "./images/clients.jpg";
-import resavation from "./images/resavation.jpg";
-import calender from "./images/calander.jpg";
-
-export const data = [
+export const sortModel = [
   {
-    name: "Makeup",
-    value: 10000,
-  },
-  {
-    name: "Facial",
-    value: 25000,
-  },
-  {
-    name: "HairCut",
-    value: 15000,
+    field: "createdAt",
+    sort: "asc",
   },
 ];
 
-export const section = [
-  {
-    id: 1,
-    title: "Clients_Section",
-    des: "Lorem ipsum dolor sit amet, conse adipiscing elit, sed do eiusmod tempor incididunt ut.",
-    linkedImg: clients,
-  },
-  {
-    id: 2,
-    title: "Reservations_Section",
-    des: "Lorem ipsum dolor sit amet, conse adipiscing elit, sed do eiusmod tempor incididunt ut.",
-    linkedImg: resavation,
-  },
-  {
-    id: 3,
-    title: "Calendar_Section",
-    des: "Lorem ipsum dolor sit amet, conse adipiscing elit, sed do eiusmod tempor incididunt ut.",
-    linkedImg: calender,
-  },
-];
-
-export const service_type = [
+export const serviceType = [
   { id: 1, title: "HairCut" },
   { id: 2, title: "MakeUp" },
   { id: 3, title: "Facial" },
@@ -83,35 +50,9 @@ export const timeArray = [
   },
 ];
 
-export const event = [
-  {
-    title: "Big Meeting",
-    allDay: true,
-    start: new Date(2022, 8, 8),
-    end: new Date(2022, 9, 9),
-  },
-  {
-    title: "Vacation",
-    allDay: true,
-    start: new Date(2022, 9, 13),
-    end: new Date(2022, 9, 13),
-  },
-  {
-    title: "Conference",
-    allDay: true,
-    start: new Date(2022, 9, 18),
-    end: new Date(2022, 9, 18),
-  },
-];
-
 export const status = [
   { id: 1, title: "Todo" },
   { id: 2, title: "Complete" },
   { id: 3, title: "InProgress" },
   { id: 3, title: "Canceled" },
-];
-
-export const user_type = [
-  { id: 1, user: "Super Admin" },
-  { id: 2, user: "Admin" },
 ];

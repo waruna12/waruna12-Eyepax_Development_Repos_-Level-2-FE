@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import classes from "./AddReservation.module.css";
-import { service_type, timeArray } from "./../../data";
+import { serviceType, timeArray } from "./../../data";
 import { ReservationService } from "./../../services/ReservationService";
 import { ClientService } from "./../../services/ClientService";
 import Container from "react-bootstrap/Container";
@@ -15,6 +15,7 @@ import { ReservationContext } from "./../../store/reservation-context";
 import moment from "moment";
 import Button from "react-bootstrap/Button";
 import { DATE_FORMAT, TIME_FORMAT } from "./../../config/constants";
+import { sortModel } from "../../data";
 
 const AddReservationModel = () => {
   const currentDate = new Date();
@@ -65,13 +66,6 @@ const AddReservationModel = () => {
       return err;
     }
   };
-
-  const sortModel = [
-    {
-      field: "createdAt",
-      sort: "asc",
-    },
-  ];
 
   const ClientDetails = async () => {
     try {
@@ -191,7 +185,7 @@ const AddReservationModel = () => {
                         ref={serviceTypeInputRef}
                       >
                         <option value="">Select Service Type</option>
-                        {service_type.map((service, index) => {
+                        {serviceType.map((service, index) => {
                           return (
                             <option key={index} value={service.title}>
                               {service.title}
@@ -245,33 +239,6 @@ const AddReservationModel = () => {
                       </select>
                     </div>
 
-                    {/* <div className={classes.control}>
-                      <label htmlFor="password">Select Time</label>
-                      <select
-                        name="time"
-                        required
-                        ref={reservationTimeInputRef}
-                        onChange={(e) => {
-                          setChangeTime(e.target.value);
-                        }}
-                      >
-                        <option value="">Select Time</option>
-                        {timeArray.map((timeData, index) => {
-                          // currentDate === new Date(onChangeDate)
-                          return (
-                            <option
-                              key={index}
-                              value={timeData.time}
-                              disabled={
-                                parseInt(timeData.time) < parseInt(currentTime)
-                              }
-                            >
-                              {timeData.time}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div> */}
                     <div className={classes.control}>
                       <label htmlFor="password">Stylist</label>
                       <select name="stylist" required ref={stylistInputRef}>

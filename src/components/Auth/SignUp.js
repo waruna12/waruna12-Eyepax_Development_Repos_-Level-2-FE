@@ -4,8 +4,6 @@ import AuthContext from "../../store/auth-context";
 import classes from "./AuthForm.module.css";
 import { MainUserService } from "./../../services/AuthService";
 import { UserService } from "./../../services/UserService";
-import { NotificationContainer } from "react-notifications";
-import "react-notifications/lib/notifications.css";
 import Button from "react-bootstrap/Button";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -181,7 +179,6 @@ const SignUp = () => {
             </form>
           )}
         </Formik>
-        <NotificationContainer />
       </section>
     </Container>
   );

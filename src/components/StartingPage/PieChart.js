@@ -7,6 +7,8 @@ import Row from "react-bootstrap/Row";
 const PieChartContent = () => {
   const [completeReservation, setCompleteReservation] = useState([]);
 
+  const [dataAvailable, setDataAvalible] = useState(true);
+
   const newArray = completeReservation.map((reservation) => {
     return {
       ...reservation,
@@ -18,7 +20,13 @@ const PieChartContent = () => {
   const completeReservationDetails = async () => {
     try {
       const result = await ReservationService.completeReservation();
-      setCompleteReservation(result);
+
+      if (result.length) {
+        setCompleteReservation(result);
+        setDataAvalible(true);
+      } else {
+        setDataAvalible(false);
+      }
     } catch (err) {
       return err;
     }
@@ -75,38 +83,48 @@ const PieChartContent = () => {
   pieChatDataSet.push(makeObj);
   pieChatDataSet.push(facialObj);
 
-  console.log(newArray.length);
-
-  const [dataAvailable, setDataAvalible] = useState(false);
-
-  // if (newArray.length > 0) {
-  //   setDataAvalible(true);
-  // } else {
-  //   setDataAvalible(false);
-  // }
-
   return (
     <Container>
       <div>
-        {dataAvailable ? <button>true</button> : <button>false</button>}
+        {dataAvailable ? (
+          <Row style={{ display: "flex", justifyContent: "center" }}>
+            <PieChart width={400} height={400}>
+              <Pie
+                dataKey="value"
+                isAnimationActive={true}
+                data={pieChatDataSet}
+                cx="50%"
+                cy="50%"
+                outerRadius={140}
+                fill="#FFBB28"
+                label
+              />
+
+              <Tooltip />
+            </PieChart>
+          </Row>
+        ) : (
+          <Row
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              height: "400px",
+            }}
+          >
+            <h6
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                margin: "auto",
+                color: "#949191",
+              }}
+            >
+              No completed reservations.
+            </h6>
+          </Row>
+        )}
       </div>
 
-      <Row style={{ display: "flex", justifyContent: "center" }}>
-        <PieChart width={400} height={400}>
-          <Pie
-            dataKey="value"
-            isAnimationActive={true}
-            data={pieChatDataSet}
-            cx="50%"
-            cy="50%"
-            outerRadius={140}
-            fill="#FFBB28"
-            label
-          />
-
-          <Tooltip />
-        </PieChart>
-      </Row>
       <Row>
         <h6 style={{ display: "flex", justifyContent: "center" }}>
           All reservation made verses completed reservations

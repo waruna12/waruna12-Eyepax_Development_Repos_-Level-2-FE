@@ -3,8 +3,6 @@ import { useHistory } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 import classes from "./AuthForm.module.css";
 import { MainUserService } from "./../../services/AuthService";
-import { NotificationContainer } from "react-notifications";
-import "react-notifications/lib/notifications.css";
 import Button from "react-bootstrap/Button";
 
 const AuthForm = () => {
@@ -74,7 +72,6 @@ const AuthForm = () => {
           {isLoading && <p>Loading...</p>}
         </div>
       </form>
-      <NotificationContainer />
     </section>
   );
 };
